@@ -1,1 +1,1 @@
--- No server sided logic so far, the only server sided logic is already setup in the v-admin folder for optimization reasons.
+-- No server sided logic so far, the only server sided logic is already setup in the v-admin folder for optimization.
