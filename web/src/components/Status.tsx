@@ -5,6 +5,7 @@ import "../App.css";
 import { Mic, ShieldPlus, Heart } from "lucide-react";
 import { animateNumber } from "../utils/animateNumber";
 import { motion } from "framer-motion";
+import {Simulate} from "react-dom/test-utils";
 
 const TopRight: React.FC = () => {
   const [percentageMode, setPrecentageMode] = useState(true);
@@ -13,6 +14,7 @@ const TopRight: React.FC = () => {
     armor: 0,
     mic: 0,
   });
+
 
   const [micActive, setMicActive] = useState(false);
   useNuiEvent("nui:data:playerstats", (stats) => {

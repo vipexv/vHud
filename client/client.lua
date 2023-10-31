@@ -42,6 +42,7 @@ VHud.PlistLoop = function()
 end
 
 
+
 VHud.init = function()
   CreateThread(function()
     CachedPlayerStats = {}
@@ -78,6 +79,7 @@ VHud.init = function()
         local vehData = {
           speed = vehSpeed
         }
+
 
         UIMessage("nui:state:vehdata", vehData)
       else
