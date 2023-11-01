@@ -11,6 +11,7 @@ import {
   Users,
   PercentDiamond,
 } from "lucide-react";
+import { animateNumber } from "../utils/animateNumber";
 
 interface playerStatus {
   money: number | string | any;
@@ -33,13 +34,16 @@ const TopRight: React.FC = () => {
   const [pid, setPid] = useState(0);
   const [onlinePlayers, setOnlinePlayers] = useState(0);
 
+  useNuiEvent("nui:state:onlineplayers", (op) => {
+    const onlinePlayers = document.getElementById("onlinePlayers");
+    animateNumber(onlinePlayers, op, "/200");
+    // setOnlinePlayers(op);
+    console.log(`[DEBUG] Online Players Var: ${onlinePlayers}`);
+  });
+
   useNuiEvent("nui:state:pid", (id) => {
     setPid(id);
     console.log(`[DEBUG] Player ID Var: ${pid}`);
-  });
-
-  useNuiEvent("nui:state:onlineplayers", (op) => {
-    setOnlinePlayers(op);
   });
 
   return (
@@ -54,7 +58,10 @@ const TopRight: React.FC = () => {
                 borderBottomLeftRadius: "20%",
               }}
             >
-              <Users size={16} />: {onlinePlayers}/200
+              <Users size={16} />:{" "}
+              <span id="onlinePlayers" className="ml-1">
+                player_count/200
+              </span>
             </p>
             <p
               className="inline-flex justify-center items-center mr-14 text-xs bg-black p-2 rounded bg-opacity-80 font-bold"

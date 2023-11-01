@@ -15,7 +15,7 @@ export const animateNumber = (element: any, newValue: any, symbol = "") => {
       oldValue + (newValue - oldValue) * progress
     );
 
-    element.textContent = currentValue + symbol;
+    element.textContent = `${currentValue}${symbol}`;
 
     if (progress < 1) {
       requestAnimationFrame(animate);

@@ -7,6 +7,7 @@ import { isEnvBrowser } from "./utils/misc";
 import TopRight from "./components/TopRight";
 import Status from "./components/Status";
 import CarHud from "./components/CarHud";
+import Settings from "./components/Settings";
 
 // This will set the NUI to visible if we are
 // developing in browser
@@ -45,6 +46,8 @@ const App: React.FC = () => {
   });
   const [isInVehicle, setIsInVehicle] = useState(false);
   const [visible, setVisible] = useState(true);
+
+  const [settingsVisiblity, setSettingsVisibility] = useState(true);
 
   useNuiEvent<boolean>("setVisible", setVisible);
 
@@ -85,10 +88,19 @@ const App: React.FC = () => {
       {visible && (
         <>
           <div>
+            <button
+              className="py-1 px-2 rounded bg-black font-inter text-white bg-opacity-80 font-bold ml-10 mt-2"
+              onClick={(e) => {
+                setSettingsVisibility(!settingsVisiblity);
+              }}
+            >
+              Toggle Settings
+            </button>
             <TopRight />
             <Status />
             {!!isInVehicle && <CarHud />}
           </div>
+          {!!settingsVisiblity && <Settings />}
         </>
       )}
     </>
