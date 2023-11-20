@@ -7,20 +7,34 @@ import { animateNumber } from "../utils/animateNumber";
 import { motion } from "framer-motion";
 import { Simulate } from "react-dom/test-utils";
 
+interface statusSettings {
+  hudMode: number;
+}
+
 const TopRight: React.FC = () => {
   const [percentageMode, setPercentageMode] = useState(false);
   const [pstats, setStats] = useState({
-    health: 100,
-    armor: 50,
+    health: 10,
+    armor: 10,
     mic: false,
+  });
+
+  const [statusSettings, setStatusSettings] = useState<statusSettings>({
+    hudMode: 1, // [Hud Modes] 1: Default, 2: Percentage Mode, 3: Idk what to call it but the other one!
+  });
+
+  useNuiEvent<statusSettings>("nui:state:settings", (settings) => {
+    setStatusSettings(settings);
+    console.log(`statusSettings updated: ${JSON.stringify(statusSettings)}`);
   });
 
   const [micActive, setMicActive] = useState(false);
   useNuiEvent("nui:data:playerstats", (stats) => {
     const health = document.getElementById("health") as HTMLParagraphElement;
 
-    if (!percentageMode) {
-      setStats(stats);
+    setStats(stats);
+
+    if (statusSettings.hudMode !== 2) {
       return;
     }
 
@@ -39,7 +53,7 @@ const TopRight: React.FC = () => {
 
   return (
     <>
-      <button
+      {/* <button
         className="bg-black font-bold text-white font-inter px-2 py-1 rounded bg-opacity-80 mt-10 ml-3"
         onClick={(e) => {
           setMicActive(!micActive);
@@ -51,15 +65,46 @@ const TopRight: React.FC = () => {
       <button
         className="bg-black font-bold text-white font-inter px-2 py-1 rounded bg-opacity-80 mt-10 ml-3"
         onClick={(e) => {
-          setPercentageMode(!percentageMode);
+          if (statusSettings.hudMode >= 3) {
+            setStatusSettings({
+              hudMode: 1,
+            });
+          } else {
+            setStatusSettings({
+              hudMode: statusSettings.hudMode + 1,
+            });
+          }
         }}
       >
         Toggle Hud Mode
       </button>
 
-      {!!micActive && !!percentageMode && (
+      <button
+        className="bg-black font-bold text-white font-inter px-2 py-1 rounded bg-opacity-80 mt-10 ml-3"
+        onClick={(e) => {
+          if (pstats.health >= 100) {
+            setStats({
+              health: 10,
+              armor: 10,
+              mic: false,
+            });
+          } else {
+            // statusSettings.hudMode = statusSettings.hudMode + 1;
+            setStats({
+              health: 100,
+              armor: 100,
+              mic: false,
+            });
+          }
+        }}
+      >
+        Change Stats
+      </button> */}
+
+      {!!micActive && statusSettings.hudMode === 2 && (
         <>
           <div className="absolute top-[98vh] left-[50dvh] -translate-x-2/4 -translate-y-2/4">
+            {/*<p className=""></p>*/}
             <motion.p
               className="bg-black bg-opacity-80 mb-2 flex justify-center items-center flex-col font-inter text-white font-bold rounded"
               initial={{ opacity: 0 }}
@@ -94,7 +139,7 @@ const TopRight: React.FC = () => {
         }}
       >
         <div className="flex justify-center items-center mb-3">
-          {!percentageMode ? (
+          {statusSettings.hudMode == 1 ? (
             <>
               <p
                 className="bg-black p-2 bg-opacity-80"
@@ -102,6 +147,7 @@ const TopRight: React.FC = () => {
                   // borderTopLeftRadius: "50%",
                   borderBottomLeftRadius: "4px",
                   borderTopLeftRadius: "4px",
+                  transition: "width 0.3s",
                 }}
               >
                 <Heart size={18} className="text-white" />
@@ -110,6 +156,8 @@ const TopRight: React.FC = () => {
                   className="max-w-full bg-green-500 rounded mt-1"
                   style={{
                     height: "2.5px",
+                    transition: "width 0.3s",
+
                     width: `${pstats.health}%`,
                   }}
                 ></div>
@@ -125,6 +173,8 @@ const TopRight: React.FC = () => {
                   className="max-w-full bg-white rounded mt-1"
                   style={{
                     height: "2.5px",
+                    transition: "width 0.3s",
+
                     width: pstats.mic ? "100%" : "0%",
                   }}
                 ></div>
@@ -143,12 +193,13 @@ const TopRight: React.FC = () => {
                   className="max-w-full bg-blue-500 rounded mt-1"
                   style={{
                     height: "2.5px",
+                    transition: "width 0.3s",
                     width: `${pstats.armor}%`,
                   }}
                 ></div>
               </p>
             </>
-          ) : (
+          ) : statusSettings.hudMode == 2 ? (
             <>
               <p
                 className="bg-black p-2 bg-opacity-80 flex justify-center items-center flex-col font-inter text-white font-bold"
@@ -182,6 +233,75 @@ const TopRight: React.FC = () => {
                   0%
                 </p>
               </p>
+            </>
+          ) : (
+            <>
+              <div
+                className="bg-black bg-opacity-80 font-inter text-white font-bold rounded p-2 h-80 flex flex-col items-center justify-center"
+                style={{
+                  maxHeight: "50px",
+                  transition: "height 0.3s",
+                }}
+              >
+                <Heart
+                  size={18}
+                  strokeWidth={2.5}
+                  className="text-white absolute"
+                />
+                <div
+                  className="w-8 h-3/3 bg-red-600 rounded bg-opacity-80 flex items-center justify-center"
+                  style={{
+                    transition: "height 0.3s",
+                    height: `${pstats.health}%`,
+                  }}
+                ></div>
+                {/* <p className="text-xs">Health: {pstats.health}%</p> */}
+              </div>
+              <div
+                className="bg-black bg-opacity-80 font-inter text-white font-bold rounded p-2 h-80 flex flex-col items-center justify-center ml-2"
+                style={{
+                  maxHeight: "50px",
+                  transition: "height 0.3s",
+                }}
+              >
+                <Mic
+                  size={18}
+                  strokeWidth={2}
+                  className={`rounded ${
+                    pstats.mic ? "text-black" : "text-white"
+                  } absolute`}
+                />
+                <div
+                  className="w-8 h-3/3 bg-white rounded flex items-center justify-center"
+                  style={{
+                    transition: "height 0.3s",
+                    height: pstats.mic ? "100%" : "0%",
+                  }}
+                ></div>
+                {/* <p className="text-xs">Health: {pstats.health}%</p> */}
+              </div>
+
+              <div
+                className="bg-black bg-opacity-80 font-inter text-white font-bold rounded p-2 h-80 flex flex-col items-center justify-center ml-2"
+                style={{
+                  maxHeight: "50px",
+                  transition: "height 0.3s",
+                }}
+              >
+                <ShieldPlus
+                  size={18}
+                  strokeWidth={2.5}
+                  className="rounded text-white absolute"
+                />
+                <div
+                  className="w-8 h-3/3 bg-blue-600 rounded bg-opacity-80 flex items-center justify-center"
+                  style={{
+                    transition: "height 0.3s",
+                    height: `${pstats.armor}%`,
+                  }}
+                ></div>
+                {/* <p className="text-xs">Health: {pstats.health}%</p> */}
+              </div>
             </>
           )}
         </div>

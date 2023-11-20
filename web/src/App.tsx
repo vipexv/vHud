@@ -47,9 +47,17 @@ const App: React.FC = () => {
   const [isInVehicle, setIsInVehicle] = useState(false);
   const [visible, setVisible] = useState(true);
 
-  const [settingsVisiblity, setSettingsVisibility] = useState(true);
+  const [settingsVisiblity, setSettingsVisibility] = useState(false);
 
   useNuiEvent<boolean>("setVisible", setVisible);
+
+  useNuiEvent("nui:state:settingsui", (data) => {
+    if (!!data) {
+      setSettingsVisibility(data);
+      return;
+    }
+    setSettingsVisibility(!settingsVisiblity);
+  });
 
   useNuiEvent("nui:state:isinveh", (isinveh) => {
     setIsInVehicle(isinveh);
@@ -59,7 +67,7 @@ const App: React.FC = () => {
     if (!visible) return;
 
     const keyHandler = (e: KeyboardEvent) => {
-      if (["Backspace", "Escape"].includes(e.code)) {
+      if (["Escape"].includes(e.code)) {
         if (!isEnvBrowser()) fetchNui("hideFrame");
         else setVisible(!visible);
       }
@@ -88,21 +96,29 @@ const App: React.FC = () => {
       {visible && (
         <>
           <div>
-            <button
+            {/* <button
               className="py-1 px-2 rounded bg-black font-inter text-white bg-opacity-80 font-bold ml-10 mt-2"
               onClick={(e) => {
                 setSettingsVisibility(!settingsVisiblity);
               }}
             >
-              Toggle Settings
+              Toggle Settings Menu
             </button>
+            <button
+              className="py-1 px-2 rounded bg-black font-inter text-white bg-opacity-80 font-bold ml-3 mt-2"
+              onClick={(e) => {
+                setIsInVehicle(!isInVehicle);
+              }}
+            >
+              Toggle Car Hud
+            </button> */}
             <TopRight />
             <Status />
             {!!isInVehicle && <CarHud />}
           </div>
-          {!!settingsVisiblity && <Settings />}
         </>
       )}
+      {!!settingsVisiblity && <Settings />}
     </>
   );
 };

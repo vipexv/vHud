@@ -9,7 +9,7 @@
 CreateThread(function()
     while true do
         local players = GetPlayers()
-        TriggerClientEvent("vhud:cl:upd", -1, #players)
-        Wait(90 * 1000)
+        TriggerClientEvent("vhud:cl:update", -1, players)
+        Wait(10 * 1000)
     end
 end)

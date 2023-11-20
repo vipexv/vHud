@@ -31,19 +31,17 @@ const TopRight: React.FC = () => {
   //   sourceId: 0,
   // });
 
-  const [pid, setPid] = useState(0);
+  const [pid, setPid] = useState<number>();
   const [onlinePlayers, setOnlinePlayers] = useState(0);
-
-  useNuiEvent("nui:state:onlineplayers", (op) => {
-    const onlinePlayers = document.getElementById("onlinePlayers");
-    animateNumber(onlinePlayers, op, "/200");
-    // setOnlinePlayers(op);
-    console.log(`[DEBUG] Online Players Var: ${onlinePlayers}`);
-  });
 
   useNuiEvent("nui:state:pid", (id) => {
     setPid(id);
-    console.log(`[DEBUG] Player ID Var: ${pid}`);
+  });
+
+  useNuiEvent("nui:state:onlineplayers", (op) => {
+    // animateNumber(onlinePlayersElement, op, "/2000");
+    setOnlinePlayers(op);
+    // console.log(`[DEBUG] Online Players Var: ${op}`);
   });
 
   return (
@@ -60,7 +58,7 @@ const TopRight: React.FC = () => {
             >
               <Users size={16} />:{" "}
               <span id="onlinePlayers" className="ml-1">
-                player_count/200
+                {onlinePlayers}/200
               </span>
             </p>
             <p

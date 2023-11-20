@@ -1,29 +1,45 @@
 VHud = {
-  alreadyInit = false
+  settings = {}
 }
 
 local HudVisiblity = true
 
 function ToggleNuiFrame(shouldShow)
-  SetNuiFocus(false, false)
+  -- SetNuiFocus(false, false)
   Debug("HudVisiblity variable:", shouldShow)
   UIMessage('setVisible', shouldShow)
   VHud.init()
   -- VHud.PlistLoop()
 end
 
-RegisterNetEvent("vhud:cl:upd", function(plistCount)
-  UIMessage("nui:state:onlineplayers", plistCount)
+RegisterNetEvent("vhud:cl:update", function(plistCount)
+  UIMessage("nui:state:onlineplayers", #plistCount)
 end)
 
 RegisterCommand('hud', function()
   HudVisiblity = not HudVisiblity
-
   ToggleNuiFrame(HudVisiblity)
 end, false)
 
+RegisterCommand('hudsettings', function()
+  SetNuiFocus(true, true)
+  UIMessage("nui:state:settingsui", nil)
+end)
+
+RegisterNuiCallback('hud:visibility', function(_, cb)
+  HudVisiblity = not HudVisiblity
+  ToggleNuiFrame(HudVisiblity)
+  cb({})
+end)
+
+RegisterNUICallback('hud:settings:visibility', function(_, cb)
+  SetNuiFocus(false, false)
+  UIMessage("nui:state:settingsui", nil)
+  cb({})
+end)
+
 RegisterNUICallback('hideFrame', function(_, cb)
-  ToggleNuiFrame(false)
+  SetNuiFocus(false, false)
   Debug('Hide NUI frame')
   cb({})
 end)
@@ -31,8 +47,6 @@ end)
 RegisterNetEvent("UIMessage", function(action, data)
   UIMessage(action, data)
 end)
-
-
 
 VHud.init = function()
   CreateThread(function()
@@ -79,21 +93,36 @@ xpcall(VHud.init, function(err)
   return print("Error when calling the VHud.init function:", err)
 end)
 
--- xpcall(VHud.PlistLoop, function(err)
---   return print("Error when calling the VHud.PlistLoop function:", err)
--- end)
-
-
--- Fix for the Player ID.
-CreateThread(function()
-  local playerId
-
+VHud.sendData = function()
   while not PlayerId() do
-    Debug("Waiting for the player to load in.")
-    playerId = GetPlayerServerId(PlayerId())
     Wait(500)
   end
+  SetTimeout(2000, function()
+    local playerId = GetPlayerServerId(PlayerId())
 
-  Debug("playerId var:", playerId)
-  UIMessage("nui:state:pid", playerId)
+    local hudSettings = GetResourceKvpString("hud:settings")
+    UIMessage("nui:state:settings", json.decode(hudSettings))
+
+    VHud.settings = hudSettings
+
+    Debug("hudSettings sent to the nui:", hudSettings)
+
+    UIMessage("nui:state:pid", playerId)
+    Debug("playerId var:", playerId)
+  end)
+end
+
+
+RegisterNuiCallback("hud:cb:settings", function(newSettings, cb)
+  SetResourceKvp("hud:settings", json.encode(newSettings))
+  UIMessage("nui:state:settings", newSettings)
+
+  VHud.settings = newSettings
+  Debug("Settings updated:", json.encode(newSettings))
+  cb({})
+end)
+
+
+xpcall(VHud.sendData, function(err)
+  return print("Error when calling the VHud.sendData function:", err)
 end)

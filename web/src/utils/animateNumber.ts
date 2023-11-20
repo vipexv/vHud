@@ -2,7 +2,7 @@ export const animateNumber = (element: any, newValue: any, symbol = "") => {
   const oldValue = parseInt(element.textContent, 10);
 
   if (oldValue === newValue) {
-    return;
+    return console.log("old value is the same as the new value, returning.");
   }
 
   const duration = 500;
