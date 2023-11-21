@@ -39,6 +39,11 @@ interface ReturnData {
   z: number;
 }
 
+interface Settings {
+  hudMode: number | string;
+  statusBarMode: number | string;
+}
+
 const App: React.FC = () => {
   const [clientData, setClientData] = useState<ReturnData | null>(null);
   const [playerData, setPlayerData] = useState({
@@ -49,7 +54,22 @@ const App: React.FC = () => {
 
   const [settingsVisiblity, setSettingsVisibility] = useState(false);
 
+  const [globalSettings, setGlobalSettings] = useState<Settings>({
+    hudMode: 1,
+    statusBarMode: 1,
+  });
+
   useNuiEvent<boolean>("setVisible", setVisible);
+
+  useNuiEvent<Settings>("nui:state:globalsettings", (data) => {
+    if (!data) {
+      return console.log(
+        "[nui:state:globalsettings] called but the first param is null, returning."
+      );
+    }
+
+    setGlobalSettings(data);
+  });
 
   useNuiEvent("nui:state:settingsui", (data) => {
     if (!!data) {
@@ -93,32 +113,28 @@ const App: React.FC = () => {
 
   return (
     <>
-      {visible && (
-        <>
-          <div>
-            {/* <button
-              className="py-1 px-2 rounded bg-black font-inter text-white bg-opacity-80 font-bold ml-10 mt-2"
-              onClick={(e) => {
-                setSettingsVisibility(!settingsVisiblity);
-              }}
-            >
-              Toggle Settings Menu
-            </button>
-            <button
-              className="py-1 px-2 rounded bg-black font-inter text-white bg-opacity-80 font-bold ml-3 mt-2"
-              onClick={(e) => {
-                setIsInVehicle(!isInVehicle);
-              }}
-            >
-              Toggle Car Hud
-            </button> */}
-            <TopRight />
-            <Status />
-            {!!isInVehicle && <CarHud />}
-          </div>
-        </>
-      )}
-      {!!settingsVisiblity && <Settings />}
+      <div className={`${visible ? "visible" : "invisible"}`}>
+        {/* <button
+          className="py-1 px-2 rounded bg-black font-inter text-white bg-opacity-80 font-bold ml-10 mt-2"
+          onClick={(e) => {
+            setSettingsVisibility(!settingsVisiblity);
+          }}
+        >
+          Toggle Settings Menu
+        </button>
+        <button
+          className="py-1 px-2 rounded bg-black font-inter text-white bg-opacity-80 font-bold ml-3 mt-2"
+          onClick={(e) => {
+            setIsInVehicle(!isInVehicle);
+          }}
+        >
+          Toggle Car Hud
+        </button> */}
+        <TopRight userSettings={globalSettings} />
+        <Status userSettings={globalSettings} />
+        {!!isInVehicle && <CarHud />}
+      </div>
+      {!!settingsVisiblity && <Settings userSettings={globalSettings} />}
     </>
   );
 };

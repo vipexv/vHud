@@ -6,17 +6,32 @@ import { Mic, ShieldPlus, Heart, EyeOff } from "lucide-react";
 import { motion } from "framer-motion";
 import { isEnvBrowser } from "@/utils/misc";
 
-const Settings: React.FC = () => {
-  const [settings, setSettings] = useState({
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+
+interface UserSettings {
+  hudMode: number | string;
+  statusBarMode: number | string;
+}
+
+interface props {
+  userSettings: UserSettings;
+}
+
+const Settings: React.FC<props> = ({ userSettings }) => {
+  const [settings, setSettings] = useState<UserSettings>({
     hudMode: 1,
+    statusBarMode: 1,
   });
 
   const toggleVisibility = () => {
     fetchNui("hud:visibility", {});
   };
-  const updateSettings = (settings: object) => {
-    fetchNui("hud:cb:settings", settings);
+  const updateSettings = (data: UserSettings) => {
+    setSettings(data);
+    fetchNui("hud:cb:settings", data);
   };
+
   useEffect(() => {
     const keyHandler = (e: KeyboardEvent) => {
       if (["Escape"].includes(e.code)) {
@@ -28,6 +43,7 @@ const Settings: React.FC = () => {
 
     return () => window.removeEventListener("keydown", keyHandler);
   }, []);
+
   return (
     <>
       <motion.div
@@ -67,10 +83,15 @@ const Settings: React.FC = () => {
             </h1>
             <div className="grid grid-cols-2 boxshadow p-2 rounded gap-24">
               <div
-                className="flex boxshadow p-2 rounded hover:cursor-pointer hover:scale-95 hover:bg-white bg-opacity-20 transition justify-center items-center"
+                className={`flex bg-white ${
+                  userSettings.hudMode.toString() === "1"
+                    ? "border border-green-500"
+                    : ""
+                } bg-opacity-5 hover:bg-opacity-10 p-2 rounded hover:cursor-pointer transition justify-center items-center`}
                 onClick={() => {
                   updateSettings({
                     hudMode: 1,
+                    statusBarMode: userSettings.statusBarMode,
                   });
                 }}
               >
@@ -136,10 +157,15 @@ const Settings: React.FC = () => {
                 </p>
               </div>
               <div
-                className="flex p-2 boxshadow rounded hover:cursor-pointer hover:scale-95 hover:bg-white bg-opacity-20 transition justify-center items-center"
+                className={`flex p-2 bg-white ${
+                  userSettings.hudMode.toString() === "2"
+                    ? "border border-green-500"
+                    : ""
+                } bg-opacity-5 hover:bg-opacity-10 rounded hover:cursor-pointer transition justify-center items-center`}
                 onClick={() => {
                   updateSettings({
                     hudMode: 2,
+                    statusBarMode: userSettings.statusBarMode,
                   });
                 }}
               >
@@ -182,10 +208,15 @@ const Settings: React.FC = () => {
               </div>
 
               <div
-                className="flex p-2 boxshadow rounded hover:cursor-pointer hover:scale-95 hover:bg-white bg-opacity-20 transition justify-center items-center col-span-2"
+                className={`flex ${
+                  userSettings.hudMode.toString() === "3"
+                    ? "border border-green-500"
+                    : ""
+                } p-2 bg-white bg-opacity-5 hover:bg-opacity-10 rounded hover:cursor-pointer hover:bg-white transition justify-center items-center col-span-2`}
                 onClick={() => {
                   updateSettings({
                     hudMode: 3,
+                    statusBarMode: userSettings.statusBarMode,
                   });
                 }}
               >
@@ -266,7 +297,7 @@ const Settings: React.FC = () => {
               <span className="">laneous</span>
             </h1>
             <button
-              className="mt-10 w-[25dvw] border rounded py-2 font-inter font-bold border-none bg-white bg-opacity-5 hover:bg-opacity-10 transition flex justify-center items-center"
+              className="mt-5 w-[25dvw] border rounded py-2 font-inter font-bold border-none bg-white bg-opacity-5 hover:bg-opacity-10 transition flex justify-center items-center"
               style={{
                 borderWidth: "2.5px",
               }}
@@ -277,6 +308,33 @@ const Settings: React.FC = () => {
               <EyeOff className="mr-2" />
               Toggle Visibility
             </button>
+            <div className="flex flex-row gap-14 items-center py-3 px-2 rounded bg-white bg-opacity-5 w-[25dvw]">
+              <p className="font-inter ml-16 font-bold">Status Bar Location</p>
+              <RadioGroup
+                // defaultValue={settings.statusBarMode.toString()}
+                ///@ts-ignore
+                value={userSettings.statusBarMode}
+                onValueChange={(e) => {
+                  updateSettings({
+                    hudMode: userSettings.hudMode,
+                    statusBarMode: e,
+                  });
+                }}
+              >
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="1" id="1" />
+                  <Label htmlFor="1">Top Right</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="2" id="2" />
+                  <Label htmlFor="2">Bottom Right</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="3" id="3" />
+                  <Label htmlFor="3">Off</Label>
+                </div>
+              </RadioGroup>
+            </div>
           </div>
         </div>
       </motion.div>

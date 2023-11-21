@@ -13,3 +13,8 @@ CreateThread(function()
         Wait(10 * 1000)
     end
 end)
+
+
+lib.callback.register('vhud:init:plist', function(source)
+    return GetPlayers()
+end)

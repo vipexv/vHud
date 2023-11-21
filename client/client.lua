@@ -58,8 +58,7 @@ VHud.init = function()
       local playerStats = {}
       local ped = PlayerPedId()
       local pid = PlayerId()
-      -- Max Health is 200 for the Male ped and 175 for female, divide it by 2 so i can get max of 100%
-      playerStats.health = math.floor(GetEntityHealth(ped) / 2)
+      playerStats.health = math.floor((GetEntityHealth(ped) - 100) / (GetEntityMaxHealth(ped) - 100) * 100)
       playerStats.armor = math.floor(GetPedArmour(ped))
 
 
@@ -99,16 +98,24 @@ VHud.sendData = function()
   end
   SetTimeout(2000, function()
     local playerId = GetPlayerServerId(PlayerId())
-
-    local hudSettings = GetResourceKvpString("hud:settings")
-    UIMessage("nui:state:settings", json.decode(hudSettings))
-
-    VHud.settings = hudSettings
-
-    Debug("hudSettings sent to the nui:", hudSettings)
-
     UIMessage("nui:state:pid", playerId)
-    Debug("playerId var:", playerId)
+
+    local plistCount = lib.callback.await("vhud:init:plist")
+    UIMessage("nui:state:onlineplayers", #plistCount)
+
+    local storedHudSettings = json.decode(GetResourceKvpString("hud:settings"))
+    if storedHudSettings then
+      VHud.settings = storedHudSettings
+      UIMessage("nui:state:settings", storedHudSettings)
+      UIMessage("nui:state:info_bar_settings", storedHudSettings)
+
+      UIMessage("nui:state:globalsettings", storedHudSettings)
+      Debug("[nui:state:settings] was called, with the data storedHudSettings: ", json.encode(storedHudSettings))
+    end
+
+
+    Debug("[nui:state:pid] called, PlayerId:", playerId)
+    Debug("[nui:state:onlineplayers] called with the playercount:", #plistCount)
   end)
 end
 
@@ -116,6 +123,9 @@ end
 RegisterNuiCallback("hud:cb:settings", function(newSettings, cb)
   SetResourceKvp("hud:settings", json.encode(newSettings))
   UIMessage("nui:state:settings", newSettings)
+  UIMessage("nui:state:info_bar_settings", newSettings)
+
+  UIMessage("nui:state:globalsettings", newSettings)
 
   VHud.settings = newSettings
   Debug("Settings updated:", json.encode(newSettings))

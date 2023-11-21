@@ -5,13 +5,23 @@ import "../App.css";
 import { Mic, ShieldPlus, Heart } from "lucide-react";
 import { animateNumber } from "../utils/animateNumber";
 import { motion } from "framer-motion";
-import { Simulate } from "react-dom/test-utils";
 
 interface statusSettings {
-  hudMode: number;
+  hudMode: number | string;
+  statusBarMode: number | string;
 }
 
-const TopRight: React.FC = () => {
+interface playerStats {
+  health: number | string;
+  armor: number | string;
+  mic: boolean;
+}
+
+interface props {
+  userSettings?: any;
+}
+
+const Status: React.FC<props> = ({ userSettings }) => {
   const [percentageMode, setPercentageMode] = useState(false);
   const [pstats, setStats] = useState({
     health: 10,
@@ -20,23 +30,22 @@ const TopRight: React.FC = () => {
   });
 
   const [statusSettings, setStatusSettings] = useState<statusSettings>({
-    hudMode: 1, // [Hud Modes] 1: Default, 2: Percentage Mode, 3: Idk what to call it but the other one!
+    hudMode: 1,
+    statusBarMode: 1,
   });
 
-  useNuiEvent<statusSettings>("nui:state:settings", (settings) => {
-    setStatusSettings(settings);
-    console.log(`statusSettings updated: ${JSON.stringify(statusSettings)}`);
+  useNuiEvent<statusSettings>("nui:state:settings", (data) => {
+    if (!data) {
+      return console.log("Param is null, returning.");
+    }
+    setStatusSettings(data);
   });
 
   const [micActive, setMicActive] = useState(false);
   useNuiEvent("nui:data:playerstats", (stats) => {
     const health = document.getElementById("health") as HTMLParagraphElement;
-
     setStats(stats);
-
-    if (statusSettings.hudMode !== 2) {
-      return;
-    }
+    if (userSettings.hudMode !== 2) return;
 
     animateNumber(health, stats.health, "%");
 
@@ -65,13 +74,13 @@ const TopRight: React.FC = () => {
       <button
         className="bg-black font-bold text-white font-inter px-2 py-1 rounded bg-opacity-80 mt-10 ml-3"
         onClick={(e) => {
-          if (statusSettings.hudMode >= 3) {
+          if (userSettings.hudMode >= 3) {
             setStatusSettings({
               hudMode: 1,
             });
           } else {
             setStatusSettings({
-              hudMode: statusSettings.hudMode + 1,
+              hudMode: userSettings.hudMode + 1,
             });
           }
         }}
@@ -89,7 +98,7 @@ const TopRight: React.FC = () => {
               mic: false,
             });
           } else {
-            // statusSettings.hudMode = statusSettings.hudMode + 1;
+            // userSettings.hudMode = userSettings.hudMode + 1;
             setStats({
               health: 100,
               armor: 100,
@@ -101,7 +110,7 @@ const TopRight: React.FC = () => {
         Change Stats
       </button> */}
 
-      {!!micActive && statusSettings.hudMode === 2 && (
+      {!!micActive && userSettings.hudMode === 2 && (
         <>
           <div className="absolute top-[98vh] left-[50dvh] -translate-x-2/4 -translate-y-2/4">
             {/*<p className=""></p>*/}
@@ -139,7 +148,7 @@ const TopRight: React.FC = () => {
         }}
       >
         <div className="flex justify-center items-center mb-3">
-          {statusSettings.hudMode == 1 ? (
+          {userSettings.hudMode == 1 ? (
             <>
               <p
                 className="bg-black p-2 bg-opacity-80"
@@ -199,7 +208,7 @@ const TopRight: React.FC = () => {
                 ></div>
               </p>
             </>
-          ) : statusSettings.hudMode == 2 ? (
+          ) : userSettings.hudMode == 2 ? (
             <>
               <p
                 className="bg-black p-2 bg-opacity-80 flex justify-center items-center flex-col font-inter text-white font-bold"
@@ -310,4 +319,4 @@ const TopRight: React.FC = () => {
   );
 };
 
-export default TopRight;
+export default Status;

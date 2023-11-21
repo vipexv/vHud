@@ -5,7 +5,7 @@ import "../App.css";
 import { Mic, ShieldPlus, Heart } from "lucide-react";
 import { animateNumber } from "../utils/animateNumber";
 
-const CarHud: React.FC = () => {
+const CarHud: React.FC = (userSettings?: any) => {
   // const [percentageMode, setPrecentageMode] = useState(true);
   const [vehicleData, setVehicleData] = useState({
     speed: 13,

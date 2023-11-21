@@ -3,15 +3,8 @@ import { fetchNui } from "../utils/fetchNui";
 import { useNuiEvent } from "../hooks/useNuiEvent";
 import "../App.css";
 import {
-  User,
-  DollarSign,
-  CreditCard,
-  Banknote,
-  ShieldBan,
   Users,
-  PercentDiamond,
 } from "lucide-react";
-import { animateNumber } from "../utils/animateNumber";
 
 interface playerStatus {
   money: number | string | any;
@@ -19,7 +12,16 @@ interface playerStatus {
   dirtyMoney: string | number | any;
 }
 
-const TopRight: React.FC = () => {
+interface props {
+  userSettings?: any;
+}
+
+interface statusSettings {
+  hudMode: number | string;
+  statusBarMode: number | string;
+}
+
+const TopRight: React.FC<props> = ({ userSettings }) => {
   const [playerStatus, setPlayerStatus] = useState<playerStatus>({
     money: 100000,
     bank: 10901230,
@@ -33,6 +35,10 @@ const TopRight: React.FC = () => {
 
   const [pid, setPid] = useState<number>();
   const [onlinePlayers, setOnlinePlayers] = useState(0);
+  const [statusSettings, setStatusSettings] = useState<statusSettings>({
+    hudMode: 1,
+    statusBarMode: 1,
+  });
 
   useNuiEvent("nui:state:pid", (id) => {
     setPid(id);
@@ -44,9 +50,22 @@ const TopRight: React.FC = () => {
     // console.log(`[DEBUG] Online Players Var: ${op}`);
   });
 
+  useNuiEvent("nui:state:info_bar_settings", (data) => {
+    if (!data.statusBarMode) return console.log("Debug point 2.");
+    setStatusSettings(data);
+  });
+
   return (
     <>
-      <div className="rounded p-2 bg-opacity-80 text-white absolute top-1 right-2 font-inter">
+      <div
+        className={`rounded p-2 bg-opacity-80 text-white transition-all absolute ${
+          userSettings.statusBarMode.toString() == "1"
+            ? "top-1 right-2"
+            : userSettings.statusBarMode.toString() == "2"
+            ? "bottom-1 right-2"
+            : "invisible"
+        } font-inter`}
+      >
         <div className="flex flex-col">
           <div className="flex justify-center items-center">
             <p
@@ -94,48 +113,6 @@ const TopRight: React.FC = () => {
               </p>
             </div>
           </div>
-          {/* <div className="flex justify-end items-center">
-            <div>
-              <p
-                className="flex justify-center items-center font-inter bg-black bg-opacity-80 rounded p-1 mt-20 font-bold"
-                style={{
-                  borderTopLeftRadius: "30%",
-                  borderBottomRightRadius: "30%",
-                }}
-              >
-                $ {playerStatus.money}
-              </p>
-              <p
-                className="flex justify-center items-center font-inter bg-black bg-opacity-80 rounded p-1 mt-4 mr-2 font-bold"
-                style={{
-                  borderTopLeftRadius: "30%",
-                  borderBottomRightRadius: "30%",
-                }}
-              >
-                <CreditCard size={16} strokeWidth={3} className="mr-1" />
-                {playerStatus.bank}
-              </p>
-              <p
-                className="flex justify-center items-center font-inter bg-black bg-opacity-80 rounded p-1 mt-4 mr-4 font-bold"
-                style={{
-                  borderTopLeftRadius: "30%",
-                  borderBottomRightRadius: "30%",
-                }}
-              >
-                <PercentDiamond size={16} strokeWidth={3} className="mr-1" />
-                {playerStatus.dirtyMoney}
-              </p>
-              <p
-                className="flex justify-center items-center font-inter uppercase font-bold bg-black bg-opacity-80 rounded p-2 mt-4 mr-6"
-                style={{
-                  borderTopLeftRadius: "30%",
-                  borderBottomRightRadius: "30%",
-                }}
-              >
-                Police - Chief
-              </p>
-            </div>
-          </div> */}
         </div>
       </div>
     </>

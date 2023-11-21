@@ -1,9 +1,7 @@
 export const animateNumber = (element: any, newValue: any, symbol = "") => {
   const oldValue = parseInt(element.textContent, 10);
 
-  if (oldValue === newValue) {
-    return console.log("old value is the same as the new value, returning.");
-  }
+  if (oldValue === newValue) return;
 
   const duration = 500;
   const start = performance.now();
