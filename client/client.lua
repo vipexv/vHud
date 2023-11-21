@@ -68,6 +68,7 @@ VHud.init = function()
       CachedPlayerStats = playerStats
 
       local isInVeh = IsPedInAnyVehicle(ped, false)
+
       if isInVeh then
         local currVeh = GetVehiclePedIsIn(ped, false)
         UIMessage("nui:state:isinveh", true)
@@ -76,7 +77,6 @@ VHud.init = function()
         local vehData = {
           speed = vehSpeed
         }
-
 
         UIMessage("nui:state:vehdata", vehData)
       else
@@ -96,6 +96,7 @@ VHud.sendData = function()
   while not PlayerId() do
     Wait(500)
   end
+
   SetTimeout(2000, function()
     local playerId = GetPlayerServerId(PlayerId())
     UIMessage("nui:state:pid", playerId)
@@ -103,7 +104,7 @@ VHud.sendData = function()
     local plistCount = lib.callback.await("vhud:init:plist")
     UIMessage("nui:state:onlineplayers", #plistCount)
 
-    local storedHudSettings = json.decode(GetResourceKvpString("hud:settings"))
+    local storedHudSettings = json.decode(GetResourceKvpString("hud:settings:revamped"))
     if storedHudSettings then
       VHud.settings = storedHudSettings
       UIMessage("nui:state:settings", storedHudSettings)
@@ -121,7 +122,7 @@ end
 
 
 RegisterNuiCallback("hud:cb:settings", function(newSettings, cb)
-  SetResourceKvp("hud:settings", json.encode(newSettings))
+  SetResourceKvp("hud:settings:revamped", json.encode(newSettings))
   UIMessage("nui:state:settings", newSettings)
   UIMessage("nui:state:info_bar_settings", newSettings)
 
