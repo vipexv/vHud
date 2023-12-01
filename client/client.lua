@@ -5,11 +5,10 @@ VHud = {
 local HudVisiblity = true
 
 function ToggleNuiFrame(shouldShow)
-  -- SetNuiFocus(false, false)
   Debug("HudVisiblity variable:", shouldShow)
   UIMessage('setVisible', shouldShow)
   VHud.init()
-  -- VHud.PlistLoop()
+  VHud.GrabPlayerCount()
 end
 
 RegisterNetEvent("vhud:cl:update", function(plistCount)
@@ -88,10 +87,6 @@ VHud.init = function()
   end)
 end
 
-xpcall(VHud.init, function(err)
-  return print("Error when calling the VHud.init function:", err)
-end)
-
 VHud.sendData = function()
   while not PlayerId() do
     Wait(500)
@@ -101,30 +96,33 @@ VHud.sendData = function()
     local playerId = GetPlayerServerId(PlayerId())
     UIMessage("nui:state:pid", playerId)
 
-    local plistCount = lib.callback.await("vhud:init:plist")
-    UIMessage("nui:state:onlineplayers", #plistCount)
+    TriggerServerEvent("vhud:cb")
 
     local storedHudSettings = json.decode(GetResourceKvpString("hud:settings:revamped"))
     if storedHudSettings then
       VHud.settings = storedHudSettings
-      UIMessage("nui:state:settings", storedHudSettings)
-      UIMessage("nui:state:info_bar_settings", storedHudSettings)
 
       UIMessage("nui:state:globalsettings", storedHudSettings)
-      Debug("[nui:state:settings] was called, with the data storedHudSettings: ", json.encode(storedHudSettings))
+      Debug("[nui:state:globalsettings] was called, with the data storedHudSettings: ", json.encode(storedHudSettings))
     end
 
 
     Debug("[nui:state:pid] called, PlayerId:", playerId)
-    Debug("[nui:state:onlineplayers] called with the playercount:", #plistCount)
+  end)
+end
+
+VHud.GrabPlayerCount = function()
+  CreateThread(function()
+    while HudVisiblity do
+      TriggerServerEvent("vhud:cb")
+      Wait(60 * 1000)
+    end
   end)
 end
 
 
 RegisterNuiCallback("hud:cb:settings", function(newSettings, cb)
   SetResourceKvp("hud:settings:revamped", json.encode(newSettings))
-  UIMessage("nui:state:settings", newSettings)
-  UIMessage("nui:state:info_bar_settings", newSettings)
 
   UIMessage("nui:state:globalsettings", newSettings)
 
@@ -133,7 +131,19 @@ RegisterNuiCallback("hud:cb:settings", function(newSettings, cb)
   cb({})
 end)
 
+xpcall(VHud.init, function(err)
+  return print("Error when calling the VHud.init function:", err)
+end)
 
 xpcall(VHud.sendData, function(err)
   return print("Error when calling the VHud.sendData function:", err)
+end)
+
+xpcall(VHud.GrabPlayerCount, function(err)
+  return print("Error when calling the VHud.GrabPlayerCount function:", err)
+end)
+
+RegisterNetEvent("vhud:client:cb", function(plist)
+  UIMessage("nui:state:onlineplayers", #plist)
+  Debug("[VHud.GrabPlayerCount] Player count sent to the NUI: ", #plist)
 end)

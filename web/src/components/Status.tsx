@@ -6,11 +6,6 @@ import { Mic, ShieldPlus, Heart } from "lucide-react";
 import { animateNumber } from "../utils/animateNumber";
 import { motion } from "framer-motion";
 
-interface statusSettings {
-  hudMode: number | string;
-  statusBarMode: number | string;
-}
-
 interface playerStats {
   health: number | string;
   armor: number | string;
@@ -22,98 +17,29 @@ interface props {
 }
 
 const Status: React.FC<props> = ({ userSettings }) => {
-  const [percentageMode, setPercentageMode] = useState(false);
-  const [pstats, setStats] = useState({
+  const [pstats, setStats] = useState<playerStats>({
     health: 10,
     armor: 10,
     mic: false,
   });
 
-  const [statusSettings, setStatusSettings] = useState<statusSettings>({
-    hudMode: 1,
-    statusBarMode: 1,
-  });
-
-  useNuiEvent<statusSettings>("nui:state:settings", (data) => {
-    if (!data) {
-      return console.log("Param is null, returning.");
-    }
-    setStatusSettings(data);
-  });
-
   const [micActive, setMicActive] = useState(false);
+
   useNuiEvent("nui:data:playerstats", (stats) => {
     const health = document.getElementById("health") as HTMLParagraphElement;
     setStats(stats);
     if (userSettings.hudMode !== 2) return;
-
-    animateNumber(health, stats.health, "%");
-
-    // const mic = document.getElementById("mic") as HTMLParagraphElement;
-
-    // animateNumber(mic, stats.mic, "%");
-
+    animateNumber(health, stats.health, "");
     setMicActive(stats.mic);
-
     const armor = document.getElementById("armor") as HTMLParagraphElement;
-
-    animateNumber(armor, stats.armor, "%");
+    animateNumber(armor, stats.armor, "");
   });
 
   return (
     <>
-      {/* <button
-        className="bg-black font-bold text-white font-inter px-2 py-1 rounded bg-opacity-80 mt-10 ml-3"
-        onClick={(e) => {
-          setMicActive(!micActive);
-        }}
-      >
-        Toggle Mic
-      </button>
-
-      <button
-        className="bg-black font-bold text-white font-inter px-2 py-1 rounded bg-opacity-80 mt-10 ml-3"
-        onClick={(e) => {
-          if (userSettings.hudMode >= 3) {
-            setStatusSettings({
-              hudMode: 1,
-            });
-          } else {
-            setStatusSettings({
-              hudMode: userSettings.hudMode + 1,
-            });
-          }
-        }}
-      >
-        Toggle Hud Mode
-      </button>
-
-      <button
-        className="bg-black font-bold text-white font-inter px-2 py-1 rounded bg-opacity-80 mt-10 ml-3"
-        onClick={(e) => {
-          if (pstats.health >= 100) {
-            setStats({
-              health: 10,
-              armor: 10,
-              mic: false,
-            });
-          } else {
-            // userSettings.hudMode = userSettings.hudMode + 1;
-            setStats({
-              health: 100,
-              armor: 100,
-              mic: false,
-            });
-          }
-        }}
-      >
-        Change Stats
-      </button> */}
-
       {!!micActive && userSettings.hudMode === 2 && (
         <>
           <div className="absolute top-[98vh] left-[50dvh] -translate-x-2/4 -translate-y-2/4">
-            {/*<p className=""></p>*/}
             <motion.p
               className="bg-black bg-opacity-80 mb-2 flex justify-center items-center flex-col font-inter text-white font-bold rounded"
               initial={{ opacity: 0 }}
@@ -126,6 +52,9 @@ const Status: React.FC<props> = ({ userSettings }) => {
               style={{
                 minWidth: "40px",
                 minHeight: "40px",
+                opacity: userSettings.transparency
+                  ? `${userSettings.transparency}%`
+                  : "100%",
               }}
             >
               <Mic
@@ -147,7 +76,14 @@ const Status: React.FC<props> = ({ userSettings }) => {
           top: "98dvh",
         }}
       >
-        <div className="flex justify-center items-center mb-3">
+        <div
+          className="flex justify-center items-center mb-3"
+          style={{
+            opacity: userSettings.transparency
+              ? `${userSettings.transparency}%`
+              : "100%",
+          }}
+        >
           {userSettings.hudMode == 1 ? (
             <>
               <p
@@ -211,26 +147,33 @@ const Status: React.FC<props> = ({ userSettings }) => {
           ) : userSettings.hudMode == 2 ? (
             <>
               <p
-                className="bg-black p-2 bg-opacity-80 flex justify-center items-center flex-col font-inter text-white font-bold"
+                className="bg-black p-2 bg-opacity-80 flex skew-x-6 justify-center items-center flex-col font-horizon text-white"
                 style={{
                   // borderTopLeftRadius: "50%",
                   borderBottomLeftRadius: "4px",
                   borderTopLeftRadius: "4px",
-                  minWidth: "48px",
+                  width: "55px",
+                  // fontSize: "11px",
                 }}
               >
                 <Heart size={18} strokeWidth={2.5} className="text-green-500" />
-                <p className="text-xs" id="health">
-                  100%
+                <p
+                  className="text-xs"
+                  style={{
+                    fontSize: "10px",
+                  }}
+                  id="health"
+                >
+                  100
                 </p>
               </p>
               <p
-                className="bg-black p-2 bg-opacity-80 flex justify-center items-center flex-col font-inter text-white font-bold"
+                className="bg-black p-2 bg-opacity-80 skew-x-6 flex justify-center items-center flex-col font-horizon text-white"
                 style={{
                   // borderTopRightRadius: "50%",
                   borderBottomRightRadius: "4px",
                   borderTopRightRadius: "4px",
-                  minWidth: "48px",
+                  width: "55px",
                 }}
               >
                 <ShieldPlus
@@ -238,8 +181,14 @@ const Status: React.FC<props> = ({ userSettings }) => {
                   strokeWidth={2.5}
                   className="rounded text-blue-500"
                 />
-                <p className="text-xs" id="armor">
-                  0%
+                <p
+                  className="text-xs"
+                  id="armor"
+                  style={{
+                    fontSize: "10px",
+                  }}
+                >
+                  50
                 </p>
               </p>
             </>

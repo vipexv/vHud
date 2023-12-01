@@ -9,8 +9,6 @@ import Status from "./components/Status";
 import CarHud from "./components/CarHud";
 import Settings from "./components/Settings";
 
-// This will set the NUI to visible if we are
-// developing in browser
 debugData([
   {
     action: "setVisible",
@@ -18,45 +16,20 @@ debugData([
   },
 ]);
 
-interface ReturnClientDataCompProps {
-  data: any;
-}
-
-const ReturnClientDataComp: React.FC<ReturnClientDataCompProps> = ({
-  data,
-}) => (
-  <>
-    <h5>Returned Data:</h5>
-    <pre>
-      <code>{JSON.stringify(data, null)}</code>
-    </pre>
-  </>
-);
-
-interface ReturnData {
-  x: number;
-  y: number;
-  z: number;
-}
-
 interface Settings {
   hudMode: number | string;
   statusBarMode: number | string;
+  transparency: any;
 }
 
 const App: React.FC = () => {
-  const [clientData, setClientData] = useState<ReturnData | null>(null);
-  const [playerData, setPlayerData] = useState({
-    isInVehicle: false,
-  });
   const [isInVehicle, setIsInVehicle] = useState(false);
   const [visible, setVisible] = useState(true);
-
   const [settingsVisiblity, setSettingsVisibility] = useState(false);
-
   const [globalSettings, setGlobalSettings] = useState<Settings>({
     hudMode: 1,
     statusBarMode: 1,
+    transparency: 100,
   });
 
   useNuiEvent<boolean>("setVisible", setVisible);
@@ -81,7 +54,6 @@ const App: React.FC = () => {
 
   useNuiEvent("nui:state:isinveh", (isinveh) => {
     setIsInVehicle(isinveh);
-    // console.log(playerData.isInVehicle);
   });
   useEffect(() => {
     if (!visible) return;
@@ -97,19 +69,6 @@ const App: React.FC = () => {
 
     return () => window.removeEventListener("keydown", keyHandler);
   }, [visible]);
-
-  const handleGetClientData = () => {
-    fetchNui<ReturnData>("getClientData")
-      .then((retData) => {
-        console.log("Got return data from client scripts:");
-        console.dir(retData);
-        setClientData(retData);
-      })
-      .catch((e) => {
-        console.error("Setting mock data due to error", e);
-        setClientData({ x: 500, y: 300, z: 200 });
-      });
-  };
 
   return (
     <>
@@ -132,7 +91,7 @@ const App: React.FC = () => {
         </button> */}
         <TopRight userSettings={globalSettings} />
         <Status userSettings={globalSettings} />
-        {!!isInVehicle && <CarHud />}
+        {!!isInVehicle && <CarHud userSettings={globalSettings} />}
       </div>
       {!!settingsVisiblity && <Settings userSettings={globalSettings} />}
     </>

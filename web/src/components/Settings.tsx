@@ -4,14 +4,14 @@ import { useNuiEvent } from "../hooks/useNuiEvent";
 import "../App.css";
 import { Mic, ShieldPlus, Heart, EyeOff } from "lucide-react";
 import { motion } from "framer-motion";
-import { isEnvBrowser } from "@/utils/misc";
-
+import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 interface UserSettings {
   hudMode: number | string;
   statusBarMode: number | string;
+  transparency: any;
 }
 
 interface props {
@@ -22,6 +22,7 @@ const Settings: React.FC<props> = ({ userSettings }) => {
   const [settings, setSettings] = useState<UserSettings>({
     hudMode: 1,
     statusBarMode: 1,
+    transparency: 100,
   });
 
   const toggleVisibility = () => {
@@ -54,7 +55,7 @@ const Settings: React.FC<props> = ({ userSettings }) => {
           stiffness: 500,
           damping: 50,
         }}
-        className="absolute top-2/4 left-2/4 bg-black rounded bg-opacity-90 p-2 min-w-[60dvh] min-h-[35dvw]"
+        className="absolute top-2/4 left-2/4 bg-black rounded bg-opacity-90 p-2 min-w-[60dvh] min-h-[35dvw] h-[35dvw] overflow-y-scroll"
         style={{
           translateX: "-50%",
           translateY: "-50%",
@@ -92,6 +93,7 @@ const Settings: React.FC<props> = ({ userSettings }) => {
                   updateSettings({
                     hudMode: 1,
                     statusBarMode: userSettings.statusBarMode,
+                    transparency: userSettings.transparency,
                   });
                 }}
               >
@@ -166,16 +168,18 @@ const Settings: React.FC<props> = ({ userSettings }) => {
                   updateSettings({
                     hudMode: 2,
                     statusBarMode: userSettings.statusBarMode,
+                    transparency: userSettings.transparency,
                   });
                 }}
               >
                 <p
-                  className="bg-black p-2 bg-opacity-80 flex justify-center items-center flex-col font-inter text-white font-bold"
+                  className="bg-black p-2 bg-opacity-80 flex skew-x-6 justify-center items-center flex-col font-horizon text-white"
                   style={{
                     // borderTopLeftRadius: "50%",
                     borderBottomLeftRadius: "4px",
                     borderTopLeftRadius: "4px",
-                    minWidth: "48px",
+                    width: "55px",
+                    // fontSize: "11px",
                   }}
                 >
                   <Heart
@@ -183,17 +187,23 @@ const Settings: React.FC<props> = ({ userSettings }) => {
                     strokeWidth={2.5}
                     className="text-green-500"
                   />
-                  <p className="text-xs" id="health">
-                    100%
+                  <p
+                    className="text-xs mt-1"
+                    style={{
+                      fontSize: "10px",
+                    }}
+                    id="health"
+                  >
+                    100
                   </p>
                 </p>
                 <p
-                  className="bg-black p-2 bg-opacity-80 flex justify-center items-center flex-col font-inter text-white font-bold"
+                  className="bg-black p-2 bg-opacity-80 skew-x-6 flex justify-center items-center flex-col font-horizon text-white"
                   style={{
                     // borderTopRightRadius: "50%",
                     borderBottomRightRadius: "4px",
                     borderTopRightRadius: "4px",
-                    minWidth: "48px",
+                    width: "55px",
                   }}
                 >
                   <ShieldPlus
@@ -201,8 +211,14 @@ const Settings: React.FC<props> = ({ userSettings }) => {
                     strokeWidth={2.5}
                     className="rounded text-blue-500"
                   />
-                  <p className="text-xs" id="armor">
-                    0%
+                  <p
+                    className="text-xs mt-1"
+                    id="armor"
+                    style={{
+                      fontSize: "10px",
+                    }}
+                  >
+                    50
                   </p>
                 </p>
               </div>
@@ -217,6 +233,7 @@ const Settings: React.FC<props> = ({ userSettings }) => {
                   updateSettings({
                     hudMode: 3,
                     statusBarMode: userSettings.statusBarMode,
+                    transparency: userSettings.transparency,
                   });
                 }}
               >
@@ -318,6 +335,7 @@ const Settings: React.FC<props> = ({ userSettings }) => {
                   updateSettings({
                     hudMode: userSettings.hudMode,
                     statusBarMode: e,
+                    transparency: userSettings.transparency,
                   });
                 }}
               >
@@ -334,6 +352,21 @@ const Settings: React.FC<props> = ({ userSettings }) => {
                   <Label htmlFor="3">Off</Label>
                 </div>
               </RadioGroup>
+            </div>
+            <div className="flex flex-row gap-14 items-center py-3 px-2 rounded bg-white bg-opacity-5 w-[25dvw] font-inter font-bold">
+              <p className="ml-16">Transparency</p>
+              <Slider
+                defaultValue={[userSettings.transparency]}
+                max={100}
+                step={0.1}
+                onValueChange={(e) => {
+                  updateSettings({
+                    hudMode: userSettings.hudMode,
+                    statusBarMode: userSettings.statusBarMode,
+                    transparency: e,
+                  });
+                }}
+              />
             </div>
           </div>
         </div>

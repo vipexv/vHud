@@ -2,58 +2,21 @@ import React, { useState, useEffect } from "react";
 import { fetchNui } from "../utils/fetchNui";
 import { useNuiEvent } from "../hooks/useNuiEvent";
 import "../App.css";
-import {
-  Users,
-} from "lucide-react";
-
-interface playerStatus {
-  money: number | string | any;
-  bank: string | number | any;
-  dirtyMoney: string | number | any;
-}
+import { Users } from "lucide-react";
 
 interface props {
   userSettings?: any;
 }
 
-interface statusSettings {
-  hudMode: number | string;
-  statusBarMode: number | string;
-}
-
 const TopRight: React.FC<props> = ({ userSettings }) => {
-  const [playerStatus, setPlayerStatus] = useState<playerStatus>({
-    money: 100000,
-    bank: 10901230,
-    dirtyMoney: 992130,
-  });
-
-  // const [serverData, setServerData] = useState({
-  //   onlinePlayers: 180,
-  //   sourceId: 0,
-  // });
-
   const [pid, setPid] = useState<number>();
   const [onlinePlayers, setOnlinePlayers] = useState(0);
-  const [statusSettings, setStatusSettings] = useState<statusSettings>({
-    hudMode: 1,
-    statusBarMode: 1,
-  });
 
   useNuiEvent("nui:state:pid", (id) => {
     setPid(id);
   });
 
-  useNuiEvent("nui:state:onlineplayers", (op) => {
-    // animateNumber(onlinePlayersElement, op, "/2000");
-    setOnlinePlayers(op);
-    // console.log(`[DEBUG] Online Players Var: ${op}`);
-  });
-
-  useNuiEvent("nui:state:info_bar_settings", (data) => {
-    if (!data.statusBarMode) return console.log("Debug point 2.");
-    setStatusSettings(data);
-  });
+  useNuiEvent("nui:state:onlineplayers", setOnlinePlayers);
 
   return (
     <>
@@ -65,6 +28,11 @@ const TopRight: React.FC<props> = ({ userSettings }) => {
             ? "bottom-1 right-2"
             : "invisible"
         } font-inter`}
+        style={{
+          opacity: userSettings.transparency
+            ? `${userSettings.transparency}%`
+            : "100%",
+        }}
       >
         <div className="flex flex-col">
           <div className="flex justify-center items-center">
@@ -99,7 +67,7 @@ const TopRight: React.FC<props> = ({ userSettings }) => {
               >
                 <div className="flex flex-col justify-center items-center">
                   <p>
-                    <span className="text-green-500">Narco</span> RP
+                    <span className="text-green-500">[V]</span>
                   </p>
                   <span
                     className="font-inter uppercase font-bold"
@@ -107,7 +75,8 @@ const TopRight: React.FC<props> = ({ userSettings }) => {
                       fontSize: "10px",
                     }}
                   >
-                    discord.gg/<span className="text-green-500">narco</span>
+                    discord.gg/
+                    <span className="text-green-500">server_link</span>
                   </span>
                 </div>
               </p>
