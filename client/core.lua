@@ -4,49 +4,6 @@ VHud = {
 
 local HudVisiblity = true
 
-function ToggleNuiFrame(shouldShow)
-  Debug("HudVisiblity variable:", shouldShow)
-  UIMessage('setVisible', shouldShow)
-  VHud.init()
-  VHud.GrabPlayerCount()
-end
-
-RegisterNetEvent("vhud:cl:update", function(plistCount)
-  UIMessage("nui:state:onlineplayers", #plistCount)
-end)
-
-RegisterCommand('hud', function()
-  HudVisiblity = not HudVisiblity
-  ToggleNuiFrame(HudVisiblity)
-end, false)
-
-RegisterCommand('hudsettings', function()
-  SetNuiFocus(true, true)
-  UIMessage("nui:state:settingsui", nil)
-end)
-
-RegisterNuiCallback('hud:visibility', function(_, cb)
-  HudVisiblity = not HudVisiblity
-  ToggleNuiFrame(HudVisiblity)
-  cb({})
-end)
-
-RegisterNUICallback('hud:settings:visibility', function(_, cb)
-  SetNuiFocus(false, false)
-  UIMessage("nui:state:settingsui", nil)
-  cb({})
-end)
-
-RegisterNUICallback('hideFrame', function(_, cb)
-  SetNuiFocus(false, false)
-  Debug('Hide NUI frame')
-  cb({})
-end)
-
-RegisterNetEvent("UIMessage", function(action, data)
-  UIMessage(action, data)
-end)
-
 VHud.init = function()
   CreateThread(function()
     CachedPlayerStats = {}
@@ -120,17 +77,6 @@ VHud.GrabPlayerCount = function()
   end)
 end
 
-
-RegisterNuiCallback("hud:cb:settings", function(newSettings, cb)
-  SetResourceKvp("hud:settings:revamped", json.encode(newSettings))
-
-  UIMessage("nui:state:globalsettings", newSettings)
-
-  VHud.settings = newSettings
-  Debug("Settings updated:", json.encode(newSettings))
-  cb({})
-end)
-
 xpcall(VHud.init, function(err)
   return print("Error when calling the VHud.init function:", err)
 end)
@@ -141,9 +87,4 @@ end)
 
 xpcall(VHud.GrabPlayerCount, function(err)
   return print("Error when calling the VHud.GrabPlayerCount function:", err)
-end)
-
-RegisterNetEvent("vhud:client:cb", function(plist)
-  UIMessage("nui:state:onlineplayers", #plist)
-  Debug("[VHud.GrabPlayerCount] Player count sent to the NUI: ", #plist)
 end)

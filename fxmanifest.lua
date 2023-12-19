@@ -11,7 +11,13 @@ shared_scripts {
 	"shared/utils.lua"
 }
 
-client_script "client/**/*"
+client_scripts {
+	"client/core.lua",
+	"client/cl_utils.lua",
+	"client/nui_callbacks.lua",
+	"client/events.lua",
+	"client/commands.lua",
+}
 
 server_script "server/**/*"
 
