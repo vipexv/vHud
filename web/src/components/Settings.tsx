@@ -339,7 +339,6 @@ const Settings: React.FC<props> = ({ userSettings, scriptConfig }) => {
               <RadioGroup
                 // defaultValue={settings.statusBarMode.toString()}
                 ///@ts-ignore
-                value={userSettings.statusBarMode}
                 onValueChange={(e) => {
                   updateSettings({
                     ...settings,
@@ -368,7 +367,6 @@ const Settings: React.FC<props> = ({ userSettings, scriptConfig }) => {
               <RadioGroup
                 // defaultValue={settings.statusBarMode.toString()}
                 ///@ts-ignore
-                value={userSettings.measurmentSystem}
                 onValueChange={(e) => {
                   updateSettings({
                     ...settings,
