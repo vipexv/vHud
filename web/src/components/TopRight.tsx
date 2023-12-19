@@ -6,9 +6,25 @@ import { Users } from "lucide-react";
 
 interface props {
   userSettings?: any;
+  scriptConfig: Config;
 }
 
-const TopRight: React.FC<props> = ({ userSettings }) => {
+interface Settings {
+  hudMode: number | string;
+  statusBarMode: number | string;
+  transparency: any;
+}
+
+interface Config {
+  ["Debug"]: boolean;
+  ["Server Name"]: string;
+  ["Footer"]: string;
+  ["Measurment System"]: string;
+  ["Player Slots"]: string | number;
+  ["Default Settings"]: Settings;
+}
+
+const TopRight: React.FC<props> = ({ userSettings, scriptConfig }) => {
   const [pid, setPid] = useState<number>();
   const [onlinePlayers, setOnlinePlayers] = useState(0);
 
@@ -34,7 +50,7 @@ const TopRight: React.FC<props> = ({ userSettings }) => {
             : "100%",
         }}
       >
-        <div className="flex flex-col">
+        <div className="flex flex-col scale-90">
           <div className="flex justify-center items-center">
             <p
               className="inline-flex justify-center items-center mr-16 text-xs bg-black p-2 rounded bg-opacity-80 font-bold"
@@ -45,14 +61,15 @@ const TopRight: React.FC<props> = ({ userSettings }) => {
             >
               <Users size={16} />:{" "}
               <span id="onlinePlayers" className="ml-1">
-                {onlinePlayers}/200
+                {onlinePlayers}/{scriptConfig["Player Slots"]}
               </span>
             </p>
+
             <p
               className="inline-flex justify-center items-center mr-14 text-xs bg-black p-2 rounded bg-opacity-80 font-bold"
               style={{
-                borderTopLeftRadius: "20%",
-                borderBottomRightRadius: "20%",
+                borderTopRightRadius: "20%",
+                borderBottomLeftRadius: "20%",
               }}
             >
               ID: {pid}
@@ -66,17 +83,14 @@ const TopRight: React.FC<props> = ({ userSettings }) => {
                 }}
               >
                 <div className="flex flex-col justify-center items-center">
-                  <p>
-                    <span className="text-green-500">[V]</span>
-                  </p>
+                  <p>{scriptConfig["Server Name"]}</p>
                   <span
                     className="font-inter uppercase font-bold"
                     style={{
                       fontSize: "10px",
                     }}
                   >
-                    discord.gg/
-                    <span className="text-green-500">server_link</span>
+                    {scriptConfig["Footer"]}
                   </span>
                 </div>
               </p>

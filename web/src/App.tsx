@@ -16,21 +16,47 @@ debugData([
   },
 ]);
 
-interface Settings {
+interface SettingsInterface {
   hudMode: number | string;
   statusBarMode: number | string;
   transparency: any;
+  measurmentSystem: string;
+}
+
+interface Config {
+  ["Debug"]: boolean;
+  ["Server Name"]: string;
+  ["Footer"]: string;
+  ["Measurment System"]: string;
+  ["Player Slots"]: string | number;
+  ["Default Settings"]: SettingsInterface;
 }
 
 const App: React.FC = () => {
   const [isInVehicle, setIsInVehicle] = useState(false);
   const [visible, setVisible] = useState(true);
   const [settingsVisiblity, setSettingsVisibility] = useState(false);
+  const [config, setConfig] = useState<Config>({
+    ["Debug"]: true,
+    ["Server Name"]: "SERVER NAME",
+    ["Footer"]: "DISCORD.GG/SERVER_LINK",
+    ["Measurment System"]: "MPH",
+    ["Player Slots"]: 200,
+    ["Default Settings"]: {
+      hudMode: 1,
+      statusBarMode: 1,
+      transparency: 100,
+      measurmentSystem: "MPH",
+    },
+  });
   const [globalSettings, setGlobalSettings] = useState<Settings>({
     hudMode: 1,
     statusBarMode: 1,
     transparency: 100,
+    measurmentSystem: "MPH",
   });
+
+  useNuiEvent<Config>("nui:data:config", setConfig);
 
   useNuiEvent<boolean>("setVisible", setVisible);
 
@@ -73,7 +99,7 @@ const App: React.FC = () => {
   return (
     <>
       <div className={`${visible ? "visible" : "invisible"}`}>
-        {/* <button
+        <button
           className="py-1 px-2 rounded bg-black font-inter text-white bg-opacity-80 font-bold ml-10 mt-2"
           onClick={(e) => {
             setSettingsVisibility(!settingsVisiblity);
@@ -88,12 +114,16 @@ const App: React.FC = () => {
           }}
         >
           Toggle Car Hud
-        </button> */}
-        <TopRight userSettings={globalSettings} />
-        <Status userSettings={globalSettings} />
-        {!!isInVehicle && <CarHud userSettings={globalSettings} />}
+        </button>
+        <TopRight userSettings={globalSettings} scriptConfig={config} />
+        <Status userSettings={globalSettings} scriptConfig={config} />
+        {!!isInVehicle && (
+          <CarHud userSettings={globalSettings} scriptConfig={config} />
+        )}
       </div>
-      {!!settingsVisiblity && <Settings userSettings={globalSettings} />}
+      {!!settingsVisiblity && (
+        <Settings userSettings={globalSettings} scriptConfig={config} />
+      )}
     </>
   );
 };

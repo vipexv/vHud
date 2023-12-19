@@ -23,6 +23,9 @@ RegisterNuiCallback("hud:cb:settings", function(newSettings, cb)
   UIMessage("nui:state:globalsettings", newSettings)
 
   VHud.settings = newSettings
+
+  VHud.measurmentSystem = (newSettings.measurmentSystem == "MPH" and 2.236936 or 3.6)
+
   Debug("Settings updated:", json.encode(newSettings))
   cb({})
 end)

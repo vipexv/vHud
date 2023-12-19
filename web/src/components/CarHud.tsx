@@ -1,19 +1,51 @@
-import React, { useState, useEffect } from "react";
-import { fetchNui } from "../utils/fetchNui";
+import React, { useState } from "react";
+// import { fetchNui } from "../utils/fetchNui";
+import { motion } from "framer-motion";
 import { useNuiEvent } from "../hooks/useNuiEvent";
 import "../App.css";
-import { Mic, ShieldPlus, Heart } from "lucide-react";
+import { Fuel, Gauge } from "lucide-react";
 import { animateNumber } from "../utils/animateNumber";
 
 interface props {
   userSettings?: any;
+  scriptConfig: Config;
 }
 
-const CarHud: React.FC<props> = ({ userSettings }) => {
-  useNuiEvent("nui:state:vehdata", (data) => {
+interface Settings {
+  hudMode: number | string;
+  statusBarMode: number | string;
+  transparency: any;
+}
+
+interface Config {
+  ["Debug"]: boolean;
+  ["Server Name"]: string;
+  ["Footer"]: string;
+  ["Measurment System"]: string;
+  ["Player Slots"]: string | number;
+  ["Default Settings"]: Settings;
+}
+
+interface VehData {
+  speed: number | string;
+  rpm: number | string;
+  gear: number | string;
+  fuel: number | string;
+}
+
+const CarHud: React.FC<props> = ({ userSettings, scriptConfig }) => {
+  const [vehicleData, setVehicleData] = useState<VehData>({
+    speed: 0,
+    rpm: 0,
+    gear: 0,
+    fuel: 100,
+  });
+
+  useNuiEvent<VehData>("nui:state:vehdata", (data) => {
     const mphContainer = document.getElementById(
       "vehSpeed"
     ) as HTMLParagraphElement;
+    setVehicleData(data);
     animateNumber(mphContainer, data.speed, "");
   });
   return (
@@ -26,11 +58,35 @@ const CarHud: React.FC<props> = ({ userSettings }) => {
             : "100%",
         }}
       >
-        <div className="flex justify-center items-center flex-col bg-black opacity-80 rounded p-2 px-4 font-bold">
-          <p className="" id="vehSpeed">
-            0
-          </p>
-          <p className="text-xs opacity-50">MP/H</p>
+        <div className="flex flex-row bg-black opacity-80 rounded p-2 px-1 font-bold justify-between scale-90">
+          <div className="flex p-1 gap-2 justify-center items-center">
+            <Gauge size={18} strokeWidth={1.75} />
+            <motion.p
+              initial={{
+                y: -20,
+              }}
+              animate={{
+                y: 0,
+              }}
+              key={vehicleData.gear}
+            >
+              {vehicleData.gear}
+            </motion.p>
+          </div>
+          <div className="flex justify-center items-center flex-col mr-5 ml-5">
+            <p className="" id="vehSpeed">
+              0
+            </p>
+            <p className="text-xs opacity-50">
+              {userSettings.measurmentSystem === "MPH" ? "MP/H" : "KM/H"}
+            </p>
+          </div>
+          <div className="flex p-1 gap-2 justify-center items-center transition-all">
+            <Fuel size={16} strokeWidth={1.75} />
+            <div
+              className={`w-[7px] rounded-[2px] max-h-full bg-blue-600 h-[${vehicleData.fuel}%]`}
+            ></div>
+          </div>
         </div>
       </div>
     </>

@@ -14,9 +14,25 @@ interface playerStats {
 
 interface props {
   userSettings?: any;
+  scriptConfig: Config;
 }
 
-const Status: React.FC<props> = ({ userSettings }) => {
+interface Settings {
+  hudMode: number | string;
+  statusBarMode: number | string;
+  transparency: any;
+}
+
+interface Config {
+  ["Debug"]: boolean;
+  ["Server Name"]: string;
+  ["Footer"]: string;
+  ["Measurment System"]: string;
+  ["Player Slots"]: string | number;
+  ["Default Settings"]: Settings;
+}
+
+const Status: React.FC<props> = ({ userSettings, scriptConfig }) => {
   const [pstats, setStats] = useState<playerStats>({
     health: 10,
     armor: 10,
@@ -194,71 +210,73 @@ const Status: React.FC<props> = ({ userSettings }) => {
             </>
           ) : (
             <>
-              <div
-                className="bg-black bg-opacity-80 font-inter text-white font-bold rounded p-2 h-80 flex flex-col items-center justify-center"
-                style={{
-                  maxHeight: "50px",
-                  transition: "height 0.3s",
-                }}
-              >
-                <Heart
-                  size={18}
-                  strokeWidth={2.5}
-                  className="text-white absolute"
-                />
+              <div className="scale-90 flex justify-center items-center">
                 <div
-                  className="w-8 h-3/3 bg-red-600 rounded bg-opacity-80 flex items-center justify-center"
+                  className="bg-black bg-opacity-80 font-inter text-white font-bold rounded p-2 h-80 flex flex-col items-center justify-center"
                   style={{
+                    maxHeight: "50px",
                     transition: "height 0.3s",
-                    height: `${pstats.health}%`,
                   }}
-                ></div>
-                {/* <p className="text-xs">Health: {pstats.health}%</p> */}
-              </div>
-              <div
-                className="bg-black bg-opacity-80 font-inter text-white font-bold rounded p-2 h-80 flex flex-col items-center justify-center ml-2"
-                style={{
-                  maxHeight: "50px",
-                  transition: "height 0.3s",
-                }}
-              >
-                <Mic
-                  size={18}
-                  strokeWidth={2}
-                  className={`rounded ${
-                    pstats.mic ? "text-black" : "text-white"
-                  } absolute`}
-                />
+                >
+                  <Heart
+                    size={18}
+                    strokeWidth={2.5}
+                    className="text-white absolute"
+                  />
+                  <div
+                    className="w-8 h-3/3 bg-red-600 rounded bg-opacity-80 flex items-center justify-center"
+                    style={{
+                      transition: "height 0.3s",
+                      height: `${pstats.health}%`,
+                    }}
+                  ></div>
+                  {/* <p className="text-xs">Health: {pstats.health}%</p> */}
+                </div>
                 <div
-                  className="w-8 h-3/3 bg-white rounded flex items-center justify-center"
+                  className="bg-black bg-opacity-80 font-inter text-white font-bold rounded p-2 h-80 flex flex-col items-center justify-center ml-2"
                   style={{
+                    maxHeight: "50px",
                     transition: "height 0.3s",
-                    height: pstats.mic ? "100%" : "0%",
                   }}
-                ></div>
-                {/* <p className="text-xs">Health: {pstats.health}%</p> */}
-              </div>
+                >
+                  <Mic
+                    size={18}
+                    strokeWidth={2}
+                    className={`rounded ${
+                      pstats.mic ? "text-black" : "text-white"
+                    } absolute`}
+                  />
+                  <div
+                    className="w-8 h-3/3 bg-white rounded flex items-center justify-center"
+                    style={{
+                      transition: "height 0.3s",
+                      height: pstats.mic ? "100%" : "0%",
+                    }}
+                  ></div>
+                  {/* <p className="text-xs">Health: {pstats.health}%</p> */}
+                </div>
 
-              <div
-                className="bg-black bg-opacity-80 font-inter text-white font-bold rounded p-2 h-80 flex flex-col items-center justify-center ml-2"
-                style={{
-                  maxHeight: "50px",
-                  transition: "height 0.3s",
-                }}
-              >
-                <ShieldPlus
-                  size={18}
-                  strokeWidth={2.5}
-                  className="rounded text-white absolute"
-                />
                 <div
-                  className="w-8 h-3/3 bg-blue-600 rounded bg-opacity-80 flex items-center justify-center"
+                  className="bg-black bg-opacity-80 font-inter text-white font-bold rounded p-2 h-80 flex flex-col items-center justify-center ml-2"
                   style={{
+                    maxHeight: "50px",
                     transition: "height 0.3s",
-                    height: `${pstats.armor}%`,
                   }}
-                ></div>
-                {/* <p className="text-xs">Health: {pstats.health}%</p> */}
+                >
+                  <ShieldPlus
+                    size={18}
+                    strokeWidth={2.5}
+                    className="rounded text-white absolute"
+                  />
+                  <div
+                    className="w-8 h-3/3 bg-blue-600 rounded bg-opacity-80 flex items-center justify-center"
+                    style={{
+                      transition: "height 0.3s",
+                      height: `${pstats.armor}%`,
+                    }}
+                  ></div>
+                  {/* <p className="text-xs">Health: {pstats.health}%</p> */}
+                </div>
               </div>
             </>
           )}

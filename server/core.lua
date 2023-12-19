@@ -1,4 +1,4 @@
--- I don't know why i actually even decided to "rate limit" this, but i don't want an exploiter to keep calling this event over and over, feel free to remove the unecessary logic.
+-- I don't know why i actually even decided to implement "rate limiting" this, but i don't want an exploiter to keep calling this event over and over, feel free to remove the unecessary logic.
 
 RateLimit = {}
 

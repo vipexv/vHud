@@ -8,7 +8,8 @@ description 'Remake of the original v-hud.'
 ui_page 'web/build/index.html'
 
 shared_scripts {
-	"shared/utils.lua"
+	"shared/utils.lua",
+	"config.lua"
 }
 
 client_scripts {

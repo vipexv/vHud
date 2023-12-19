@@ -12,17 +12,36 @@ interface UserSettings {
   hudMode: number | string;
   statusBarMode: number | string;
   transparency: any;
+  measurmentSystem: string;
 }
 
 interface props {
   userSettings: UserSettings;
+  scriptConfig: Config;
 }
 
-const Settings: React.FC<props> = ({ userSettings }) => {
+interface Settings {
+  hudMode: number | string;
+  statusBarMode: number | string;
+  transparency: any;
+  measurmentSystem: string;
+}
+
+interface Config {
+  ["Debug"]: boolean;
+  ["Server Name"]: string;
+  ["Footer"]: string;
+  ["Measurment System"]: string;
+  ["Player Slots"]: string | number;
+  ["Default Settings"]: Settings;
+}
+
+const Settings: React.FC<props> = ({ userSettings, scriptConfig }) => {
   const [settings, setSettings] = useState<UserSettings>({
     hudMode: 1,
     statusBarMode: 1,
     transparency: 100,
+    measurmentSystem: "MPH",
   });
 
   const toggleVisibility = () => {
@@ -48,8 +67,8 @@ const Settings: React.FC<props> = ({ userSettings }) => {
   return (
     <>
       <motion.div
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{
           type: "spring",
           stiffness: 500,
@@ -91,9 +110,8 @@ const Settings: React.FC<props> = ({ userSettings }) => {
                 } bg-opacity-5 hover:bg-opacity-10 p-2 rounded hover:cursor-pointer transition justify-center items-center`}
                 onClick={() => {
                   updateSettings({
+                    ...settings,
                     hudMode: 1,
-                    statusBarMode: userSettings.statusBarMode,
-                    transparency: userSettings.transparency,
                   });
                 }}
               >
@@ -166,9 +184,8 @@ const Settings: React.FC<props> = ({ userSettings }) => {
                 } bg-opacity-5 hover:bg-opacity-10 rounded hover:cursor-pointer transition justify-center items-center`}
                 onClick={() => {
                   updateSettings({
+                    ...settings,
                     hudMode: 2,
-                    statusBarMode: userSettings.statusBarMode,
-                    transparency: userSettings.transparency,
                   });
                 }}
               >
@@ -231,9 +248,8 @@ const Settings: React.FC<props> = ({ userSettings }) => {
                 } p-2 bg-white bg-opacity-5 hover:bg-opacity-10 rounded hover:cursor-pointer hover:bg-white transition justify-center items-center col-span-2`}
                 onClick={() => {
                   updateSettings({
+                    ...settings,
                     hudMode: 3,
-                    statusBarMode: userSettings.statusBarMode,
-                    transparency: userSettings.transparency,
                   });
                 }}
               >
@@ -333,9 +349,8 @@ const Settings: React.FC<props> = ({ userSettings }) => {
                 value={userSettings.statusBarMode}
                 onValueChange={(e) => {
                   updateSettings({
-                    hudMode: userSettings.hudMode,
+                    ...settings,
                     statusBarMode: e,
-                    transparency: userSettings.transparency,
                   });
                 }}
               >
@@ -353,6 +368,29 @@ const Settings: React.FC<props> = ({ userSettings }) => {
                 </div>
               </RadioGroup>
             </div>
+            <div className="flex flex-row gap-14 items-center py-3 px-2 rounded bg-white bg-opacity-5 w-[25dvw]">
+              <p className="font-inter ml-16 font-bold">Measurment System</p>
+              <RadioGroup
+                // defaultValue={settings.statusBarMode.toString()}
+                ///@ts-ignore
+                value={userSettings.measurmentSystem}
+                onValueChange={(e) => {
+                  updateSettings({
+                    ...settings,
+                    measurmentSystem: e,
+                  });
+                }}
+              >
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="MPH" id="MPH" />
+                  <Label htmlFor="MPH">MP/H</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="KMH" id="KMH" />
+                  <Label htmlFor="KMH">KM/H</Label>
+                </div>
+              </RadioGroup>
+            </div>
             <div className="flex flex-row gap-14 items-center py-3 px-2 rounded bg-white bg-opacity-5 w-[25dvw] font-inter font-bold">
               <p className="ml-16">Transparency</p>
               <Slider
@@ -361,8 +399,7 @@ const Settings: React.FC<props> = ({ userSettings }) => {
                 step={0.1}
                 onValueChange={(e) => {
                   updateSettings({
-                    hudMode: userSettings.hudMode,
-                    statusBarMode: userSettings.statusBarMode,
+                    ...settings,
                     transparency: e,
                   });
                 }}

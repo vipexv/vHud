@@ -65,30 +65,8 @@ function AddBlip(coords, text, sprite, colour, scale, removeBlip)
   return blip
 end
 
-local debugIsEnabled = true
-
-if debugIsEnabled then
-  RegisterCommand("debug_set_health", function(source, args, rawCommand)
-    local ped = PlayerPedId()
-    local health = tonumber(args[1])
-
-    if not health then return end
-
-    SetEntityHealth(ped, health)
-  end)
-
-  RegisterCommand("debug_set_armor", function(source, args, rawCommand)
-    local ped = PlayerPedId()
-    local armour = tonumber(args[1])
-
-    if not armour then return end
-
-    SetPedArmour(ped, armour)
-  end)
-end
-
 function Debug(...)
-  if not debugIsEnabled then return end
+  if not Config.Debug then return end
   local args <const> = { ... }
 
   local appendStr = ''

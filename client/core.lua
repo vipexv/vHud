@@ -1,16 +1,21 @@
 VHud = {
-  settings = {}
+  settings = {},
+  visible = true,
+  measurmentSystem = 2.236936
 }
-
-local HudVisiblity = true
 
 VHud.init = function()
   CreateThread(function()
     CachedPlayerStats = {}
 
-    while HudVisiblity do
-      local sleep = 1000
+    while not next(VHud.settings) do
+      Wait(500)
+    end
 
+    Debug("VHud.settings", json.encode(VHud.settings))
+
+    while VHud.visible do
+      local sleep = 1000
       local playerStats = {}
       local ped = PlayerPedId()
       local pid = PlayerId()
@@ -28,10 +33,13 @@ VHud.init = function()
       if isInVeh then
         local currVeh = GetVehiclePedIsIn(ped, false)
         UIMessage("nui:state:isinveh", true)
-        local vehSpeed = math.floor(GetEntitySpeed(currVeh) * 2.236936)
+        local vehSpeed = math.floor(GetEntitySpeed(currVeh) * VHud.measurmentSystem)
 
         local vehData = {
-          speed = vehSpeed
+          speed = vehSpeed,
+          rpm = GetVehicleCurrentRpm(currVeh),
+          gear = GetVehicleCurrentGear(currVeh),
+          fuel = tostring(GetVehicleFuelLevel(currVeh))
         }
 
         UIMessage("nui:state:vehdata", vehData)
@@ -52,17 +60,23 @@ VHud.sendData = function()
   SetTimeout(2000, function()
     local playerId = GetPlayerServerId(PlayerId())
     UIMessage("nui:state:pid", playerId)
-
     TriggerServerEvent("vhud:cb")
 
     local storedHudSettings = json.decode(GetResourceKvpString("hud:settings:revamped"))
-    if storedHudSettings then
-      VHud.settings = storedHudSettings
 
-      UIMessage("nui:state:globalsettings", storedHudSettings)
-      Debug("[nui:state:globalsettings] was called, with the data storedHudSettings: ", json.encode(storedHudSettings))
+    if not storedHudSettings then
+      UIMessage("nui:state:globalsettings", Config["Default Settings"])
+      Debug("Player didn't have any saved settings, the default ones are being sent to the NUI.")
+      VHud.settings = Config["Default Settings"]
     end
 
+    VHud.settings = storedHudSettings
+    UIMessage("nui:state:globalsettings", storedHudSettings)
+    Debug("[nui:state:globalsettings] was called, with the data storedHudSettings: ", json.encode(storedHudSettings))
+
+
+    Debug("The config was sent to the NUI:", json.encode(Config))
+    UIMessage("nui:data:config", Config)
 
     Debug("[nui:state:pid] called, PlayerId:", playerId)
   end)
@@ -70,7 +84,7 @@ end
 
 VHud.GrabPlayerCount = function()
   CreateThread(function()
-    while HudVisiblity do
+    while VHud.visible do
       TriggerServerEvent("vhud:cb")
       Wait(60 * 1000)
     end
