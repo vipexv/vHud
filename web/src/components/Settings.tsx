@@ -36,18 +36,12 @@ interface Config {
 }
 
 const Settings: React.FC<props> = ({ userSettings, scriptConfig }) => {
-  const [settings, setSettings] = useState<UserSettings>({
-    hudMode: 1,
-    statusBarMode: 1,
-    transparency: 100,
-    measurmentSystem: "MPH",
-  });
+  const [settings, setSettings] = useState<UserSettings>(userSettings);
 
   const toggleVisibility = () => {
     fetchNui("hud:visibility", {});
   };
   const updateSettings = (data: UserSettings) => {
-    setSettings(data);
     fetchNui("hud:cb:settings", data);
   };
 

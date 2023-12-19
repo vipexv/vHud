@@ -62,7 +62,7 @@ const CarHud: React.FC<props> = ({ userSettings, scriptConfig }) => {
             <Gauge size={18} strokeWidth={2} />
             <motion.p
               initial={{
-                y: -20,
+                y: 20,
               }}
               animate={{
                 y: 0,
