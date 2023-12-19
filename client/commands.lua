@@ -1,5 +1,5 @@
 RegisterCommand('hud', function()
-  VHud.visible = not VHud.visible
+  Script.visible = not Script.visible
   ToggleNuiFrame(HudVisiblity)
 end, false)
 

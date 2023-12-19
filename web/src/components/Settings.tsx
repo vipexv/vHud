@@ -31,7 +31,6 @@ interface Config {
   ["Debug"]: boolean;
   ["Server Name"]: string;
   ["Footer"]: string;
-  ["Measurment System"]: string;
   ["Player Slots"]: string | number;
   ["Default Settings"]: Settings;
 }
@@ -369,7 +368,9 @@ const Settings: React.FC<props> = ({ userSettings, scriptConfig }) => {
               </RadioGroup>
             </div>
             <div className="flex flex-row gap-14 items-center py-3 px-2 rounded bg-white bg-opacity-5 w-[25dvw]">
-              <p className="font-inter ml-16 font-bold">Measurment System</p>
+              <p className="font-inter ml-16 font-bold">
+                Speed Unit Preference
+              </p>
               <RadioGroup
                 // defaultValue={settings.statusBarMode.toString()}
                 ///@ts-ignore

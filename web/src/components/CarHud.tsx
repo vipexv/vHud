@@ -21,7 +21,6 @@ interface Config {
   ["Debug"]: boolean;
   ["Server Name"]: string;
   ["Footer"]: string;
-  ["Measurment System"]: string;
   ["Player Slots"]: string | number;
   ["Default Settings"]: Settings;
 }
@@ -60,7 +59,7 @@ const CarHud: React.FC<props> = ({ userSettings, scriptConfig }) => {
       >
         <div className="flex flex-row bg-black opacity-80 rounded p-2 px-1 font-bold justify-between scale-90">
           <div className="flex p-1 gap-2 justify-center items-center">
-            <Gauge size={18} strokeWidth={1.75} />
+            <Gauge size={18} strokeWidth={2} />
             <motion.p
               initial={{
                 y: -20,
@@ -81,8 +80,8 @@ const CarHud: React.FC<props> = ({ userSettings, scriptConfig }) => {
               {userSettings.measurmentSystem === "MPH" ? "MP/H" : "KM/H"}
             </p>
           </div>
-          <div className="flex p-1 gap-2 justify-center items-center transition-all">
-            <Fuel size={16} strokeWidth={1.75} />
+          <div className="flex p-1 gap-2 justify-center transition-all">
+            <Fuel size={16} strokeWidth={2} className="place-self-center" />
             <div
               className={`w-[7px] rounded-[2px] max-h-full bg-blue-600 h-[${vehicleData.fuel}%]`}
             ></div>

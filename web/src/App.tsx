@@ -27,7 +27,6 @@ interface Config {
   ["Debug"]: boolean;
   ["Server Name"]: string;
   ["Footer"]: string;
-  ["Measurment System"]: string;
   ["Player Slots"]: string | number;
   ["Default Settings"]: SettingsInterface;
 }
@@ -40,7 +39,6 @@ const App: React.FC = () => {
     ["Debug"]: true,
     ["Server Name"]: "SERVER NAME",
     ["Footer"]: "DISCORD.GG/SERVER_LINK",
-    ["Measurment System"]: "MPH",
     ["Player Slots"]: 200,
     ["Default Settings"]: {
       hudMode: 1,

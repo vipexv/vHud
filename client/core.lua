@@ -1,20 +1,20 @@
-VHud = {
+Script = {
   settings = {},
   visible = true,
   measurmentSystem = 2.236936
 }
 
-VHud.init = function()
+Script.init = function()
   CreateThread(function()
     CachedPlayerStats = {}
 
-    while not next(VHud.settings) do
+    while not next(Script.settings) do
       Wait(500)
     end
 
-    Debug("VHud.settings", json.encode(VHud.settings))
+    Debug("Script.settings", json.encode(Script.settings))
 
-    while VHud.visible do
+    while Script.visible do
       local sleep = 1000
       local playerStats = {}
       local ped = PlayerPedId()
@@ -33,13 +33,13 @@ VHud.init = function()
       if isInVeh then
         local currVeh = GetVehiclePedIsIn(ped, false)
         UIMessage("nui:state:isinveh", true)
-        local vehSpeed = math.floor(GetEntitySpeed(currVeh) * VHud.measurmentSystem)
+        local vehSpeed = math.floor(GetEntitySpeed(currVeh) * Script.measurmentSystem)
 
         local vehData = {
           speed = vehSpeed,
           rpm = GetVehicleCurrentRpm(currVeh),
           gear = GetVehicleCurrentGear(currVeh),
-          fuel = tostring(GetVehicleFuelLevel(currVeh))
+          fuel = tostring(math.floor(GetVehicleFuelLevel(currVeh)))
         }
 
         UIMessage("nui:state:vehdata", vehData)
@@ -52,7 +52,7 @@ VHud.init = function()
   end)
 end
 
-VHud.sendData = function()
+Script.sendData = function()
   while not PlayerId() do
     Wait(500)
   end
@@ -67,10 +67,10 @@ VHud.sendData = function()
     if not storedHudSettings then
       UIMessage("nui:state:globalsettings", Config["Default Settings"])
       Debug("Player didn't have any saved settings, the default ones are being sent to the NUI.")
-      VHud.settings = Config["Default Settings"]
+      Script.settings = Config["Default Settings"]
     end
 
-    VHud.settings = storedHudSettings
+    Script.settings = storedHudSettings
     UIMessage("nui:state:globalsettings", storedHudSettings)
     Debug("[nui:state:globalsettings] was called, with the data storedHudSettings: ", json.encode(storedHudSettings))
 
@@ -82,23 +82,23 @@ VHud.sendData = function()
   end)
 end
 
-VHud.GrabPlayerCount = function()
+Script.GrabPlayerCount = function()
   CreateThread(function()
-    while VHud.visible do
+    while Script.visible do
       TriggerServerEvent("vhud:cb")
       Wait(60 * 1000)
     end
   end)
 end
 
-xpcall(VHud.init, function(err)
-  return print("Error when calling the VHud.init function:", err)
+xpcall(Script.init, function(err)
+  return print("Error when calling the Script.init function:", err)
 end)
 
-xpcall(VHud.sendData, function(err)
-  return print("Error when calling the VHud.sendData function:", err)
+xpcall(Script.sendData, function(err)
+  return print("Error when calling the Script.sendData function:", err)
 end)
 
-xpcall(VHud.GrabPlayerCount, function(err)
-  return print("Error when calling the VHud.GrabPlayerCount function:", err)
+xpcall(Script.GrabPlayerCount, function(err)
+  return print("Error when calling the Script.GrabPlayerCount function:", err)
 end)

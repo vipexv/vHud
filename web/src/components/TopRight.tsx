@@ -19,7 +19,6 @@ interface Config {
   ["Debug"]: boolean;
   ["Server Name"]: string;
   ["Footer"]: string;
-  ["Measurment System"]: string;
   ["Player Slots"]: string | number;
   ["Default Settings"]: Settings;
 }
