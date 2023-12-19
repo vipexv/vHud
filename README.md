@@ -4,7 +4,7 @@
 ![](https://img.shields.io/github/contributors/vipexv/v-hud-2.0?logo=github)
 ![](https://img.shields.io/github/v/release/vipexv/v-hud-2.0?logo=github) 
 
-Hello, there isn't much to say except the fact that it's basically [V] HUD 1.0 but re-writen and improved in every single aspect.
+Hello, it's basically V-Hud but re-written and improved in every single aspect, the preview should show everything you need to know, and if anyone is interested,  i could add optional support for a couple of frameworks.
 
 **[Script Information]**
 1. Performance: Runs at 0.00 Resmon (Client).
