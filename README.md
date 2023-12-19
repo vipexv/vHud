@@ -4,7 +4,7 @@
 ![](https://img.shields.io/github/contributors/vipexv/v-hud-2.0?logo=github)
 ![](https://img.shields.io/github/v/release/vipexv/v-hud-2.0?logo=github) 
 
-Hello, this is a project which i have been working on for a little bit now, i wasn't planning on making it public but here we are, this is a NUI based Admin Menu built with React, Tailwind CSS and other technologies.
+Hello, there isn't much to say except the fact that it's basically [V] HUD 1.0 but re-writen and improved in every single aspect.
 
 **[Script Information]**
 1. Performance: Runs at 0.00 Resmon (Client).
