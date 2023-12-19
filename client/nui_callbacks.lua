@@ -1,3 +1,9 @@
+RegisterNUICallback('hideFrame', function(_, cb)
+  SetNuiFocus(false, false)
+  Debug('Hide NUI frame')
+  cb({})
+end)
+
 RegisterNuiCallback('hud:visibility', function(_, cb)
   HudVisiblity = not HudVisiblity
   ToggleNuiFrame(HudVisiblity)
@@ -9,13 +15,6 @@ RegisterNUICallback('hud:settings:visibility', function(_, cb)
   UIMessage("nui:state:settingsui", nil)
   cb({})
 end)
-
-RegisterNUICallback('hideFrame', function(_, cb)
-  SetNuiFocus(false, false)
-  Debug('Hide NUI frame')
-  cb({})
-end)
-
 
 RegisterNuiCallback("hud:cb:settings", function(newSettings, cb)
   SetResourceKvp("hud:settings:revamped", json.encode(newSettings))

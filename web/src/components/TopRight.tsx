@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { fetchNui } from "../utils/fetchNui";
+import React, { useState } from "react";
+// import { fetchNui } from "../utils/fetchNui";
 import { useNuiEvent } from "../hooks/useNuiEvent";
 import "../App.css";
 import { Users } from "lucide-react";
