@@ -14,7 +14,7 @@ shared_scripts {
 
 client_scripts {
 	"client/core.lua",
-	"client/cl_utils.lua",
+	"client/utils.lua",
 	"client/nui_callbacks.lua",
 	"client/events.lua",
 	"client/commands.lua",

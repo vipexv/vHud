@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useNuiEvent } from "../hooks/useNuiEvent";
 import "../App.css";
-import { Fuel, Gauge } from "lucide-react";
+import { Cog, Fuel, Gauge } from "lucide-react";
 import { animateNumber } from "../utils/animateNumber";
 
 interface props {
@@ -59,7 +59,7 @@ const CarHud: React.FC<props> = ({ userSettings, scriptConfig }) => {
       >
         <div className="flex flex-row bg-black opacity-80 rounded p-2 px-1 font-bold justify-between scale-90">
           <div className="flex p-1 gap-2 justify-center items-center">
-            <Gauge size={18} strokeWidth={2} />
+            {/* <Gauge size={18} strokeWidth={2} /> */}
             <motion.p
               initial={{
                 y: 20,
@@ -71,6 +71,7 @@ const CarHud: React.FC<props> = ({ userSettings, scriptConfig }) => {
             >
               {vehicleData.gear}
             </motion.p>
+            <Cog size={16} />
           </div>
           <div className="flex justify-center items-center flex-col mr-5 ml-5">
             <p className="" id="vehSpeed">

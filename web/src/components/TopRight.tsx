@@ -2,7 +2,7 @@ import React, { useState } from "react";
 // import { fetchNui } from "../utils/fetchNui";
 import { useNuiEvent } from "../hooks/useNuiEvent";
 import "../App.css";
-import { Users } from "lucide-react";
+import { User, Users } from "lucide-react";
 
 interface props {
   userSettings?: any;
@@ -36,7 +36,7 @@ const TopRight: React.FC<props> = ({ userSettings, scriptConfig }) => {
   return (
     <>
       <div
-        className={`rounded p-2 bg-opacity-80 text-white transition-all absolute ${
+        className={`rounded p-2 bg-opacity-80 text-white transition-all absolute scale-90 ${
           userSettings.statusBarMode.toString() == "1"
             ? "top-1 right-2"
             : userSettings.statusBarMode.toString() == "2"
@@ -49,7 +49,7 @@ const TopRight: React.FC<props> = ({ userSettings, scriptConfig }) => {
             : "100%",
         }}
       >
-        <div className="flex flex-col scale-90">
+        <div className="flex flex-col">
           <div className="flex justify-center items-center">
             <p
               className="inline-flex justify-center items-center mr-16 text-xs bg-black p-2 rounded bg-opacity-80 font-bold"
@@ -65,13 +65,13 @@ const TopRight: React.FC<props> = ({ userSettings, scriptConfig }) => {
             </p>
 
             <p
-              className="inline-flex justify-center items-center mr-14 text-xs bg-black p-2 rounded bg-opacity-80 font-bold"
+              className="inline-flex min-w-[65px] items-center mr-14 text-xs bg-black p-2 rounded bg-opacity-80 font-bold"
               style={{
                 borderTopRightRadius: "20%",
                 borderBottomLeftRadius: "20%",
               }}
             >
-              ID: {pid}
+              <User size={16} className="mr-1" /> ID: {pid}
             </p>
             <div className="flex flex-col justify-center items-center">
               <p
@@ -84,9 +84,9 @@ const TopRight: React.FC<props> = ({ userSettings, scriptConfig }) => {
                 <div className="flex flex-col justify-center items-center">
                   <p>{scriptConfig["Server Name"]}</p>
                   <span
-                    className="font-inter uppercase font-bold"
+                    className=" opacity-50"
                     style={{
-                      fontSize: "10px",
+                      fontSize: "11px",
                     }}
                   >
                     {scriptConfig["Footer"]}
