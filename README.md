@@ -12,4 +12,5 @@ Hello, it's basically V-Hud but re-written and improved in every single aspect, 
 3. If you would like to contribute, please go ahead and head over to the GitHub page and feel free to send a pull request.
 
 
-Preview: [Youtube](https://youtu.be/buTnUTjtLMI) [v2.0.0]
+https://youtu.be/LJwELi3KzAA
+Preview: [Youtube](https://youtu.be/LJwELi3KzAA) [v2.0.0]
