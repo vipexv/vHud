@@ -1,1 +1,1 @@
-# v-hud-remastered
+# [V] HUD 2.0
