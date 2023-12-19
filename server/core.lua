@@ -13,10 +13,14 @@ RegisterNetEvent("vhud:cb", function()
 
     local lastCalled = RateLimit[tostring(source)].lastCalled
     local gameTimer = GetGameTimer()
-    local timerLeft = (lastCalled - gameTimer) or 0
 
-    if lastCalled and timerLeft > 30000 then
+
+    if lastCalled and gameTimer - lastCalled < 30000 then
         return Debug(("%s has hit the rate limit."):format(GetPlayerName(source)))
+    end
+
+    if lastCalled then
+        Debug("Time left:", gameTimer - lastCalled)
     end
 
     RateLimit[tostring(source)].lastCalled = gameTimer

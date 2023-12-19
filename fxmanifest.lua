@@ -19,7 +19,9 @@ client_scripts {
 	"client/commands.lua",
 }
 
-server_script "server/**/*"
+server_scripts {
+	"server/core.lua"
+}
 
 files {
 	'web/build/index.html',
