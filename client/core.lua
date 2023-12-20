@@ -1,13 +1,13 @@
 Script = {
   settings = {},
+  standalone = {},
+  framework = {},
   visible = true,
   measurementSystem = 2.236936
 }
 
 Script.init = function()
   CreateThread(function()
-    CachedPlayerStats = {}
-
     while not Script.settings do
       Wait(500)
     end
@@ -26,7 +26,6 @@ Script.init = function()
       playerStats.mic = NetworkIsPlayerTalking(pid)
 
       UIMessage("nui:data:playerstats", playerStats)
-      CachedPlayerStats = playerStats
 
       local isInVeh = IsPedInAnyVehicle(ped, false)
 
@@ -89,7 +88,7 @@ Script.sendData = function()
   end)
 end
 
-Script.GrabPlayerCount = function()
+Script.grabPlayerCount = function()
   CreateThread(function()
     while Script.visible do
       TriggerServerEvent("vhud:cb")
@@ -106,6 +105,6 @@ xpcall(Script.sendData, function(err)
   return print("Error when calling the Script.sendData function:", err)
 end)
 
-xpcall(Script.GrabPlayerCount, function(err)
+xpcall(Script.grabPlayerCount, function(err)
   return print("Error when calling the Script.GrabPlayerCount function:", err)
 end)

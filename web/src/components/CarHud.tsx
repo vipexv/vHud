@@ -21,6 +21,8 @@ interface Config {
   ["Debug"]: boolean;
   ["Server Name"]: string;
   ["Footer"]: string;
+  ["Framework"]: string;
+  ["Framework Options"]: { ["Status"]: boolean };
   ["Player Slots"]: string | number;
   ["Default Settings"]: Settings;
 }

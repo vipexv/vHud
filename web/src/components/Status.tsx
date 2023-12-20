@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { fetchNui } from "../utils/fetchNui";
 import { useNuiEvent } from "../hooks/useNuiEvent";
 import "../App.css";
-import { Mic, ShieldPlus, Heart } from "lucide-react";
+import { Mic, ShieldPlus, Heart, Droplet, Soup } from "lucide-react";
 import { animateNumber } from "../utils/animateNumber";
 import { motion } from "framer-motion";
 
@@ -27,6 +27,8 @@ interface Config {
   ["Debug"]: boolean;
   ["Server Name"]: string;
   ["Footer"]: string;
+  ["Framework"]: string;
+  ["Framework Options"]: { ["Status"]: boolean };
   ["Player Slots"]: string | number;
   ["Default Settings"]: Settings;
 }
@@ -38,7 +40,14 @@ const Status: React.FC<props> = ({ userSettings, scriptConfig }) => {
     mic: false,
   });
 
+  const [frameworkStatus, setFrameworkStatus] = useState({
+    hunger: 0,
+    thirst: 0,
+  });
+
   const [micActive, setMicActive] = useState(false);
+
+  useNuiEvent("nui:data:frameworkStatus", setFrameworkStatus);
 
   useNuiEvent("nui:data:playerstats", (stats) => {
     setStats(stats);
@@ -98,63 +107,107 @@ const Status: React.FC<props> = ({ userSettings, scriptConfig }) => {
         >
           {userSettings.hudMode == 1 ? (
             <>
-              <p
-                className="bg-black p-2 bg-opacity-80"
-                style={{
-                  // borderTopLeftRadius: "50%",
-                  borderBottomLeftRadius: "4px",
-                  borderTopLeftRadius: "4px",
-                  transition: "width 0.3s",
-                }}
-              >
-                <Heart size={18} className="text-white" />
-                {/* <Heart strokeWidth={3} /> */}
-                <div
-                  className="max-w-full bg-green-500 rounded mt-1"
+              <div className="bg-black bg-opacity-80 flex items-center justify-center rounded-[2px]">
+                <p
+                  className="p-2"
                   style={{
-                    height: "2.5px",
+                    // borderTopLeftRadius: "50%",
+                    borderBottomLeftRadius: "4px",
+                    borderTopLeftRadius: "4px",
                     transition: "width 0.3s",
+                  }}
+                >
+                  <Heart size={18} className="text-white" />
+                  {/* <Heart strokeWidth={3} /> */}
+                  <div
+                    className="max-w-full bg-green-500 rounded mt-1"
+                    style={{
+                      height: "2.5px",
+                      transition: "width 0.3s",
 
-                    width: `${pstats.health}%`,
-                  }}
-                ></div>
-              </p>
-              <p
-                className="bg-black p-2 bg-opacity-80"
-                style={{
-                  borderTopLeftRadius: "",
-                }}
-              >
-                <Mic size={18} className="text-white" />
-                <div
-                  className="max-w-full bg-white rounded mt-1"
+                      width: `${pstats.health}%`,
+                    }}
+                  ></div>
+                </p>
+                {scriptConfig["Framework Options"]["Status"] && (
+                  <>
+                    <p
+                      className="p-2"
+                      style={{
+                        borderTopLeftRadius: "",
+                      }}
+                    >
+                      <Soup size={18} className="text-white" />
+                      <div
+                        className="max-w-full bg-yellow-500 rounded mt-1"
+                        style={{
+                          height: "2.5px",
+                          transition: "width 0.3s",
+                          width: `${frameworkStatus.hunger}%`,
+                        }}
+                      ></div>
+                      {/* <p>100%</p> */}
+                    </p>
+                  </>
+                )}
+                <p
+                  className="p-2"
                   style={{
-                    height: "2.5px",
-                    transition: "width 0.3s",
+                    borderTopLeftRadius: "",
+                  }}
+                >
+                  <Mic size={18} className="text-white" />
+                  <div
+                    className="max-w-full bg-white rounded mt-1"
+                    style={{
+                      height: "2.5px",
+                      transition: "width 0.3s",
 
-                    width: pstats.mic ? "100%" : "0%",
-                  }}
-                ></div>
-                {/* <p>100%</p> */}
-              </p>
-              <p
-                className="bg-black p-2 bg-opacity-80"
-                style={{
-                  // borderTopRightRadius: "50%",
-                  borderBottomRightRadius: "4px",
-                  borderTopRightRadius: "4px",
-                }}
-              >
-                <ShieldPlus size={18} className="text-white rounded" />
-                <div
-                  className="max-w-full bg-blue-500 rounded mt-1"
+                      width: pstats.mic ? "100%" : "0%",
+                    }}
+                  ></div>
+                  {/* <p>100%</p> */}
+                </p>
+                {scriptConfig["Framework Options"]["Status"] && (
+                  <>
+                    <p
+                      className="p-2"
+                      style={{
+                        borderTopLeftRadius: "",
+                      }}
+                    >
+                      <Droplet size={18} className="text-white" />
+                      <div
+                        className="max-w-full bg-cyan-500 rounded mt-1"
+                        style={{
+                          height: "2.5px",
+                          transition: "width 0.3s",
+                          width: `${frameworkStatus.thirst}%`,
+                        }}
+                      ></div>
+                      {/* <p>100%</p> */}
+                    </p>
+                  </>
+                )}
+                <p
+                  className="p-2"
                   style={{
-                    height: "2.5px",
-                    transition: "width 0.3s",
-                    width: `${pstats.armor}%`,
+                    // borderTopRightRadius: "50%",
+                    borderBottomRightRadius: "4px",
+                    borderTopRightRadius: "4px",
                   }}
-                ></div>
-              </p>
+                >
+                  <ShieldPlus size={18} className="text-white rounded" />
+                  <div
+                    className="max-w-full bg-blue-500 rounded mt-1"
+                    style={{
+                      height: "2.5px",
+                      transition: "width 0.3s",
+                      width: `${pstats.armor}%`,
+                    }}
+                  ></div>
+                </p>
+              </div>
             </>
           ) : userSettings.hudMode == 2 ? (
             <>
@@ -184,6 +237,60 @@ const Status: React.FC<props> = ({ userSettings, scriptConfig }) => {
                     100
                   </p>
                 </p>
+                {scriptConfig["Framework Options"]["Status"] && (
+                  <>
+                    <p
+                      className="p-2 flex justify-center items-center flex-col font-horizon text-white"
+                      style={{
+                        // borderTopLeftRadius: "50%",
+                        borderBottomLeftRadius: "4px",
+                        borderTopLeftRadius: "4px",
+                        width: "55px",
+                        // fontSize: "11px",
+                      }}
+                    >
+                      <Soup
+                        size={18}
+                        strokeWidth={2.5}
+                        className="text-yellow-500"
+                      />
+                      <p
+                        className="text-xs"
+                        style={{
+                          fontSize: "10px",
+                        }}
+                        id="hunger"
+                      >
+                        100
+                      </p>
+                    </p>
+                    <p
+                      className="p-2 flex justify-center items-center flex-col font-horizon text-white"
+                      style={{
+                        // borderTopLeftRadius: "50%",
+                        borderBottomLeftRadius: "4px",
+                        borderTopLeftRadius: "4px",
+                        width: "55px",
+                        // fontSize: "11px",
+                      }}
+                    >
+                      <Droplet
+                        size={18}
+                        strokeWidth={2.5}
+                        className="text-cyan-500"
+                      />
+                      <p
+                        className="text-xs"
+                        style={{
+                          fontSize: "10px",
+                        }}
+                        id="thirst"
+                      >
+                        100
+                      </p>
+                    </p>
+                  </>
+                )}
                 <p
                   className="p-2 flex justify-center items-center flex-col font-horizon text-white"
                   style={{
@@ -212,7 +319,7 @@ const Status: React.FC<props> = ({ userSettings, scriptConfig }) => {
             </>
           ) : (
             <>
-              <div className="scale-90 flex justify-center items-center">
+              <div className="scale-90 flex justify-center gap-2 items-center">
                 <div
                   className="bg-black bg-opacity-80 font-inter text-white font-bold rounded p-2 h-80 flex flex-col items-center justify-center"
                   style={{
@@ -234,8 +341,33 @@ const Status: React.FC<props> = ({ userSettings, scriptConfig }) => {
                   ></div>
                   {/* <p className="text-xs">Health: {pstats.health}%</p> */}
                 </div>
+                {scriptConfig["Framework Options"]["Status"] && (
+                  <>
+                    <div
+                      className="bg-black bg-opacity-80 font-inter text-white font-bold rounded p-2 h-80 flex flex-col items-center justify-center"
+                      style={{
+                        maxHeight: "50px",
+                        transition: "height 0.3s",
+                      }}
+                    >
+                      <Soup
+                        size={18}
+                        strokeWidth={2.5}
+                        className="text-white absolute"
+                      />
+                      <div
+                        className="w-8 h-3/3 bg-yellow-500 rounded bg-opacity-80 flex items-center justify-center"
+                        style={{
+                          transition: "height 0.3s",
+                          height: `${frameworkStatus.hunger}%`,
+                        }}
+                      ></div>
+                      {/* <p className="text-xs">Health: {pstats.health}%</p> */}
+                    </div>
+                  </>
+                )}
                 <div
-                  className="bg-black bg-opacity-80 font-inter text-white font-bold rounded p-2 h-80 flex flex-col items-center justify-center ml-2"
+                  className="bg-black bg-opacity-80 font-inter text-white font-bold rounded p-2 h-80 flex flex-col items-center justify-center"
                   style={{
                     maxHeight: "50px",
                     transition: "height 0.3s",
@@ -258,8 +390,34 @@ const Status: React.FC<props> = ({ userSettings, scriptConfig }) => {
                   {/* <p className="text-xs">Health: {pstats.health}%</p> */}
                 </div>
 
+                {scriptConfig["Framework Options"]["Status"] && (
+                  <>
+                    <div
+                      className="bg-black bg-opacity-80 font-inter text-white font-bold rounded p-2 h-80 flex flex-col items-center justify-center"
+                      style={{
+                        maxHeight: "50px",
+                        transition: "height 0.3s",
+                      }}
+                    >
+                      <Droplet
+                        size={18}
+                        strokeWidth={2.5}
+                        className="text-white absolute"
+                      />
+                      <div
+                        className="w-8 h-3/3 bg-cyan-500 rounded bg-opacity-80 flex items-center justify-center"
+                        style={{
+                          transition: "height 0.3s",
+                          height: `${frameworkStatus.thirst}%`,
+                        }}
+                      ></div>
+                      {/* <p className="text-xs">Health: {pstats.health}%</p> */}
+                    </div>
+                  </>
+                )}
+
                 <div
-                  className="bg-black bg-opacity-80 font-inter text-white font-bold rounded p-2 h-80 flex flex-col items-center justify-center ml-2"
+                  className="bg-black bg-opacity-80 font-inter text-white font-bold rounded p-2 h-80 flex flex-col items-center justify-center"
                   style={{
                     maxHeight: "50px",
                     transition: "height 0.3s",

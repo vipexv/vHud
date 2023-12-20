@@ -16,6 +16,8 @@ client_scripts {
 	"client/core.lua",
 	"client/utils.lua",
 	"client/nui_callbacks.lua",
+	"client/bridge/esx.lua",
+	"client/bridge/qb.lua",
 	"client/events.lua",
 	"client/commands.lua",
 }

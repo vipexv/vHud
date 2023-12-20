@@ -22,13 +22,14 @@ interface SettingsInterface {
   transparency: any;
   measurementSystem: string;
 }
-
 interface Config {
   ["Debug"]: boolean;
   ["Server Name"]: string;
   ["Footer"]: string;
+  ["Framework"]: string;
+  ["Framework Options"]: { ["Status"]: boolean };
   ["Player Slots"]: string | number;
-  ["Default Settings"]: SettingsInterface;
+  ["Default Settings"]: Settings;
 }
 
 const App: React.FC = () => {
@@ -39,6 +40,10 @@ const App: React.FC = () => {
     ["Debug"]: true,
     ["Server Name"]: "SERVER NAME",
     ["Footer"]: "DISCORD.GG/SERVER_LINK",
+    ["Framework"]: "esx",
+    ["Framework Options"]: {
+      ["Status"]: true,
+    },
     ["Player Slots"]: 200,
     ["Default Settings"]: {
       hudMode: 1,
@@ -48,7 +53,7 @@ const App: React.FC = () => {
     },
   });
   const [globalSettings, setGlobalSettings] = useState<SettingsInterface>({
-    hudMode: 1,
+    hudMode: 3,
     statusBarMode: 1,
     transparency: 100,
     measurementSystem: "MPH",
