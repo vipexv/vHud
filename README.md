@@ -12,6 +12,6 @@ This is a complete re-make of the original V-Hud that was published a little bit
 3. Settings page with advanced customization, along with multiple HUD Mode's so each user can have a unique experience.
 4. Optional support for framework specific features, such as displaying hunger and thirst for the selected frameworks: ESX, QB, vRP.
 
-If you would like to contribute, please go ahead and head over to the GitHub page and feel free to send a pull request.
+If you would like to contribute, please go ahead and send a pull request.
 
 Preview: [Youtube](https://youtu.be/5iC0X2GKN_U) [v2.0.0]
