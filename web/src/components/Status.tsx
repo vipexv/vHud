@@ -55,10 +55,14 @@ const Status: React.FC<props> = ({ userSettings, scriptConfig }) => {
     if (userSettings.hudMode.toString() !== "2") return;
 
     const health = document.getElementById("health") as HTMLParagraphElement;
-    animateNumber(health, stats.health, "");
-    setMicActive(stats.mic);
+    // const hunger = document.getElementById("hunger") as HTMLParagraphElement;
+    // const thirst = document.getElementById("thirst") as HTMLParagraphElement;
     const armor = document.getElementById("armor") as HTMLParagraphElement;
+
+    animateNumber(health, stats.health, "");
     animateNumber(armor, stats.armor, "");
+
+    setMicActive(stats.mic);
   });
 
   return (
@@ -261,7 +265,7 @@ const Status: React.FC<props> = ({ userSettings, scriptConfig }) => {
                         }}
                         id="hunger"
                       >
-                        100
+                        {frameworkStatus.hunger}
                       </p>
                     </p>
                     <p
@@ -286,7 +290,7 @@ const Status: React.FC<props> = ({ userSettings, scriptConfig }) => {
                         }}
                         id="thirst"
                       >
-                        100
+                        {frameworkStatus.thirst}
                       </p>
                     </p>
                   </>
