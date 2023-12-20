@@ -17,6 +17,7 @@ checkFuelScripts = function()
       return GetVehicleFuelLevel(Script.currVeh)
     end
 
+    Debug("ox_fuel resource was found.")
     return
   end
 
@@ -25,6 +26,7 @@ checkFuelScripts = function()
       return exports["LegacyFuel"]:GetFuel(Script.currVeh)
     end
 
+    Debug("LegacyFuel resource was found.")
     return
   end
 
