@@ -56,16 +56,11 @@ const Status: React.FC<props> = ({ userSettings, scriptConfig }) => {
     <>
       {!!micActive && userSettings.hudMode.toString() === "2" && (
         <>
-          <div className="absolute top-[98vh] left-[50dvh] -translate-x-2/4 -translate-y-2/4">
+          <div className="absolute top-[98vh] left-[50dvh] -translate-x-2/4 -translate-y-2/4 skew-x-6">
             <motion.p
-              className="bg-black bg-opacity-80 mb-2 flex justify-center items-center flex-col font-inter text-white font-bold rounded"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{
-                type: "spring",
-                stiffness: 260,
-                damping: 20,
-              }}
+              className="bg-black bg-opacity-80 mb-2 flex justify-center items-center flex-col font-inter text-white font-bold rounded-[2px]"
+              initial={{ y: 20 }}
+              animate={{ y: 0 }}
               style={{
                 minWidth: "40px",
                 minHeight: "40px",
@@ -163,51 +158,57 @@ const Status: React.FC<props> = ({ userSettings, scriptConfig }) => {
             </>
           ) : userSettings.hudMode == 2 ? (
             <>
-              <p
-                className="bg-black p-2 bg-opacity-80 flex skew-x-6 justify-center items-center flex-col font-horizon text-white"
-                style={{
-                  // borderTopLeftRadius: "50%",
-                  borderBottomLeftRadius: "4px",
-                  borderTopLeftRadius: "4px",
-                  width: "55px",
-                  // fontSize: "11px",
-                }}
-              >
-                <Heart size={18} strokeWidth={2.5} className="text-green-500" />
+              <div className="flex flex-row bg-black bg-opacity-80 rounded-[2px] skew-x-6">
                 <p
-                  className="text-xs"
+                  className="p-2 flex justify-center items-center flex-col font-horizon text-white"
                   style={{
-                    fontSize: "10px",
-                  }}
-                  id="health"
-                >
-                  100
-                </p>
-              </p>
-              <p
-                className="bg-black p-2 bg-opacity-80 skew-x-6 flex justify-center items-center flex-col font-horizon text-white"
-                style={{
-                  // borderTopRightRadius: "50%",
-                  borderBottomRightRadius: "4px",
-                  borderTopRightRadius: "4px",
-                  width: "55px",
-                }}
-              >
-                <ShieldPlus
-                  size={18}
-                  strokeWidth={2.5}
-                  className="rounded text-blue-500"
-                />
-                <p
-                  className="text-xs"
-                  id="armor"
-                  style={{
-                    fontSize: "10px",
+                    // borderTopLeftRadius: "50%",
+                    borderBottomLeftRadius: "4px",
+                    borderTopLeftRadius: "4px",
+                    width: "55px",
+                    // fontSize: "11px",
                   }}
                 >
-                  50
+                  <Heart
+                    size={18}
+                    strokeWidth={2.5}
+                    className="text-green-500"
+                  />
+                  <p
+                    className="text-xs"
+                    style={{
+                      fontSize: "10px",
+                    }}
+                    id="health"
+                  >
+                    100
+                  </p>
                 </p>
-              </p>
+                <p
+                  className="p-2 flex justify-center items-center flex-col font-horizon text-white"
+                  style={{
+                    // borderTopRightRadius: "50%",
+                    borderBottomRightRadius: "4px",
+                    borderTopRightRadius: "4px",
+                    width: "55px",
+                  }}
+                >
+                  <ShieldPlus
+                    size={18}
+                    strokeWidth={2.5}
+                    className="rounded text-blue-500"
+                  />
+                  <p
+                    className="text-xs"
+                    id="armor"
+                    style={{
+                      fontSize: "10px",
+                    }}
+                  >
+                    50
+                  </p>
+                </p>
+              </div>
             </>
           ) : (
             <>

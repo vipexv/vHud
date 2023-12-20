@@ -201,7 +201,7 @@ const Settings: React.FC<Props> = ({ userSettings, scriptConfig }) => {
           <div className="bg-[#2a2a2a] rounded min-w-[312px] min-h-[90px]">
             <div className="m-5">
               <Text size="md" className="font-bold mb-1 font-inter">
-                HUD Opacity
+                Opacity
               </Text>
               <Slider
                 value={settings.transparency}
