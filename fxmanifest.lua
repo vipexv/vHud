@@ -18,6 +18,7 @@ client_scripts {
 	"client/nui_callbacks.lua",
 	"client/bridge/esx.lua",
 	"client/bridge/qb.lua",
+	"client/bridge/vrp.lua",
 	"client/events.lua",
 	"client/commands.lua",
 }
