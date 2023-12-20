@@ -7,9 +7,10 @@ import {
   EyeOff,
   Package,
   Binary,
-  Gem,
   ChevronsUpDown,
   Gauge,
+  Cog,
+  ChevronsUp,
 } from "lucide-react";
 
 import { SegmentedControl, Slider, Text } from "@mantine/core";
@@ -73,16 +74,19 @@ const Settings: React.FC = () => {
   return (
     <>
       <div className="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 bg-[#1a1a1a] w-[40vw] h-[60vh] rounded">
-        <div className="flex flex-col justify-center items-center mt-10 gap-16">
+        <div className="flex flex-col justify-center items-center mt-10 gap-10">
+          <p className="flex justify-center items-center gap-2 font-horizon text-xl">
+            <Cog size={22} /> HUD Settings
+          </p>
           <div className="flex flex-col justify-center items-center font-bold gap-2 bg-[#2a2a2a] p-2 rounded">
-            <p className="text-lg text-white">HUD Theme</p>
+            <p className="text-lg">Theme</p>
             <SegmentedControl
               value={settings.hudMode.toString()}
               onChange={(value) => {
-                setSettings({
-                  ...settings,
+                setSettings((prevSettings) => ({
+                  ...prevSettings,
                   hudMode: value,
-                });
+                }));
               }}
               data={[
                 {
@@ -110,7 +114,7 @@ const Settings: React.FC = () => {
                   label: (
                     <>
                       <p className="flex justify-center gap-1 items-center">
-                        <Gem size={16} /> Modern
+                        <ChevronsUp size={16} /> Modern
                       </p>
                     </>
                   ),
@@ -120,14 +124,14 @@ const Settings: React.FC = () => {
             />
           </div>
           <div className="flex flex-col justify-center items-center font-bold gap-2 bg-[#2a2a2a] p-2 rounded">
-            <p className="text-lg text-white">Status Bar Location</p>
+            <p className="text-lg">Status Bar Location</p>
             <SegmentedControl
               value={settings.statusBarMode.toString()}
               onChange={(value) => {
-                setSettings({
-                  ...settings,
+                setSettings((prevSettings) => ({
+                  ...prevSettings,
                   statusBarMode: value,
-                });
+                }));
               }}
               data={[
                 {
@@ -165,14 +169,14 @@ const Settings: React.FC = () => {
             />
           </div>
           <div className="flex flex-col items-center font-bold gap-2 bg-[#2a2a2a] p-2 rounded min-w-[312px] min-h-[90px]">
-            <p className="text-lg text-white">Speed Unit Preferance</p>
+            <p className="text-lg">Speed Unit Preferance</p>
             <SegmentedControl
               value={settings.measurementSystem}
               onChange={(value) => {
-                setSettings({
-                  ...settings,
+                setSettings((prevSettings) => ({
+                  ...prevSettings,
                   measurementSystem: value,
-                });
+                }));
               }}
               data={[
                 {
@@ -201,18 +205,18 @@ const Settings: React.FC = () => {
           </div>
           <div className="bg-[#2a2a2a] rounded min-w-[312px] min-h-[90px]">
             <div className="m-5">
-              <Text size="sm" mt="md" className="font-bold">
+              <Text size="md" className="font-bold mb-1 font-inter">
                 HUD Opacity
               </Text>
               <Slider
-                // value={settings.transparency}
-                defaultValue={settings.transparency}
+                value={settings.transparency}
                 onChange={(value) => {
-                  setSettings({
-                    ...settings,
+                  setSettings((prevSettings) => ({
+                    ...prevSettings,
                     transparency: value,
-                  });
+                  }));
                 }}
+                className="bg-[#1a1a1a] rounded px-6 py-4 flex items-center justify-center"
                 labelTransitionProps={{
                   transition: "skew-down",
                   duration: 150,
