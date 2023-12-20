@@ -23,6 +23,7 @@ client_scripts {
 }
 
 server_scripts {
+	-- "@vrp/lib/utils.lua", -- Enable if you are using vRP
 	"server/core.lua"
 }
 
