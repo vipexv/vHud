@@ -2,8 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  color-scheme: light !important;
+}
+
 body {
   overflow: hidden;
+  background-color: transparent !important;
 }
 
 @layer base {

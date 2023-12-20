@@ -19,10 +19,6 @@ RegisterNetEvent("vhud:cb", function()
         return Debug(("%s has hit the rate limit."):format(GetPlayerName(source)))
     end
 
-    if lastCalled then
-        Debug("Time left:", gameTimer - lastCalled)
-    end
-
     RateLimit[tostring(source)].lastCalled = gameTimer
     TriggerClientEvent("vhud:client:cb", source, GetPlayers())
     Debug("Rate Limit Table:", json.encode(RateLimit))

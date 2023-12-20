@@ -59,7 +59,6 @@ const CarHud: React.FC<props> = ({ userSettings, scriptConfig }) => {
       >
         <div className="flex flex-row bg-black opacity-80 rounded p-2 px-1 font-bold justify-between scale-90">
           <div className="flex p-1 gap-2 justify-center items-center">
-            {/* <Gauge size={18} strokeWidth={2} /> */}
             <motion.p
               initial={{
                 y: 20,
@@ -78,7 +77,7 @@ const CarHud: React.FC<props> = ({ userSettings, scriptConfig }) => {
               0
             </p>
             <p className="text-xs opacity-50">
-              {userSettings.measurmentSystem === "MPH" ? "MP/H" : "KM/H"}
+              {userSettings.measurementSystem === "MPH" ? "MP/H" : "KM/H"}
             </p>
           </div>
           <div className="flex p-1 gap-2 justify-center transition-all">

@@ -1,14 +1,14 @@
 Script = {
   settings = {},
   visible = true,
-  measurmentSystem = 2.236936
+  measurementSystem = 2.236936
 }
 
 Script.init = function()
   CreateThread(function()
     CachedPlayerStats = {}
 
-    while not next(Script.settings) do
+    while not Script.settings do
       Wait(500)
     end
 
@@ -33,7 +33,7 @@ Script.init = function()
       if isInVeh then
         local currVeh = GetVehiclePedIsIn(ped, false)
         UIMessage("nui:state:isinveh", true)
-        local vehSpeed = math.floor(GetEntitySpeed(currVeh) * Script.measurmentSystem)
+        local vehSpeed = math.floor(GetEntitySpeed(currVeh) * Script.measurementSystem)
 
         local vehData = {
           speed = vehSpeed,
@@ -59,26 +59,33 @@ Script.sendData = function()
 
   SetTimeout(2000, function()
     local playerId = GetPlayerServerId(PlayerId())
+
     UIMessage("nui:state:pid", playerId)
+
     TriggerServerEvent("vhud:cb")
 
-    local storedHudSettings = json.decode(GetResourceKvpString("hud:settings:revamped"))
+    local hudSettings = GetResourceKvpString("hud:globalsettings")
 
-    if not storedHudSettings then
+    if not hudSettings then
       UIMessage("nui:state:globalsettings", Config["Default Settings"])
+      UIMessage("nui:state:settings", Config["Default Settings"])
       Debug("Player didn't have any saved settings, the default ones are being sent to the NUI.")
       Script.settings = Config["Default Settings"]
+      return
     end
 
+    local storedHudSettings = json.decode(hudSettings)
+
     Script.settings = storedHudSettings
+
     UIMessage("nui:state:globalsettings", storedHudSettings)
+    UIMessage("nui:state:settings", storedHudSettings)
+
     Debug("[nui:state:globalsettings] was called, with the data storedHudSettings: ", json.encode(storedHudSettings))
 
 
     Debug("The config was sent to the NUI:", json.encode(Config))
     UIMessage("nui:data:config", Config)
-
-    Debug("[nui:state:pid] called, PlayerId:", playerId)
   end)
 end
 

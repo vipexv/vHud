@@ -20,7 +20,7 @@ interface SettingsInterface {
   hudMode: number | string;
   statusBarMode: number | string;
   transparency: any;
-  measurmentSystem: string;
+  measurementSystem: string;
 }
 
 interface Config {
@@ -44,14 +44,14 @@ const App: React.FC = () => {
       hudMode: 1,
       statusBarMode: 1,
       transparency: 100,
-      measurmentSystem: "MPH",
+      measurementSystem: "MPH",
     },
   });
-  const [globalSettings, setGlobalSettings] = useState<Settings>({
+  const [globalSettings, setGlobalSettings] = useState<SettingsInterface>({
     hudMode: 1,
     statusBarMode: 1,
     transparency: 100,
-    measurmentSystem: "MPH",
+    measurementSystem: "MPH",
   });
 
   useNuiEvent<Config>("nui:data:config", setConfig);
@@ -97,9 +97,9 @@ const App: React.FC = () => {
   return (
     <>
       <div className={`${visible ? "visible" : "invisible"}`}>
-        {/* <button
+        <button
           className="py-1 px-2 rounded bg-black font-inter text-white bg-opacity-80 font-bold ml-10 mt-2"
-          onClick={(e) => {
+          onClick={() => {
             setSettingsVisibility(!settingsVisiblity);
           }}
         >
@@ -107,21 +107,19 @@ const App: React.FC = () => {
         </button>
         <button
           className="py-1 px-2 rounded bg-black font-inter text-white bg-opacity-80 font-bold ml-3 mt-2"
-          onClick={(e) => {
+          onClick={() => {
             setIsInVehicle(!isInVehicle);
           }}
         >
           Toggle Car Hud
-        </button> */}
+        </button>
         <TopRight userSettings={globalSettings} scriptConfig={config} />
         <Status userSettings={globalSettings} scriptConfig={config} />
         {!!isInVehicle && (
           <CarHud userSettings={globalSettings} scriptConfig={config} />
         )}
       </div>
-      {!!settingsVisiblity && (
-        <Settings userSettings={globalSettings} scriptConfig={config} />
-      )}
+      {!!settingsVisiblity && <Settings />}
     </>
   );
 };
