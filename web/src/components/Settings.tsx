@@ -205,7 +205,8 @@ const Settings: React.FC = () => {
                 HUD Opacity
               </Text>
               <Slider
-                value={settings.transparency}
+                // value={settings.transparency}
+                defaultValue={settings.transparency}
                 onChange={(value) => {
                   setSettings({
                     ...settings,

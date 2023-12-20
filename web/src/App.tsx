@@ -97,22 +97,6 @@ const App: React.FC = () => {
   return (
     <>
       <div className={`${visible ? "visible" : "invisible"}`}>
-        <button
-          className="py-1 px-2 rounded bg-black font-inter text-white bg-opacity-80 font-bold ml-10 mt-2"
-          onClick={() => {
-            setSettingsVisibility(!settingsVisiblity);
-          }}
-        >
-          Toggle Settings Menu
-        </button>
-        <button
-          className="py-1 px-2 rounded bg-black font-inter text-white bg-opacity-80 font-bold ml-3 mt-2"
-          onClick={() => {
-            setIsInVehicle(!isInVehicle);
-          }}
-        >
-          Toggle Car Hud
-        </button>
         <TopRight userSettings={globalSettings} scriptConfig={config} />
         <Status userSettings={globalSettings} scriptConfig={config} />
         {!!isInVehicle && (
