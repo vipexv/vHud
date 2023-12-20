@@ -54,7 +54,7 @@ const Status: React.FC<props> = ({ userSettings, scriptConfig }) => {
 
   return (
     <>
-      {!!micActive && userSettings.hudMode === 2 && (
+      {!!micActive && userSettings.hudMode.toString() === "2" && (
         <>
           <div className="absolute top-[98vh] left-[50dvh] -translate-x-2/4 -translate-y-2/4">
             <motion.p
