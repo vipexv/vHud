@@ -11,4 +11,4 @@ Hello, it's basically V-Hud but re-written and improved in every single aspect, 
 2. Completely standalone meaning no other dependencies required.
 3. If you would like to contribute, please go ahead and head over to the GitHub page and feel free to send a pull request.
 
-Preview: [Youtube](https://youtu.be/Ot-qjzWW_IQ) [v2.0.0]
+Preview: [Youtube](https://youtu.be/5iC0X2GKN_U) [v2.0.0]

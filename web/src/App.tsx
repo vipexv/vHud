@@ -59,8 +59,6 @@ const App: React.FC = () => {
     measurementSystem: "MPH",
   });
 
-  useNuiEvent<Config>("nui:data:config", setConfig);
-
   useNuiEvent<boolean>("setVisible", setVisible);
 
   useNuiEvent<Settings>("nui:state:globalsettings", (data) => {
@@ -84,6 +82,9 @@ const App: React.FC = () => {
   useNuiEvent("nui:state:isinveh", (isinveh) => {
     setIsInVehicle(isinveh);
   });
+
+  useNuiEvent("nui:state:scriptConfig", setConfig);
+
   useEffect(() => {
     if (!visible) return;
 

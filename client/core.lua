@@ -7,6 +7,8 @@ Script = {
   measurementSystem = 2.236936
 }
 
+UIMessage("nui:data:cfg", Config["Default Settings"])
+
 Script.init = function()
   CreateThread(function()
     while not Script.settings do
@@ -15,7 +17,7 @@ Script.init = function()
 
     Debug("Script.settings", json.encode(Script.settings))
 
-    UIMessage("nui:data:config", Config)
+    UIMessage("nui:data:cfg", Config)
 
     xpcall(checkFuelScripts, function(err)
       print("Error when calling the checkFuelScripts function: ", err)
@@ -66,12 +68,13 @@ Script.sendData = function()
 
   SetTimeout(2000, function()
     local playerId = GetPlayerServerId(PlayerId())
+    UIMessage("nui:state:scriptConfig", Config)
 
     UIMessage("nui:state:pid", playerId)
 
     TriggerServerEvent("vhud:cb")
 
-    local hudSettings = GetResourceKvpString("hud:global:settings")
+    local hudSettings = GetResourceKvpString("hud:kvp:settings")
 
     if not hudSettings then
       UIMessage("nui:state:globalsettings", Config["Default Settings"])
@@ -89,9 +92,6 @@ Script.sendData = function()
     UIMessage("nui:state:settings", storedHudSettings)
 
     Debug("[nui:state:globalsettings] was called, with the data storedHudSettings: ", json.encode(storedHudSettings))
-
-
-    Debug("The config was sent to the NUI:", json.encode(Config))
   end)
 end
 

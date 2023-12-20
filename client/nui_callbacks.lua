@@ -17,7 +17,7 @@ RegisterNUICallback('hud:settings:visibility', function(_, cb)
 end)
 
 RegisterNuiCallback("hud:cb:settings", function(newSettings, cb)
-  SetResourceKvp("hud:global:settings", json.encode(newSettings))
+  SetResourceKvp("hud:kvp:settings", json.encode(newSettings))
 
   UIMessage("nui:state:globalsettings", newSettings)
 
