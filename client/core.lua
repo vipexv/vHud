@@ -15,6 +15,8 @@ Script.init = function()
 
     Debug("Script.settings", json.encode(Script.settings))
 
+    UIMessage("nui:data:config", Config)
+
     xpcall(checkFuelScripts, function(err)
       print("Error when calling the checkFuelScripts function: ", err)
     end)
@@ -69,7 +71,7 @@ Script.sendData = function()
 
     TriggerServerEvent("vhud:cb")
 
-    local hudSettings = GetResourceKvpString("hud:globalsettings")
+    local hudSettings = GetResourceKvpString("hud:global:settings")
 
     if not hudSettings then
       UIMessage("nui:state:globalsettings", Config["Default Settings"])
@@ -90,7 +92,6 @@ Script.sendData = function()
 
 
     Debug("The config was sent to the NUI:", json.encode(Config))
-    UIMessage("nui:data:config", Config)
   end)
 end
 

@@ -1,6 +1,6 @@
 local c = Config
 
-if not string.lower(c["Framework"]) == "vrp" then
+if not (string.lower(c["Framework"]) == "vrp") then
   return Debug("Prevented the `vrp.lua` file from continuing.")
 end
 

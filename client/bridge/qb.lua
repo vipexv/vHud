@@ -1,10 +1,8 @@
-local c = Config
-
-if not string.lower(c["Framework"]) == "qb" then
+if not (string.lower(Config["Framework"]) == "qb") then
   return Debug("Prevented the `qb.lua` file from continuing.")
 end
 
-local frameworkOptions = c["Framework Options"]
+local frameworkOptions = Config["Framework Options"]
 Script.framework.object = exports['qb-core']:GetCoreObject()
 local qb = Script.framework.object
 

@@ -40,9 +40,9 @@ const App: React.FC = () => {
     ["Debug"]: true,
     ["Server Name"]: "SERVER NAME",
     ["Footer"]: "DISCORD.GG/SERVER_LINK",
-    ["Framework"]: "esx",
+    ["Framework"]: "standalone",
     ["Framework Options"]: {
-      ["Status"]: true,
+      ["Status"]: false,
     },
     ["Player Slots"]: 200,
     ["Default Settings"]: {

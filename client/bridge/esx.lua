@@ -1,6 +1,6 @@
 local c = Config
 
-if not string.lower(c["Framework"]) == "esx" then
+if not (string.lower(c["Framework"]) == "esx") then
   return Debug("Prevented the `esx.lua` file from continuing.")
 end
 

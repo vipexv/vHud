@@ -8,17 +8,15 @@ description 'Remake of the original v-hud.'
 ui_page 'web/build/index.html'
 
 shared_scripts {
+	"config.lua",
 	"shared/utils.lua",
-	"config.lua"
 }
 
 client_scripts {
 	"client/core.lua",
 	"client/utils.lua",
 	"client/nui_callbacks.lua",
-	"client/bridge/esx.lua",
-	"client/bridge/qb.lua",
-	"client/bridge/vrp.lua",
+	"client/bridge/**/*",
 	"client/events.lua",
 	"client/commands.lua",
 }
