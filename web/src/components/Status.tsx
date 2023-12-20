@@ -41,9 +41,11 @@ const Status: React.FC<props> = ({ userSettings, scriptConfig }) => {
   const [micActive, setMicActive] = useState(false);
 
   useNuiEvent("nui:data:playerstats", (stats) => {
-    const health = document.getElementById("health") as HTMLParagraphElement;
     setStats(stats);
-    if (userSettings.hudMode !== 2) return;
+
+    if (userSettings.hudMode.toString() !== "2") return;
+
+    const health = document.getElementById("health") as HTMLParagraphElement;
     animateNumber(health, stats.health, "");
     setMicActive(stats.mic);
     const armor = document.getElementById("armor") as HTMLParagraphElement;
