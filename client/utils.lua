@@ -10,3 +10,25 @@ function ToggleNuiFrame(shouldShow)
     end)
   end
 end
+
+checkFuelScripts = function()
+  if GetResourceState("ox_fuel") == "started" then
+    function Script:FuelFunction()
+      return GetVehicleFuelLevel(Script.currVeh)
+    end
+
+    return
+  end
+
+  if GetResourceState("LegacyFuel") == "started" then
+    function Script:FuelFunction()
+      return exports["LegacyFuel"]:GetFuel(Script.currVeh)
+    end
+  end
+
+  function Script:FuelFunction()
+    return GetVehicleFuelLevel(Script.currVeh)
+  end
+
+  print("(Error) Please setup your custom fuel function at vHud > client > utils.lua")
+end

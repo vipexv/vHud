@@ -2,6 +2,7 @@ Script = {
   settings = {},
   standalone = {},
   framework = {},
+  fuelFunction = nil,
   visible = true,
   measurementSystem = 2.236936
 }
@@ -13,6 +14,10 @@ Script.init = function()
     end
 
     Debug("Script.settings", json.encode(Script.settings))
+
+    xpcall(checkFuelScripts, function(err)
+      print("Error when calling the checkFuelScripts function: ", err)
+    end)
 
     while Script.visible do
       local sleep = 1000
@@ -31,6 +36,7 @@ Script.init = function()
 
       if isInVeh then
         local currVeh = GetVehiclePedIsIn(ped, false)
+        Script.currVeh = currVeh
         UIMessage("nui:state:isinveh", true)
         local vehSpeed = math.floor(GetEntitySpeed(currVeh) * Script.measurementSystem)
 
@@ -38,7 +44,7 @@ Script.init = function()
           speed = vehSpeed,
           rpm = GetVehicleCurrentRpm(currVeh),
           gear = GetVehicleCurrentGear(currVeh),
-          fuel = tostring(math.floor(GetVehicleFuelLevel(currVeh)))
+          fuel = tostring(math.floor(Script:FuelFunction()))
         }
 
         UIMessage("nui:state:vehdata", vehData)

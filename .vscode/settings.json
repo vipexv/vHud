@@ -1,3 +1,3 @@
 {
-  "Lua.diagnostics.globals": ["lib", "vRP", "vRPclient"]
+  "Lua.diagnostics.globals": ["lib", "vRP", "vRPclient", "checkFuelScripts"]
 }
