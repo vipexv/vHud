@@ -103,7 +103,9 @@ const App: React.FC = () => {
           <CarHud userSettings={globalSettings} scriptConfig={config} />
         )}
       </div>
-      {!!settingsVisiblity && <Settings />}
+      {!!settingsVisiblity && (
+        <Settings userSettings={globalSettings} scriptConfig={config} />
+      )}
     </>
   );
 };

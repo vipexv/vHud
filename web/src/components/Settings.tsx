@@ -25,10 +25,10 @@ interface UserSettings {
   measurementSystem: string;
 }
 
-// interface props {
-//   userSettings: UserSettings;
-//   scriptConfig: Config;
-// }
+interface Props {
+  userSettings: UserSettings;
+  scriptConfig: Config;
+}
 
 interface Settings {
   hudMode: number | string;
@@ -45,13 +45,8 @@ interface Config {
   ["Default Settings"]: Settings;
 }
 
-const Settings: React.FC = () => {
-  const [settings, setSettings] = useState<UserSettings>({
-    hudMode: 3,
-    measurementSystem: "MPH",
-    statusBarMode: 1,
-    transparency: 100,
-  });
+const Settings: React.FC<Props> = ({ userSettings, scriptConfig }) => {
+  const [settings, setSettings] = useState<UserSettings>(userSettings);
 
   useNuiEvent("nui:state:settings", setSettings);
 
