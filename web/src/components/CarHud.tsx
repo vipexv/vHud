@@ -59,7 +59,11 @@ const CarHud: React.FC<props> = ({ userSettings, scriptConfig }) => {
             : "100%",
         }}
       >
-        <div className="flex flex-row bg-black opacity-80 rounded p-2 px-1 font-bold justify-between scale-90">
+        <div
+          className={`flex flex-row bg-black opacity-80 rounded-[2px] p-2 px-1 font-bold justify-between scale-90 ${
+            userSettings.hudMode.toString() == "2" ? "skew-x-6" : ""
+          }`}
+        >
           <div className="flex p-1 gap-2 justify-center items-center">
             <motion.p
               initial={{
