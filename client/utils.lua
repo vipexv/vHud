@@ -24,11 +24,13 @@ checkFuelScripts = function()
     function Script:FuelFunction()
       return exports["LegacyFuel"]:GetFuel(Script.currVeh)
     end
+
+    return
   end
 
   function Script:FuelFunction()
     return GetVehicleFuelLevel(Script.currVeh)
   end
 
-  print("(Error) Please setup your custom fuel function at vHud > client > utils.lua")
+  print("(Error) Please setup your custom fuel function at `vHud > client > utils.lua`")
 end
