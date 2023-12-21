@@ -1,4 +1,4 @@
-# [V] HUD 2.0
+# vHud
 ![](https://img.shields.io/github/downloads/vipexv/v-hud-2.0/total?logo=github)
 ![](https://img.shields.io/github/downloads/vipexv/v-hud-2.0/latest/total?logo=github)
 ![](https://img.shields.io/github/contributors/vipexv/v-hud-2.0?logo=github)
