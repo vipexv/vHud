@@ -11,8 +11,7 @@ jobs:
         steps: 
             - uses: actions/checkout@v2
             - uses: actions/setup-node@v2
-              with:
-                node-verison: 16
+                
             - run: |
                 cd web &&  npm i
                 npm install @mantine/core @mantine/hooks @mantine/nprogress @mantine/modals @mantine/spotlight @mantine/notifications @mantine/form @mantine/dates dayjs @mantine/carousel embla-carousel-react
