@@ -14,7 +14,7 @@ end
 checkFuelScripts = function()
   if GetResourceState("ox_fuel") == "started" then
     function Script:FuelFunction()
-      return GetVehicleFuelLevel(Script.currVeh)
+      return Entity(Script.currVeh).state.fuel
     end
 
     Debug("ox_fuel resource was found.")

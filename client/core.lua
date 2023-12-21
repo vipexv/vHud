@@ -7,8 +7,6 @@ Script = {
   measurementSystem = 2.236936
 }
 
-UIMessage("nui:data:cfg", Config["Default Settings"])
-
 Script.init = function()
   CreateThread(function()
     while not Script.settings do
