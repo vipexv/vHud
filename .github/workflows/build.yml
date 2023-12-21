@@ -43,8 +43,8 @@ jobs:
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git tag -f ${{ github.ref_name }} -m "Updated tag reference"
-          git push origin ${{ github.ref_name }} --force
+          git tag -f ${{ github.sha }} -m "Updated tag reference"
+          git push origin ${{ github.sha }} --force
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: ${{ github.ref_name }}
