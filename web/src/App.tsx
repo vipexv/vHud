@@ -33,7 +33,7 @@ interface Config {
 }
 
 const App: React.FC = () => {
-  const [isInVehicle, setIsInVehicle] = useState(false);
+  const [isInVehicle, setIsInVehicle] = useState(true);
   const [visible, setVisible] = useState(true);
   const [settingsVisiblity, setSettingsVisibility] = useState(false);
   const [config, setConfig] = useState<Config>({
