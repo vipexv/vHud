@@ -1,7 +1,9 @@
 name: Create Tagged Release Prod
 
 on:
-  push
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -13,13 +15,8 @@ jobs:
         node-version: [16.x]
 
     steps:
-      # We fetch to 0 so we can collect the commits
-      # since last update
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-          ref: ${{ github.ref }}
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
@@ -28,9 +25,9 @@ jobs:
 
       - name: Download all modules
         run: |
-         cd web && npm i
-         npm install @mantine/core @mantine/hooks @mantine/nprogress @mantine/modals @mantine/spotlight @mantine/notifications @mantine/form @mantine/dates dayjs @mantine/carousel embla-carousel-react
-         npm install --save-dev postcss postcss-preset-mantine postcss-simple-vars
+          cd web && npm i
+          npm install @mantine/core @mantine/hooks @mantine/nprogress @mantine/modals @mantine/spotlight @mantine/notifications @mantine/form @mantine/dates dayjs @mantine/carousel embla-carousel-react
+          npm install --save-dev postcss postcss-preset-mantine postcss-simple-vars
 
       - name: Build project
         run: cd web && npm run build
@@ -46,10 +43,14 @@ jobs:
           cp -r ./web/build ./temp/vHud/web/
           cd ./temp && zip -r ../vHud.zip ./vHud
 
+      - name: Get the latest tag
+        id: get_tag
+        run: echo "::set-output name=tag::$(git describe --tags --abbrev=0)"
+
       - name: Create and Upload Release
         uses: "marvinpinto/action-automatic-releases@v1.2.1"
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          automatic_release_tag: "2.0.3"
+          automatic_release_tag: ${{ steps.get_tag.outputs.tag }}
           prerelease: false
           files: vHud.zip
