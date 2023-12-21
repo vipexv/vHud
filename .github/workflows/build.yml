@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - main # Change this to the branch you want to trigger releases from
+      - master # Change this to the branch you want to trigger releases from
 
 jobs:
   first-job:
