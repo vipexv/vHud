@@ -33,9 +33,9 @@ jobs:
           mkdir -p ./temp/vHud
           mkdir -p ./temp/vHud/web/
           cp ./{LICENSE,README.md,fxmanifest.lua} ./temp/vHud
-          cp ./shared ./temp/vHud
-          cp ./client ./temp/vHud
-          cp ./server ./temp/vHud
+          cp -r ./shared ./temp/vHud
+          cp -r ./client ./temp/vHud
+          cp -r ./server ./temp/vHud
           cp -r ./web/build ./temp/vHud/web/
           cd ./temp && zip -r ../vHud.zip ./vHud
 
