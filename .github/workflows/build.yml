@@ -51,6 +51,8 @@ jobs:
         uses: "marvinpinto/action-automatic-releases@v1.2.1"
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          automatic_release_tag: "TODO"
           prerelease: false
           files: vHud.zip
+        env:
+          CI: false
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
