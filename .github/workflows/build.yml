@@ -26,7 +26,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Download all modules
-        run: cd web && npm ci
+        run: cd web && npm i
 
       - name: Build project
         run: cd web && npm run build
