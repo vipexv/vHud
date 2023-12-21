@@ -37,7 +37,7 @@ jobs:
       - name: Update tag ref
         uses: EndBug/latest-tag@latest
         with:
-          tag-name: ${{ github.ref_name }}
+          tag-name: 'testing'
 
       - name: Bundle files
         run: |
