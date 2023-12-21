@@ -7,7 +7,7 @@ jobs:
   create-release:
     name: Build and Create Tagged release
     runs-on: ubuntu-latest
-
+    permissions: write-all
     steps:
       - name: Install archive tools
         run: sudo apt install zip
