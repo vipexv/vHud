@@ -37,8 +37,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ github.run_number }}
-          release_name: Release ${{ github.run_number }}
+          tag_name: v${{ github.run_id }}
+          release_name: Release ${{ github.run_id }}
           draft: false
           prerelease: false
 
@@ -52,7 +52,7 @@ jobs:
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git tag -a v${{ github.run_number }} -m "Release version v${{ github.run_number }}"
-          git push origin v${{ github.run_number }} --follow-tags
+          git tag -a v${{ github.run_id }} -m "Release version v${{ github.run_id }}"
+          git push origin v${{ github.run_id }} --follow-tags
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
