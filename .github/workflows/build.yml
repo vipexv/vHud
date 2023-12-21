@@ -40,16 +40,14 @@ jobs:
           cd ./temp && zip -r ../vHud.zip ./vHud
 
       - name: Update tag ref
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git tag -f v${{ github.run_id }} -m "Updated tag reference"
+          git push origin refs/tags/v${{ github.run_id }} --force
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
-          
-        run: |
-          git config user.name "GitHub Actions"W
-          git config user.email "actions@github.com"
-          git tag -f ${{ github.sha }} -m "Updated tag reference"
-          git remote add origin_with_token "https://github.com/vipexv/vHud.git"
-          git push origin_with_token master --forc
-          e
+
       - name: Create Release
         uses: marvinpinto/action-automatic-releases@v1.2.1
         id: auto_release
