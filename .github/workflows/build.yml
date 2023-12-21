@@ -52,7 +52,7 @@ jobs:
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git tag -a v${{ github.ref }} -m "Release version v${{ github.ref }}"
-          git push origin v${{ github.ref }} --follow-tags
+          git tag -a v${{ github.run_number }} -m "Release version v${{ github.run_number }}"
+          git push origin v${{ github.run_number }} --follow-tags
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
