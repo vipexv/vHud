@@ -32,7 +32,7 @@ jobs:
         run: |
           mkdir -p ./temp/vHud
           mkdir -p ./temp/vHud/web/
-          cp ./{LICENSE,README.md,fxmanifest.lua, ./server, ./shared, ./client} ./temp/vHud
+          cp ./{LICENSE,README.md,fxmanifest.lua} ./server ./shared ./client ./temp/vHud
           cp -r ./web/build ./temp/vHud/web/
           cd ./temp && zip -r ../vHud.zip ./vHud
 
