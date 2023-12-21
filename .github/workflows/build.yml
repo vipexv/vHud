@@ -1,7 +1,7 @@
 on:
   push:
-    branches:
-      - master # Change this to the branch you want to trigger releases from
+    branches: 
+      - master
 
 jobs:
   first-job:
@@ -33,8 +33,11 @@ jobs:
         with:
           tag_name: v${{ github.run_number }}
           release_name: Release ${{ github.run_number }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
           draft: false
           prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
