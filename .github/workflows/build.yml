@@ -52,6 +52,8 @@ jobs:
         uses: EndBug/latest-tag@latest
         with:
           ref: ${{github.ref}}
+          push: true
+
 
       - name: Create and Upload Release
         uses: "marvinpinto/action-automatic-releases@v1.2.1"
