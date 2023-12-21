@@ -1,4 +1,8 @@
-on: push
+on:
+  push:
+    branches:
+      - main # Change this to the branch you want to trigger releases from
+
 jobs:
   first-job:
     runs-on: ubuntu-latest
@@ -12,6 +16,7 @@ jobs:
           cd web
           yarn  # Use npm install if you prefer npm
           yarn add @mantine/core @mantine/hooks @mantine/notifications @mantine/nprogress @mantine/modals @mantine/carousel embla-carousel-react @mantine/spotlight @mantine/form @mantine/dates dayjs
+          yarn add --dev postcss postcss-preset-mantine postcss-simple-vars
 
       - name: Build UI
         run: |
@@ -27,15 +32,21 @@ jobs:
         uses: actions/create-release@v1
         with:
           tag_name: v${{ github.run_number }}
-          release_name: ${{ github.run_number }}
+          release_name: Release ${{ github.run_number }}
           draft: false
           prerelease: false
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
-        env: GITHUB_TOKEN ${{ secrets.GITHUB_TOKEN }}
-
         with:
           name: release-artifact
           path: web/build # Update this path based on your actual build output directory
 
+      - name: Commit and tag release
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git tag -a v${{ github.run_number }} -m "Release version v${{ github.run_number }}"
+          git push origin v${{ github.run_number }} --follow-tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
