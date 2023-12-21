@@ -1,9 +1,7 @@
 name: Build
 
 on:
-  push:
-    tags:
-      - 'v*.*.*'
+  push
 
 jobs:
   create-release:
