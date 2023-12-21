@@ -1,12 +1,6 @@
-name: Release Workflow
-
-on:
-  push:
-    branches:
-      - main
-
+on: push
 jobs:
-  build:
+  first-job:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,10 +12,12 @@ jobs:
         with:
           node-version: 14
 
+      - run: node --version
+
       - name: Install dependencies
         run: |
           cd web
-          yarn install  # Use npm install if you prefer npm
+          yarn  # Use npm install if you prefer npm
 
       - name: Build UI
         run: |
@@ -29,7 +25,6 @@ jobs:
           yarn run build  # Use npm run build if you prefer npm
 
   release:
-    needs: build
     runs-on: ubuntu-latest
 
     steps:
