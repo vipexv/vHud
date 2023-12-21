@@ -29,6 +29,7 @@ jobs:
         run: |
          cd web && npm i
          npm install @mantine/core @mantine/hooks @mantine/nprogress @mantine/modals @mantine/spotlight @mantine/notifications @mantine/form @mantine/dates dayjs @mantine/carousel embla-carousel-react
+         npm install --save-dev postcss postcss-preset-mantine postcss-simple-vars
 
       - name: Build project
         run: cd web && npm run build
