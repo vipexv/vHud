@@ -2,8 +2,8 @@ name: Create Tagged Release Prod
 
 on:
   push:
-    branches: 
-      - master
+    tags: 
+      - 'v.*.*.*'
 jobs:
   build:
     name: "Build Changelog & Release Prod"
