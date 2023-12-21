@@ -47,6 +47,7 @@ jobs:
           git push origin ${{ github.ref_name }} --force
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: ${{ github.ref_name }}
 
       - name: Create Release
         uses: marvinpinto/action-automatic-releases@v1.2.1
