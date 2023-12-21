@@ -18,12 +18,6 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.repository.default_branch }}
 
-      - name: Get variables
-        id: get_vars
-        run: |
-          echo '::set-output name=SHORT_SHA::$(git rev-parse --short HEAD)'
-          echo '::set-output name=DATE::$(date +'%D')'
-
       - name: Install dependencies
         run: cd web && yarn
 
@@ -33,11 +27,6 @@ jobs:
           yarn add @mantine/core @mantine/hooks @mantine/notifications @mantine/nprogress @mantine/modals @mantine/carousel embla-carousel-react @mantine/spotlight @mantine/form @mantine/dates dayjs
           yarn add --dev postcss postcss-preset-mantine postcss-simple-vars
           yarn run build
-
-      - name: Update tag ref
-        uses: EndBug/latest-tag@latest
-        with:
-          tag-name: 'testing'
 
       - name: Bundle files
         run: |
@@ -50,12 +39,23 @@ jobs:
           cp -r ./web/build ./temp/vHud/web/
           cd ./temp && zip -r ../vHud.zip ./vHud
 
+      - name: Update tag ref
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+          
+        run: |
+          git config user.name "GitHub Actions"W
+          git config user.email "actions@github.com"
+          git tag -f ${{ github.sha }} -m "Updated tag reference"
+          git remote add origin_with_token "https://github.com/vipexv/vHud.git"
+          git push origin_with_token master --forc
+          e
       - name: Create Release
-        uses: 'marvinpinto/action-automatic-releases@v1.2.1'
+        uses: marvinpinto/action-automatic-releases@v1.2.1
         id: auto_release
         with:
-          repo_token: '${{ secrets.GITHUB_TOKEN }}'
-          title: '2.0.4'
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          title: 'Testing.'
           prerelease: false
           files: vHud.zip
 
