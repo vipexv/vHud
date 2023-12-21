@@ -1,6 +1,6 @@
 on:
   push:
-    branches: 
+    branches:
       - master
 
 jobs:
@@ -26,6 +26,7 @@ jobs:
   release:
     runs-on: ubuntu-latest
     permissions: write-all
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -44,14 +45,14 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: release-artifact
-          path: web/build # Update this path based on your actual build output directory
+          name: vHud-artifact
+          path: '' 
 
       - name: Commit and tag release
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git tag -a v${{ github.run_number }} -m "Release version v${{ github.run_number }}"
-          git push origin v${{ github.run_number }} --follow-tags
+          git tag -a v${{ github.ref }} -m "Release version v${{ github.ref }}"
+          git push origin v${{ github.ref }} --follow-tags
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
