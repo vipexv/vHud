@@ -44,6 +44,8 @@ jobs:
 
       - name: Update tag ref
         uses: EndBug/latest-tag@latest
+        with:
+          tag-name: ${{ github.ref }}
 
       - name: Create and Upload Release
         uses: "marvinpinto/action-automatic-releases@v1.2.1"
