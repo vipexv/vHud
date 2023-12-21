@@ -11,6 +11,7 @@ jobs:
         run: |
           cd web
           yarn  # Use npm install if you prefer npm
+          yarn add @mantine/core
 
       - name: Build UI
         run: |
