@@ -2,9 +2,8 @@ name: Create Tagged Release Prod
 
 on:
   push:
-    branches:
-      - master
-
+    tags:
+      - 'v*.*.*'
 jobs:
   build:
     name: "Build Changelog & Release Prod"
@@ -43,14 +42,15 @@ jobs:
           cp -r ./web/build ./temp/vHud/web/
           cd ./temp && zip -r ../vHud.zip ./vHud
 
-      - name: Get the latest tag
-        id: get_tag
-        run: echo "::set-output name=tag::$(git describe --tags --abbrev=0)"
+      - name: Update tag ref
+        uses: EndBug/latest-tag@latest
+        with:
+          tag-name: ${{ github.ref_name }}
 
       - name: Create and Upload Release
         uses: "marvinpinto/action-automatic-releases@v1.2.1"
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          automatic_release_tag: ${{ steps.get_tag.outputs.tag }}
+          automatic_release_tag: "TODO"
           prerelease: false
           files: vHud.zip
