@@ -11,7 +11,7 @@ jobs:
         run: |
           cd web
           yarn  # Use npm install if you prefer npm
-          yarn add @mantine/core
+          yarn add @mantine/core @mantine/hooks @mantine/notifications @mantine/nprogress @mantine/modals @mantine/carousel embla-carousel-react @mantine/spotlight @mantine/form @mantine/dates dayjs
 
       - name: Build UI
         run: |
