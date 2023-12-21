@@ -23,8 +23,12 @@ jobs:
         run: cd web && yarn
 
       - name: Run build
-        run: cd web && yarn run build
-
+        run: |
+         cd web
+         yarn add @mantine/core @mantine/hooks @mantine/notifications @mantine/nprogress @mantine/modals @mantine/carousel embla-carousel-react @mantine/spotlight @mantine/form @mantine/dates dayjs
+         yarn add --dev postcss postcss-preset-mantine postcss-simple-vars
+          yarn run build
+         
       - name: Update tag ref
         uses: EndBug/latest-tag@latest
         with:
