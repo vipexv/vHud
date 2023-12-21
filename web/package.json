@@ -25,12 +25,15 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^9.2.5",
     "@types/node": "^20.8.10",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.9",
     "@vitejs/plugin-react": "^2.2.0",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.27",
+    "semantic-release": "^22.0.12",
     "tailwindcss": "^3.3.3",
     "typescript": "^4.9.3",
     "vite": "^3.2.4"
