@@ -46,7 +46,7 @@ Script.init = function()
           speed = vehSpeed,
           rpm = GetVehicleCurrentRpm(currVeh),
           gear = GetVehicleCurrentGear(currVeh),
-          fuel = tostring(math.floor(Script:FuelFunction()))
+          fuel = tostring(math.floor(Script:FuelFunction() or 0))
         }
 
         UIMessage("nui:state:vehdata", vehData)
@@ -115,10 +115,10 @@ xpcall(Script.grabPlayerCount, function(err)
 end)
 
 -- Used for debugging ox_fuel
--- RegisterCommand("setfuel", function(source, args, rawCommand)
---   local fuel = tonumber(args[1])
+RegisterCommand("setfuel", function(source, args, rawCommand)
+  local fuel = tonumber(args[1])
 
---   if not fuel then return Debug("First param is null") end
---   local currVeh = Script.currVeh
---   Entity(Script.currVeh).state.fuel = fuel
--- end)
+  if not fuel then return Debug("First param is null") end
+  local currVeh = Script.currVeh
+  Entity(Script.currVeh).state.fuel = fuel
+end)
