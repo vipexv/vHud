@@ -7,7 +7,7 @@ jobs:
   create-release:
     name: Build and Create Tagged release
     runs-on: ubuntu-latest
-    permissions: write-all
+
     steps:
       - name: Install archive tools
         run: sudo apt install zip
@@ -18,21 +18,15 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.repository.default_branch }}
 
-
       - name: Install dependencies
         run: cd web && yarn
 
       - name: Run build
         run: |
-         cd web
-         yarn add @mantine/core @mantine/hooks @mantine/notifications @mantine/nprogress @mantine/modals @mantine/carousel embla-carousel-react @mantine/spotlight @mantine/form @mantine/dates dayjs
-         yarn add --dev postcss postcss-preset-mantine postcss-simple-vars
+          cd web
+          yarn add @mantine/core @mantine/hooks @mantine/notifications @mantine/nprogress @mantine/modals @mantine/carousel embla-carousel-react @mantine/spotlight @mantine/form @mantine/dates dayjs
+          yarn add --dev postcss postcss-preset-mantine postcss-simple-vars
           yarn run build
-         
-      - name: Update tag ref
-        uses: EndBug/latest-tag@latest
-        with:
-          tag-name: ${{ github.ref_name }}
 
       - name: Bundle files
         run: |
@@ -45,11 +39,20 @@ jobs:
           cp -r ./web/build ./temp/vHud/web/
           cd ./temp && zip -r ../vHud.zip ./vHud
 
+      - name: Update tag ref
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git tag -f ${{ github.ref_name }} -m "Updated tag reference"
+          git push origin ${{ github.ref_name }} --force
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Create Release
-        uses: 'marvinpinto/action-automatic-releases@v1.2.1'
+        uses: marvinpinto/action-automatic-releases@v1.2.1
         id: auto_release
         with:
-          repo_token: '${{ secrets.GITHUB_TOKEN }}'
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
           title: 'Testing.'
           prerelease: false
           files: vHud.zip
