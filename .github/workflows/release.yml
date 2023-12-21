@@ -46,5 +46,5 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: release-artifact
-          path: vHud/web/dist # Update this path based on your actual build output directory
+          path: web/build # Update this path based on your actual build output directory
 
