@@ -2,8 +2,9 @@ name: Create Tagged Release Prod
 
 on:
   push:
-    branches: 
+    branches:
       - master
+
 jobs:
   build:
     name: "Build Changelog & Release Prod"
@@ -42,16 +43,19 @@ jobs:
           cp -r ./web/build ./temp/vHud/web/
           cd ./temp && zip -r ../vHud.zip ./vHud
 
-      - name: Update tag ref
-        uses: EndBug/latest-tag@latest
-        with:
-          tag-name: ${{ github.ref }}
+      - name: Get latest release version
+        id: get_version
+        run: echo "::set-output name=version::$(curl -s https://api.github.com/repos/${{ github.repository }}/releases/latest | jq -r .tag_name)"
+
+      - name: Increment version by 0.1
+        id: increment_version
+        run: echo "::set-output name=version::$(php -r "echo bcadd('${{ steps.get_version.outputs.version }}', '0.1', 1);")"
 
       - name: Create and Upload Release
         uses: "marvinpinto/action-automatic-releases@v1.2.1"
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          automatic_release_tag: ${{ github.ref }}
+          automatic_release_tag: ${{ steps.increment_version.outputs.version }}
           prerelease: false
           files: vHud.zip
         env:
