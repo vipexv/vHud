@@ -39,7 +39,7 @@ const CarHud: React.FC<props> = ({ userSettings, scriptConfig }) => {
     speed: 0,
     rpm: 0,
     gear: 0,
-    fuel: 50,
+    fuel: 100,
   });
 
   useNuiEvent<VehData>("nui:state:vehdata", (data) => {
@@ -86,10 +86,10 @@ const CarHud: React.FC<props> = ({ userSettings, scriptConfig }) => {
               {userSettings.measurementSystem === "MPH" ? "MP/H" : "KM/H"}
             </p>
           </div>
-          <div className="flex p-1 gap-2 items-center justify-center transition-all">
-            <Fuel size={16} strokeWidth={2} />
+          <div className="flex p-1 gap-2 justify-center transition-all">
+            <Fuel size={16} strokeWidth={2} className="place-self-center" />
             <div
-              className={`w-[7px] rounded-[2px] max-h-full bg-blue-600 transition-all`}
+              className={`w-[7px] rounded-[2px] max-h-full bg-blue-600 transition-all place-self-end`}
               style={{
                 height: `${vehicleData.fuel}%`,
               }}
