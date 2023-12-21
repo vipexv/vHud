@@ -113,12 +113,3 @@ end)
 xpcall(Script.grabPlayerCount, function(err)
   return print("Error when calling the Script.GrabPlayerCount function:", err)
 end)
-
--- Used for debugging ox_fuel
-RegisterCommand("setfuel", function(source, args, rawCommand)
-  local fuel = tonumber(args[1])
-
-  if not fuel then return Debug("First param is null") end
-  local currVeh = Script.currVeh
-  Entity(Script.currVeh).state.fuel = fuel
-end)
