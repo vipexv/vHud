@@ -46,7 +46,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: vHud-artifact
-          path: '' 
+          path: vHud
 
       - name: Commit and tag release
         run: |
