@@ -14,4 +14,4 @@ This is a complete re-make of the original V-Hud that was published a little bit
 
 If you would like to contribute, please go ahead and send a pull request.
 
-Preview: [Youtube](https://youtu.be/5iC0X2GKN_U) [v2.0.0]
+Preview: [Youtube](https://youtu.be/5iC0X2GKN_U) [v1.0.0]
