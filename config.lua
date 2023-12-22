@@ -8,7 +8,7 @@ Config = {
   },
   ["Player Slots"] = 200,                -- The player slots for your server (Convar: sv_maxclients)
   ["Default Settings"] = {               -- The default hud settings for the player once they load in for the first time.
-    hudMode = 3,                         -- The Hud Mode: 1, 2, 3.
+    hudMode = 3,                         -- The Hud Mode: 1 = Default, 2 = Percentage, 3 = Modern.
     statusBarMode = 1,                   -- Status Bar is the top right location: 1 = Top Right, 2 = Bottom Right, 3 = Off
     transparency = 100,                  -- Transparency of the Hud
     measurementSystem = "MPH"            -- MPH or KMH
