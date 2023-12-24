@@ -26,8 +26,11 @@ Script.init = function()
       local ped = PlayerPedId()
       local pid = PlayerId()
       -- Status
+      local pedHealth = GetEntityHealth(ped)
+      local pedMaxHealth = GetEntityMaxHealth(ped)
+
       local playerStats = {
-        health = math.floor((GetEntityHealth(ped) - 100) / (GetEntityMaxHealth(ped) - 100) * 100),
+        health = math.floor((pedHealth - 100) / (pedMaxHealth - 100) * 100),
         armor = math.floor(GetPedArmour(ped)),
         mic = NetworkIsPlayerTalking(pid)
       }
