@@ -28,7 +28,7 @@ interface Config {
   ["Server Name"]: string;
   ["Footer"]: string;
   ["Framework"]: string;
-  ["Framework Options"]: { ["Status"]: boolean };
+  ["Framework Options"]: { ["Status"]: boolean; ["Multi Character"]: boolean };
   ["Player Slots"]: string | number;
   ["Default Settings"]: Settings;
 }

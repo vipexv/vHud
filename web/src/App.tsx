@@ -27,14 +27,13 @@ interface Config {
   ["Server Name"]: string;
   ["Footer"]: string;
   ["Framework"]: string;
-  ["Framework Options"]: { ["Status"]: boolean };
+  ["Framework Options"]: { ["Status"]: boolean; ["Multi Character"]: boolean };
   ["Player Slots"]: string | number;
   ["Default Settings"]: Settings;
 }
 
 const App: React.FC = () => {
   const [isInVehicle, setIsInVehicle] = useState(false);
-  const [visible, setVisible] = useState(true);
   const [settingsVisiblity, setSettingsVisibility] = useState(false);
   const [config, setConfig] = useState<Config>({
     ["Debug"]: true,
@@ -43,6 +42,7 @@ const App: React.FC = () => {
     ["Framework"]: "standalone",
     ["Framework Options"]: {
       ["Status"]: false,
+      ["Multi Character"]: false,
     },
     ["Player Slots"]: 200,
     ["Default Settings"]: {
@@ -52,6 +52,7 @@ const App: React.FC = () => {
       measurementSystem: "MPH",
     },
   });
+  const [visible, setVisible] = useState(false);
   const [globalSettings, setGlobalSettings] = useState<SettingsInterface>({
     hudMode: 3,
     statusBarMode: 1,
@@ -83,7 +84,12 @@ const App: React.FC = () => {
     setIsInVehicle(isinveh);
   });
 
-  useNuiEvent("nui:state:scriptConfig", setConfig);
+  useNuiEvent<Config>("nui:state:scriptConfig", (cfg) => {
+    setConfig(cfg);
+    if (config["Framework"] && config["Framework Options"]["Multi Character"]) {
+      setVisible(false);
+    }
+  });
 
   useEffect(() => {
     if (!visible) return;
