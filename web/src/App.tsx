@@ -52,7 +52,7 @@ const App: React.FC = () => {
       measurementSystem: "MPH",
     },
   });
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
   const [globalSettings, setGlobalSettings] = useState<SettingsInterface>({
     hudMode: 3,
     statusBarMode: 1,
@@ -85,10 +85,13 @@ const App: React.FC = () => {
   });
 
   useNuiEvent<Config>("nui:state:scriptConfig", (cfg) => {
-    setConfig(cfg);
-    if (config["Framework"] && config["Framework Options"]["Multi Character"]) {
+    if (
+      cfg["Framework"].toLowerCase() !== "standalone" &&
+      cfg["Framework Options"]["Multi Character"]
+    ) {
       setVisible(false);
     }
+    setConfig(cfg);
   });
 
   useEffect(() => {
