@@ -23,19 +23,19 @@ Script.init = function()
 
     while Script.visible do
       local sleep = 1000
-      local playerStats = {}
       local ped = PlayerPedId()
       local pid = PlayerId()
-      playerStats.health = math.floor((GetEntityHealth(ped) - 100) / (GetEntityMaxHealth(ped) - 100) * 100)
-      playerStats.armor = math.floor(GetPedArmour(ped))
-
-
-      playerStats.mic = NetworkIsPlayerTalking(pid)
+      -- Status
+      local playerStats = {
+        health = math.floor((GetEntityHealth(ped) - 100) / (GetEntityMaxHealth(ped) - 100) * 100),
+        armor = math.floor(GetPedArmour(ped)),
+        mic = NetworkIsPlayerTalking(pid)
+      }
 
       UIMessage("nui:data:playerstats", playerStats)
 
+      -- Speedometer
       local isInVeh = IsPedInAnyVehicle(ped, false)
-
       if isInVeh then
         UIMessage("nui:state:isinveh", true)
         local currVeh = GetVehiclePedIsIn(ped, false)
