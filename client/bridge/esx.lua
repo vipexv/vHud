@@ -7,6 +7,21 @@ end
 Script.framework.object = exports['es_extended']:getSharedObject()
 local frameworkOptions = c["Framework Options"]
 
+if frameworkOptions["Multi Character"] then
+  Debug("(ESX) Multi Character is enabled, initiating logic.")
+  RegisterNetEvent("esx:playerLoaded", function(xPlayer)
+    Wait(1000)
+    ToggleNuiFrame(true)
+    Debug("(ESX) Player Loaded and HUD is being displayed.")
+  end)
+
+  RegisterNetEvent("esx:onPlayerLogout", function()
+    Wait(1000)
+    ToggleNuiFrame(false)
+    Debug("(ESX) Player Unloaded and HUD is not being displayed.")
+  end)
+end
+
 if not frameworkOptions["Status"] then return end
 
 AddEventHandler('esx_status:onTick', function(data)
@@ -22,18 +37,3 @@ AddEventHandler('esx_status:onTick', function(data)
   }
   UIMessage("nui:data:frameworkStatus", esxStatus)
 end)
-
-if frameworkOptions["Multi Character"] then
-  Debug("(ESX) Multi Character is enabled, initiating logic.")
-  RegisterNetEvent("esx:playerLoaded", function(xPlayer)
-    Wait(1000)
-    ToggleNuiFrame(true)
-    Debug("(ESX) Player Loaded and HUD is being displayed.")
-  end)
-
-  RegisterNetEvent("esx:onPlayerLogout", function()
-    Wait(1000)
-    ToggleNuiFrame(false)
-    Debug("(ESX) Player Unloaded and HUD is not being displayed.")
-  end)
-end

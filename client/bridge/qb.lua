@@ -6,6 +6,20 @@ local frameworkOptions = Config["Framework Options"]
 Script.framework.object = exports['qb-core']:GetCoreObject()
 local QBCore = exports['qb-core']:GetCoreObject()
 
+if frameworkOptions["Multi Character"] then
+  Debug("(QB) Multi Character is enabled, initiating logic.")
+  RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
+    Wait(2000)
+    ToggleNuiFrame(true)
+    Debug("(QB) Player Loaded and HUD is being displayed.")
+  end)
+
+  RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
+    ToggleNuiFrame(false)
+    Debug("(QB) Player Unloaded and HUD is not being displayed.")
+  end)
+end
+
 if not frameworkOptions["Status"] then
   return Debug("Prevented qb.lua from executing fully since the status boolean isn't true.")
 end
@@ -29,21 +43,6 @@ Script.framework.init = function()
     end
   end)
 end
-
-if frameworkOptions["Multi Character"] then
-  Debug("(QB) Multi Character is enabled, initiating logic.")
-  RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-    Wait(2000)
-    ToggleNuiFrame(true)
-    Debug("(QB) Player Loaded and HUD is being displayed.")
-  end)
-
-  RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
-    ToggleNuiFrame(false)
-    Debug("(QB) Player Unloaded and HUD is not being displayed.")
-  end)
-end
-
 
 xpcall(Script.framework.init, function(err)
   return print("Error when calling the `Script.framework.init` function on the qb.lua file", err)
