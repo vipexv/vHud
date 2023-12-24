@@ -1,7 +1,7 @@
 Config = {
   ["Debug"] = true,
-  ["Server Name"] = "SERVER NAME",       -- The Server name that is going to display at the top right.
-  ["Footer"] = "DISCORD.GG/SERVER_LINK", -- The text that will display below the server name, usually a discord link
+  ["Server Name"] = "Server Name",       -- The Server name that is going to display at the top right.
+  ["Footer"] = "discord.gg/server_link", -- The text that will display below the server name, usually a discord link
   ["Framework"] = "esx",                 -- standalone, esx, qb, vrp
   ["Framework Options"] = {              -- Enable these only if using a framework.
     ["Status"] = true,                   -- Hunger and thirst [esx, qb, vrp]

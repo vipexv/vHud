@@ -37,19 +37,18 @@ Script.init = function()
       local isInVeh = IsPedInAnyVehicle(ped, false)
 
       if isInVeh then
-        local currVeh = GetVehiclePedIsIn(ped, false)
-        Script.currVeh = currVeh
         UIMessage("nui:state:isinveh", true)
-        local vehSpeed = math.floor(GetEntitySpeed(currVeh) * Script.measurementSystem)
+        local currVeh = GetVehiclePedIsIn(ped, false)
 
         local vehData = {
-          speed = vehSpeed,
+          speed = math.floor(GetEntitySpeed(currVeh) * Script.measurementSystem),
           rpm = GetVehicleCurrentRpm(currVeh),
           gear = GetVehicleCurrentGear(currVeh),
           fuel = tostring(math.floor(Script:FuelFunction() or 0))
         }
 
         UIMessage("nui:state:vehdata", vehData)
+        Wait(1000)
       else
         UIMessage("nui:state:isinveh", false)
       end

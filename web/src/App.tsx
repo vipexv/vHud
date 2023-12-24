@@ -34,7 +34,7 @@ interface Config {
 
 const App: React.FC = () => {
   const [isInVehicle, setIsInVehicle] = useState(false);
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
   const [settingsVisiblity, setSettingsVisibility] = useState(false);
   const [config, setConfig] = useState<Config>({
     ["Debug"]: true,

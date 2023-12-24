@@ -11,10 +11,27 @@ function ToggleNuiFrame(shouldShow)
   end
 end
 
+local vehCheck = function()
+  local ped = PlayerPedId()
+  if not IsPedInAnyVehicle(ped, false) then
+    return false
+  end
+
+  local veh = GetVehiclePedIsIn(ped, false)
+  return veh
+end
+
 checkFuelScripts = function()
+  local ped = PlayerPedId()
   if GetResourceState("ox_fuel") == "started" then
     function Script:FuelFunction()
-      return Entity(Script.currVeh).state.fuel
+      local veh = vehCheck()
+
+      if not veh then
+        return Debug("(Script:FuelFunction [ox_fuel]) was called but the ped isn't in a vehicle.")
+      end
+
+      return Entity(veh).state.fuel
     end
 
     Debug("ox_fuel resource was found.")
@@ -23,7 +40,13 @@ checkFuelScripts = function()
 
   if GetResourceState("LegacyFuel") == "started" then
     function Script:FuelFunction()
-      return exports["LegacyFuel"]:GetFuel(Script.currVeh)
+      local veh = vehCheck()
+
+      if not veh then
+        return Debug("(Script:FuelFunction [LegacyFuel]) was called but the ped isn't in a vehicle.")
+      end
+
+      return exports["LegacyFuel"]:GetFuel(veh)
     end
 
     Debug("LegacyFuel resource was found.")
@@ -31,7 +54,13 @@ checkFuelScripts = function()
   end
 
   function Script:FuelFunction()
-    return GetVehicleFuelLevel(Script.currVeh)
+    local veh = vehCheck()
+
+    if not veh then
+      return Debug("(Script:FuelFunction [Standalone]) was called but the ped isn't in a vehicle.")
+    end
+
+    return GetVehicleFuelLevel(veh)
   end
 
   print("(Error) Please setup your custom fuel function at `vHud > client > utils.lua`")
