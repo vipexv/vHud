@@ -16,26 +16,28 @@ debugData([
   },
 ]);
 
-interface SettingsInterface {
+export interface SettingsInterface {
   hudMode: number | string;
   statusBarMode: number | string;
   transparency: any;
+  resourceUsage: number | string;
   measurementSystem: string;
 }
-interface Config {
+
+export interface ConfigInterface {
   ["Debug"]: boolean;
   ["Server Name"]: string;
   ["Footer"]: string;
   ["Framework"]: string;
   ["Framework Options"]: { ["Status"]: boolean; ["Multi Character"]: boolean };
   ["Player Slots"]: string | number;
-  ["Default Settings"]: Settings;
+  ["Default Settings"]: SettingsInterface;
 }
 
 const App: React.FC = () => {
   const [isInVehicle, setIsInVehicle] = useState(false);
   const [settingsVisiblity, setSettingsVisibility] = useState(false);
-  const [config, setConfig] = useState<Config>({
+  const [config, setConfig] = useState<ConfigInterface>({
     ["Debug"]: true,
     ["Server Name"]: "SERVER NAME",
     ["Footer"]: "DISCORD.GG/SERVER_LINK",
@@ -49,6 +51,7 @@ const App: React.FC = () => {
       hudMode: 1,
       statusBarMode: 1,
       transparency: 100,
+      resourceUsage: 2,
       measurementSystem: "MPH",
     },
   });
@@ -57,12 +60,13 @@ const App: React.FC = () => {
     hudMode: 3,
     statusBarMode: 1,
     transparency: 100,
+    resourceUsage: 2,
     measurementSystem: "MPH",
   });
 
   useNuiEvent<boolean>("setVisible", setVisible);
 
-  useNuiEvent<Settings>("nui:state:globalsettings", (data) => {
+  useNuiEvent<SettingsInterface>("nui:state:globalsettings", (data) => {
     if (!data) {
       return console.log(
         "[nui:state:globalsettings] called but the first param is null, returning."
@@ -84,7 +88,7 @@ const App: React.FC = () => {
     setIsInVehicle(isinveh);
   });
 
-  useNuiEvent<Config>("nui:state:scriptConfig", (cfg) => {
+  useNuiEvent<ConfigInterface>("nui:state:scriptConfig", (cfg) => {
     if (
       cfg["Framework"].toLowerCase() !== "standalone" &&
       cfg["Framework Options"]["Multi Character"]

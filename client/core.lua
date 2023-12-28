@@ -2,6 +2,7 @@ Script = {
   settings = {},
   standalone = {},
   framework = {},
+  threadSleep = 1000,
   fuelFunction = nil,
   visible = true,
   measurementSystem = 2.236936
@@ -22,7 +23,6 @@ Script.init = function()
     end)
 
     while Script.visible do
-      local sleep = 1000
       local ped = PlayerPedId()
       local pid = PlayerId()
       -- Status
@@ -51,12 +51,11 @@ Script.init = function()
         }
 
         UIMessage("nui:state:vehdata", vehData)
-        Wait(1000)
       else
         UIMessage("nui:state:isinveh", false)
       end
 
-      Wait(sleep)
+      Wait(Script.threadSleep)
     end
   end)
 end
@@ -85,6 +84,12 @@ Script.sendData = function()
     end
 
     local storedHudSettings = json.decode(hudSettings)
+
+    if storedHudSettings.resourceUsage then
+      local threadSleep = (storedHudSettings.resourceUsage == "1" and 100 or 1000)
+      Script.threadSleep = threadSleep
+      Debug("Thread sleep: ", Script.threadSleep)
+    end
 
     Script.settings = storedHudSettings
 

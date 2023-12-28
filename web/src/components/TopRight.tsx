@@ -3,16 +3,12 @@ import React, { useState } from "react";
 import { useNuiEvent } from "../hooks/useNuiEvent";
 import "../App.css";
 import { User, Users } from "lucide-react";
+import { ConfigInterface } from "@/App";
+import { SettingsInterface } from "@/App";
 
 interface props {
   userSettings?: any;
   scriptConfig: Config;
-}
-
-interface Settings {
-  hudMode: number | string;
-  statusBarMode: number | string;
-  transparency: any;
 }
 
 interface Config {
@@ -22,7 +18,7 @@ interface Config {
   ["Framework"]: string;
   ["Framework Options"]: { ["Status"]: boolean; ["Multi Character"]: boolean };
   ["Player Slots"]: string | number;
-  ["Default Settings"]: Settings;
+  ["Default Settings"]: SettingsInterface;
 }
 
 const TopRight: React.FC<props> = ({ userSettings, scriptConfig }) => {

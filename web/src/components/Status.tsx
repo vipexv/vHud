@@ -4,6 +4,8 @@ import { useNuiEvent } from "../hooks/useNuiEvent";
 import "../App.css";
 import { Mic, ShieldPlus, Heart, Droplet, Soup } from "lucide-react";
 import { animateNumber } from "../utils/animateNumber";
+import { ConfigInterface } from "@/App";
+import { SettingsInterface } from "@/App";
 import { motion } from "framer-motion";
 
 interface playerStats {
@@ -13,24 +15,8 @@ interface playerStats {
 }
 
 interface props {
-  userSettings?: any;
-  scriptConfig: Config;
-}
-
-interface Settings {
-  hudMode: number | string;
-  statusBarMode: number | string;
-  transparency: any;
-}
-
-interface Config {
-  ["Debug"]: boolean;
-  ["Server Name"]: string;
-  ["Footer"]: string;
-  ["Framework"]: string;
-  ["Framework Options"]: { ["Status"]: boolean; ["Multi Character"]: boolean };
-  ["Player Slots"]: string | number;
-  ["Default Settings"]: Settings;
+  userSettings?: SettingsInterface;
+  scriptConfig: ConfigInterface;
 }
 
 const Status: React.FC<props> = ({ userSettings, scriptConfig }) => {
@@ -52,22 +38,22 @@ const Status: React.FC<props> = ({ userSettings, scriptConfig }) => {
   useNuiEvent("nui:data:playerstats", (stats) => {
     setStats(stats);
 
-    if (userSettings.hudMode.toString() !== "2") return;
+    if (userSettings?.hudMode.toString() !== "2") return;
 
     const health = document.getElementById("health") as HTMLParagraphElement;
     // const hunger = document.getElementById("hunger") as HTMLParagraphElement;
     // const thirst = document.getElementById("thirst") as HTMLParagraphElement;
     const armor = document.getElementById("armor") as HTMLParagraphElement;
 
-    animateNumber(health, stats.health, "");
-    animateNumber(armor, stats.armor, "");
+    animateNumber(health, stats.health, "", userSettings);
+    animateNumber(armor, stats.armor, "", userSettings);
 
     setMicActive(stats.mic);
   });
 
   return (
     <>
-      {!!micActive && userSettings.hudMode.toString() === "2" && (
+      {!!micActive && userSettings?.hudMode.toString() === "2" && (
         <>
           <div className="absolute top-[98vh] left-[50dvh] -translate-x-2/4 -translate-y-2/4 skew-x-6">
             <motion.p
@@ -77,8 +63,8 @@ const Status: React.FC<props> = ({ userSettings, scriptConfig }) => {
               style={{
                 minWidth: "40px",
                 minHeight: "40px",
-                opacity: userSettings.transparency
-                  ? `${userSettings.transparency}%`
+                opacity: userSettings?.transparency
+                  ? `${userSettings?.transparency}%`
                   : "100%",
               }}
             >
@@ -104,12 +90,12 @@ const Status: React.FC<props> = ({ userSettings, scriptConfig }) => {
         <div
           className="flex justify-center items-center mb-3"
           style={{
-            opacity: userSettings.transparency
-              ? `${userSettings.transparency}%`
+            opacity: userSettings?.transparency
+              ? `${userSettings?.transparency}%`
               : "100%",
           }}
         >
-          {userSettings.hudMode == 1 ? (
+          {userSettings?.hudMode == 1 ? (
             <>
               <div className="bg-black bg-opacity-80 flex items-center justify-center rounded-[2px]">
                 <p
@@ -213,7 +199,7 @@ const Status: React.FC<props> = ({ userSettings, scriptConfig }) => {
                 </p>
               </div>
             </>
-          ) : userSettings.hudMode == 2 ? (
+          ) : userSettings?.hudMode == 2 ? (
             <>
               <div className="flex flex-row bg-black bg-opacity-80 rounded-[2px] skew-x-6">
                 <p

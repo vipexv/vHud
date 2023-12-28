@@ -11,44 +11,24 @@ import {
   Gauge,
   Cog,
   ChevronsUp,
+  ArrowBigUpDash,
+  ArrowBigDownDash,
 } from "lucide-react";
 
 import { SegmentedControl, Slider, Text } from "@mantine/core";
 
 import { motion } from "framer-motion";
 import { useNuiEvent } from "@/hooks/useNuiEvent";
-
-interface UserSettings {
-  hudMode: number | string;
-  statusBarMode: number | string;
-  transparency: any;
-  measurementSystem: string;
-}
+import { ConfigInterface } from "@/App";
+import { SettingsInterface } from "@/App";
 
 interface Props {
-  userSettings: UserSettings;
-  scriptConfig: Config;
-}
-
-interface Settings {
-  hudMode: number | string;
-  statusBarMode: number | string;
-  transparency: any;
-  measurementSystem: string;
-}
-
-interface Config {
-  ["Debug"]: boolean;
-  ["Server Name"]: string;
-  ["Footer"]: string;
-  ["Framework"]: string;
-  ["Framework Options"]: { ["Status"]: boolean; ["Multi Character"]: boolean };
-  ["Player Slots"]: string | number;
-  ["Default Settings"]: Settings;
+  userSettings: SettingsInterface;
+  scriptConfig: ConfigInterface;
 }
 
 const Settings: React.FC<Props> = ({ userSettings, scriptConfig }) => {
-  const [settings, setSettings] = useState<UserSettings>(userSettings);
+  const [settings, setSettings] = useState<SettingsInterface>(userSettings);
 
   useNuiEvent("nui:state:settings", setSettings);
 
@@ -70,7 +50,7 @@ const Settings: React.FC<Props> = ({ userSettings, scriptConfig }) => {
 
   return (
     <>
-      <div className="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 bg-[#1a1a1a] w-[40vw] h-[60vh] rounded">
+      <div className="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 bg-[#1a1a1a] w-[40vw] h-fit m-5 p-2 rounded">
         <div className="flex flex-col justify-center items-center mt-10 gap-10">
           <p className="flex justify-center items-center gap-2 font-horizon text-xl">
             <Cog size={22} /> HUD Settings
@@ -161,6 +141,43 @@ const Settings: React.FC<Props> = ({ userSettings, scriptConfig }) => {
                     </>
                   ),
                   value: "3",
+                },
+              ]}
+            />
+          </div>
+          <div className="flex flex-col justify-center items-center font-bold gap-2 bg-[#2a2a2a] p-2 rounded">
+            <p className="text-lg">HUD Resource Usage</p>
+            <SegmentedControl
+              value={
+                settings.resourceUsage ? settings.resourceUsage.toString() : "2"
+              }
+              onChange={(value) => {
+                setSettings((prevSettings) => ({
+                  ...prevSettings,
+                  resourceUsage: value,
+                }));
+              }}
+              data={[
+                {
+                  label: (
+                    <>
+                      <p className="flex justify-center gap-1 items-center">
+                        <ArrowBigUpDash size={16} /> Performance
+                      </p>
+                    </>
+                  ),
+                  value: "1",
+                },
+                {
+                  label: (
+                    <>
+                      <p className="flex justify-center gap-1 items-center">
+                        <ArrowBigDownDash size={16} />
+                        Optimised
+                      </p>
+                    </>
+                  ),
+                  value: "2",
                 },
               ]}
             />

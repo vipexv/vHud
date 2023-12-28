@@ -1,9 +1,21 @@
-export const animateNumber = (element: any, newValue: any, symbol = "") => {
+import { SettingsInterface } from "@/App";
+
+export const animateNumber = (
+  element: any,
+  newValue: any,
+  symbol = "",
+  settings: SettingsInterface
+) => {
   const oldValue = parseInt(element.textContent, 10);
 
   if (oldValue === newValue) return;
 
-  const duration = 500;
+  let duration = settings.resourceUsage
+    ? settings.resourceUsage === "2"
+      ? 1000
+      : 100
+    : 1000;
+
   const start = performance.now();
 
   requestAnimationFrame(function animate(currentTime) {

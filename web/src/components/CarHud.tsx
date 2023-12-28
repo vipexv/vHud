@@ -5,26 +5,12 @@ import { useNuiEvent } from "../hooks/useNuiEvent";
 import "../App.css";
 import { Cog, Fuel, Gauge } from "lucide-react";
 import { animateNumber } from "../utils/animateNumber";
+import { ConfigInterface } from "@/App";
+import { SettingsInterface } from "@/App";
 
 interface props {
-  userSettings?: any;
-  scriptConfig: Config;
-}
-
-interface Settings {
-  hudMode: number | string;
-  statusBarMode: number | string;
-  transparency: any;
-}
-
-interface Config {
-  ["Debug"]: boolean;
-  ["Server Name"]: string;
-  ["Footer"]: string;
-  ["Framework"]: string;
-  ["Framework Options"]: { ["Status"]: boolean; ["Multi Character"]: boolean };
-  ["Player Slots"]: string | number;
-  ["Default Settings"]: Settings;
+  userSettings: SettingsInterface;
+  scriptConfig: ConfigInterface;
 }
 
 interface VehData {
@@ -47,7 +33,7 @@ const CarHud: React.FC<props> = ({ userSettings, scriptConfig }) => {
       "vehSpeed"
     ) as HTMLParagraphElement;
     setVehicleData(data);
-    animateNumber(mphContainer, data.speed, "");
+    animateNumber(mphContainer, data.speed, "", userSettings);
   });
   return (
     <>
