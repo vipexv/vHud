@@ -1,5 +1,10 @@
 # vHud
 
+![](https://img.shields.io/github/downloads/vipexv/vHud/total?logo=github)
+![](https://img.shields.io/github/downloads/vipexv/vHud/latest/total?logo=github)
+![](https://img.shields.io/github/contributors/vipexv/vHud?logo=github)
+![](https://img.shields.io/github/v/release/vipexv/vHud?logo=github) 
+
 This is a complete re-make of the original V-Hud that was published a little bit ago, if you have any suggestions, please go ahead and let me know as i will be attempting to support this for as long as possible.
 
 #### **Script Information**
