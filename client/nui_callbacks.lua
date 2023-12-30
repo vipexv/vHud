@@ -17,21 +17,16 @@ RegisterNUICallback('hud:settings:visibility', function(_, cb)
 end)
 
 RegisterNuiCallback("hud:cb:settings", function(newSettings, cb)
-  SetResourceKvp("hud:kvp:settings", json.encode(newSettings))
+  Debug("hud:cb:settings was called.")
+
+  SetResourceKvp("vHud:state:settings", json.encode(newSettings))
 
   UIMessage("nui:state:globalsettings", newSettings)
 
-  local threadSleep = (newSettings.resourceUsage == "1" and 100 or 1000)
+  local threadSleep = (tostring(newSettings.resourceUsage) == "1" and 100 or 1000)
 
   Script.threadSleep = threadSleep
-
-  Debug("Thread sleep: ", Script.threadSleep)
-
-
   Script.settings = newSettings
-
   Script.measurementSystem = (newSettings.measurementSystem == "MPH" and 2.236936 or 3.6)
-
-  Debug("Settings updated:", json.encode(newSettings))
   cb({})
 end)

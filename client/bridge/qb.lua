@@ -20,30 +20,36 @@ if frameworkOptions["Multi Character"] then
   end)
 end
 
-if not frameworkOptions["Status"] then
-  return Debug("Prevented qb.lua from executing fully since the status boolean isn't true.")
+if frameworkOptions["Seatbelt"] then
+  RegisterNetEvent('seatbelt:client:ToggleSeatbelt', function()
+    Script.state.isSeatbeltOn = not Script.state.isSeatbeltOn
+  end)
+  Debug("(QB) SeatbeltState updated: ", Script.state.isSeatbeltOn)
 end
 
-Script.framework.init = function()
-  CreateThread(function()
-    while Script.visible do
-      local playerData = QBCore.Functions.GetPlayerData()
+if frameworkOptions["Status"] then
+  Debug("(QB) Status is enabled, continuing logic.")
+  Script.framework.init = function()
+    CreateThread(function()
+      while Script.visible do
+        local playerData = QBCore.Functions.GetPlayerData()
 
-      if not playerData or not playerData.metadata then
-        return Debug("(QB) Error occured while attempting to get the playerData, debug: ", json.encode(playerData))
+        if not playerData or not playerData.metadata then
+          return Debug("(QB) Error occured while attempting to get the playerData, debug: ", json.encode(playerData))
+        end
+
+        local status = {
+          hunger = math.floor(playerData.metadata['hunger']),
+          thirst = math.floor(playerData.metadata['thirst'])
+        }
+
+        UIMessage("nui:data:frameworkStatus", status)
+        Wait(1000)
       end
+    end)
+  end
 
-      local status = {
-        hunger = math.floor(playerData.metadata['hunger']),
-        thirst = math.floor(playerData.metadata['thirst'])
-      }
-
-      UIMessage("nui:data:frameworkStatus", status)
-      Wait(1000)
-    end
+  xpcall(Script.framework.init, function(err)
+    return print("Error when calling the `Script.framework.init` function on the qb.lua file", err)
   end)
 end
-
-xpcall(Script.framework.init, function(err)
-  return print("Error when calling the `Script.framework.init` function on the qb.lua file", err)
-end)

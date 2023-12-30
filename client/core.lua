@@ -2,6 +2,9 @@ Script = {
   settings = {},
   standalone = {},
   framework = {},
+  state = {
+    isSeatbeltOn = false
+  },
   threadSleep = 1000,
   fuelFunction = nil,
   visible = true,
@@ -32,7 +35,7 @@ Script.init = function()
       local playerStats = {
         health = math.floor((pedHealth - 100) / (pedMaxHealth - 100) * 100),
         armor = math.floor(GetPedArmour(ped)),
-        mic = NetworkIsPlayerTalking(pid)
+        mic = NetworkIsPlayerTalking(pid),
       }
 
       UIMessage("nui:data:playerstats", playerStats)
@@ -47,7 +50,8 @@ Script.init = function()
           speed = math.floor(GetEntitySpeed(currVeh) * Script.measurementSystem),
           rpm = GetVehicleCurrentRpm(currVeh),
           gear = GetVehicleCurrentGear(currVeh),
-          fuel = tostring(math.floor(Script:FuelFunction() or 0))
+          fuel = tostring(math.floor(Script:FuelFunction() or 0)),
+          isSeatbeltOn = Script.state.isSeatbeltOn
         }
 
         UIMessage("nui:state:vehdata", vehData)
@@ -73,7 +77,7 @@ Script.sendData = function()
 
     TriggerServerEvent("vhud:cb")
 
-    local hudSettings = GetResourceKvpString("hud:kvp:settings")
+    local hudSettings = GetResourceKvpString("vHud:state:settings")
 
     if not hudSettings then
       UIMessage("nui:state:globalsettings", Config["Default Settings"])
@@ -83,13 +87,12 @@ Script.sendData = function()
       return
     end
 
+
     local storedHudSettings = json.decode(hudSettings)
 
-    if storedHudSettings.resourceUsage then
-      local threadSleep = (storedHudSettings.resourceUsage == "1" and 100 or 1000)
-      Script.threadSleep = threadSleep
-      Debug("Thread sleep: ", Script.threadSleep)
-    end
+    local threadSleep = (tostring(storedHudSettings.resourceUsage) == "1" and 100 or 1000)
+    Script.threadSleep = threadSleep
+    Debug("(Script.sendData) Thread sleep: ", Script.threadSleep)
 
     Script.settings = storedHudSettings
 
@@ -109,12 +112,12 @@ Script.grabPlayerCount = function()
   end)
 end
 
-xpcall(Script.init, function(err)
-  return print("Error when calling the Script.init function:", err)
-end)
-
 xpcall(Script.sendData, function(err)
   return print("Error when calling the Script.sendData function:", err)
+end)
+
+xpcall(Script.init, function(err)
+  return print("Error when calling the Script.init function:", err)
 end)
 
 xpcall(Script.grabPlayerCount, function(err)

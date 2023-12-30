@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { fetchNui } from "../utils/fetchNui";
 import { useNuiEvent } from "../hooks/useNuiEvent";
 import "../App.css";
-import { Mic, ShieldPlus, Heart, Droplet, Soup } from "lucide-react";
+import { Mic, ShieldPlus, Heart, Droplet, Soup, Divide } from "lucide-react";
 import { animateNumber } from "../utils/animateNumber";
 import { ConfigInterface } from "@/App";
 import { SettingsInterface } from "@/App";
 import { motion } from "framer-motion";
+import { Transition } from "@mantine/core";
 
 interface playerStats {
   health: number | string;
@@ -53,32 +54,40 @@ const Status: React.FC<props> = ({ userSettings, scriptConfig }) => {
 
   return (
     <>
-      {!!micActive && userSettings?.hudMode.toString() === "2" && (
+      {userSettings?.hudMode.toString() === "2" && (
         <>
-          <div className="absolute top-[98vh] left-[50dvh] -translate-x-2/4 -translate-y-2/4 skew-x-6">
-            <motion.p
-              className="bg-black bg-opacity-80 mb-2 flex justify-center items-center flex-col font-inter text-white font-bold rounded-[2px]"
-              initial={{ y: 20 }}
-              animate={{ y: 0 }}
-              style={{
-                minWidth: "40px",
-                minHeight: "40px",
-                opacity: userSettings?.transparency
-                  ? `${userSettings?.transparency}%`
-                  : "100%",
-              }}
-            >
-              <Mic
-                size={18}
-                strokeWidth={2.5}
-                className="text-white animate-pulse"
-              />
+          <Transition
+            mounted={micActive}
+            transition="slide-up"
+            duration={400}
+            timingFunction="ease"
+          >
+            {(styles) => (
+              <div className="absolute top-[98vh] left-[50dvh] -translate-x-2/4 -translate-y-2/4 skew-x-6">
+                <p
+                  className="bg-black bg-opacity-80 mb-2 flex justify-center items-center flex-col font-inter text-white font-bold rounded-[2px]"
+                  style={{
+                    minWidth: "40px",
+                    minHeight: "40px",
+                    opacity: userSettings?.transparency
+                      ? `${userSettings?.transparency}%`
+                      : "100%",
+                    ...styles,
+                  }}
+                >
+                  <Mic
+                    size={18}
+                    strokeWidth={2.5}
+                    className="text-white animate-pulse"
+                  />
 
-              {/* <p className="text-xs" id="mic">
+                  {/* <p className="text-xs" id="mic">
                     100%
                   </p> */}
-            </motion.p>
-          </div>
+                </p>
+              </div>
+            )}
+          </Transition>
         </>
       )}
       <div

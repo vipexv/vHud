@@ -8,6 +8,7 @@ import TopRight from "./components/TopRight";
 import Status from "./components/Status";
 import CarHud from "./components/CarHud";
 import Settings from "./components/Settings";
+import { Button } from "@mantine/core";
 
 debugData([
   {
@@ -29,13 +30,17 @@ export interface ConfigInterface {
   ["Server Name"]: string;
   ["Footer"]: string;
   ["Framework"]: string;
-  ["Framework Options"]: { ["Status"]: boolean; ["Multi Character"]: boolean };
+  ["Framework Options"]: {
+    ["Status"]: boolean;
+    ["Multi Character"]: boolean;
+    ["Seatbelt"]: boolean;
+  };
   ["Player Slots"]: string | number;
   ["Default Settings"]: SettingsInterface;
 }
 
 const App: React.FC = () => {
-  const [isInVehicle, setIsInVehicle] = useState(false);
+  const [isInVehicle, setIsInVehicle] = useState(true);
   const [settingsVisiblity, setSettingsVisibility] = useState(false);
   const [config, setConfig] = useState<ConfigInterface>({
     ["Debug"]: true,
@@ -45,6 +50,7 @@ const App: React.FC = () => {
     ["Framework Options"]: {
       ["Status"]: false,
       ["Multi Character"]: false,
+      ["Seatbelt"]: false,
     },
     ["Player Slots"]: 200,
     ["Default Settings"]: {
@@ -115,16 +121,44 @@ const App: React.FC = () => {
 
   return (
     <>
-      <div className={`${visible ? "visible" : "invisible"}`}>
-        <TopRight userSettings={globalSettings} scriptConfig={config} />
-        <Status userSettings={globalSettings} scriptConfig={config} />
-        {!!isInVehicle && (
-          <CarHud userSettings={globalSettings} scriptConfig={config} />
-        )}
-      </div>
-      {!!settingsVisiblity && (
-        <Settings userSettings={globalSettings} scriptConfig={config} />
+      {process.env.NODE_ENV === "development" && (
+        <>
+          <div className="flex flex-col gap-2 items-start justify-center ml-5">
+            <Button
+              className="bg-[#1a1a1a] mt-2 font-inter p-2"
+              onClick={() => {
+                setSettingsVisibility(!settingsVisiblity);
+              }}
+            >
+              Toggle Settings
+            </Button>
+            <Button
+              className="bg-[#1a1a1a] mt-2 font-inter p-2"
+              onClick={() => {
+                setIsInVehicle(!isInVehicle);
+              }}
+            >
+              Toggle Veh Hud
+            </Button>
+          </div>
+        </>
       )}
+      {visible && (
+        <>
+          <div>
+            <TopRight userSettings={globalSettings} scriptConfig={config} />
+            <Status userSettings={globalSettings} scriptConfig={config} />
+            {!!isInVehicle && (
+              <CarHud userSettings={globalSettings} scriptConfig={config} />
+            )}
+          </div>
+        </>
+      )}
+      <Settings
+        isVisible={settingsVisiblity}
+        userSettings={globalSettings}
+        scriptConfig={config}
+      />
     </>
   );
 };

@@ -22,18 +22,26 @@ if frameworkOptions["Multi Character"] then
   end)
 end
 
-if not frameworkOptions["Status"] then return end
+if frameworkOptions["Seatbelt"] then
+  exports("SeatbeltState", function(...)
+    Script.state.isSeatbeltOn = ...
+    Debug("(ESX) SeatbeltState updated: ", ...)
+  end)
+end
 
-AddEventHandler('esx_status:onTick', function(data)
-  local hunger, thirst
-  for i = 1, #data do
-    if data[i].name == 'thirst' then thirst = math.floor(data[i].percent) end
-    if data[i].name == 'hunger' then hunger = math.floor(data[i].percent) end
-  end
+if frameworkOptions["Status"] then
+  Debug("(ESX) Status is enabled, continuing logic.")
+  AddEventHandler('esx_status:onTick', function(data)
+    local hunger, thirst
+    for i = 1, #data do
+      if data[i].name == 'thirst' then thirst = math.floor(data[i].percent) end
+      if data[i].name == 'hunger' then hunger = math.floor(data[i].percent) end
+    end
 
-  local esxStatus = {
-    hunger = hunger,
-    thirst = thirst
-  }
-  UIMessage("nui:data:frameworkStatus", esxStatus)
-end)
+    local esxStatus = {
+      hunger = hunger,
+      thirst = thirst
+    }
+    UIMessage("nui:data:frameworkStatus", esxStatus)
+  end)
+end
