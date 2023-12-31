@@ -79,11 +79,11 @@ const CarHud: React.FC<props> = ({ userSettings, scriptConfig }) => {
                 {(styles) => (
                   <div
                     style={styles}
-                    className={`bg-black animate-pulse opacity-80 rounded-[2px] font-bold py-3 px-5 ${
+                    className={`bg-black opacity-80 rounded-[2px] font-bold py-3 px-5 ${
                       userSettings.hudMode.toString() === "2" ? "skew-x-6" : ""
                     }`}
                   >
-                    <FaUserAltSlash className="text-red-600" />
+                    <FaUserAltSlash className="text-red-600 animate-pulse" />
                   </div>
                 )}
               </Transition>
