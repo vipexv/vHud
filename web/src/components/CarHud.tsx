@@ -78,7 +78,7 @@ const CarHud: React.FC<props> = ({ userSettings, scriptConfig }) => {
             userSettings.hudMode.toString() === "2" ? "skew-x-6" : ""
           }`}
         >
-          {scriptConfig["Framework Options"].Seatbelt && (
+          {isSeatbeltEnabled && (
             <>
               <Transition
                 mounted={!vehicleData.isSeatbeltOn}
@@ -101,7 +101,7 @@ const CarHud: React.FC<props> = ({ userSettings, scriptConfig }) => {
         <div
           className={`flex flex-row bg-black opacity-80 rounded-[2px] p-2 px-1 font-bold justify-between scale-90 ${
             userSettings.hudMode.toString() == "2" ? "skew-x-6" : ""
-          } ${!isSeatbeltEnabled ? "mt-3" : ""}`}
+          } ${!isSeatbeltEnabled ? "mt-2" : ""}`}
         >
           <div className="flex p-1 gap-2 justify-center items-center">
             <motion.p
