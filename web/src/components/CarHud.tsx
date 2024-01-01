@@ -74,7 +74,7 @@ const CarHud: React.FC<props> = ({ userSettings, scriptConfig }) => {
         }}
       >
         <div
-          className={`flex justify-center items-center h-[40px] font-bold ${
+          className={`flex justify-center items-center mb-1 h-[40px] font-bold ${
             userSettings.hudMode.toString() === "2" ? "skew-x-6" : ""
           }`}
         >
