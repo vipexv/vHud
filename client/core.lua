@@ -17,10 +17,6 @@ Script.init = function()
       Wait(500)
     end
 
-    local playerState = LocalPlayer.state
-    local proximityState = playerState.proximity
-
-    Debug("Proximity State: ", json.encode(proximityStatec))
 
     Debug("Script.settings", json.encode(Script.settings))
 
@@ -42,6 +38,10 @@ Script.init = function()
         armor = math.floor(GetPedArmour(ped)),
         mic = NetworkIsPlayerTalking(pid),
       }
+
+      -- local playerState = LocalPlayer.state
+      -- local proximityState = playerState.proximity
+
 
       UIMessage("nui:data:playerstats", playerStats)
 

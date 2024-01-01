@@ -2,9 +2,12 @@ RegisterNetEvent("UIMessage", function(action, data)
   UIMessage(action, data)
 end)
 
-RegisterNetEvent("vhud:client:cb", function(plist)
-  UIMessage("nui:state:onlineplayers", #plist)
-  Debug("[Script.GrabPlayerCount] Player count sent to the NUI: ", #plist)
+RegisterNetEvent("vhud:client:cb", function(data)
+  local players = data.players
+  local maxClients = data.maxClients
+  UIMessage("nui:state:onlineplayers", #players)
+  UIMessage("nui:state:maxclients", maxClients)
+  Debug("[Script.GrabPlayerCount] Player count sent to the NUI: ", #players)
 end)
 
 TriggerEvent("chat:addSuggestions", {

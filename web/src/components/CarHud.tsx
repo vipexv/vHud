@@ -83,7 +83,7 @@ const CarHud: React.FC<props> = ({ userSettings, scriptConfig }) => {
                 {(styles) => (
                   <div
                     style={styles}
-                    className="bg-black bg-opacity-80 py-3 px-5  rounded-[2px]"
+                    className="bg-black bg-opacity-80 py-3 px-5 rounded-[2px]"
                   >
                     <FaUserAltSlash className="text-red-600 animate-pulse" />
                   </div>
