@@ -4,7 +4,7 @@ Script = {
   framework = {},
   state = {
     isSeatbeltOn = false,
-    threadSleep = 1000,
+    threadSleep = 1000
   },
   fuelFunction = nil,
   visible = true,
