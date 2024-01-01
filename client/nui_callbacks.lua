@@ -25,7 +25,7 @@ RegisterNuiCallback("hud:cb:settings", function(newSettings, cb)
 
   local threadSleep = (tostring(newSettings.resourceUsage) == "1" and 100 or 1000)
 
-  Script.threadSleep = threadSleep
+  Script.state.threadSleep = threadSleep
   Script.settings = newSettings
   Script.measurementSystem = (newSettings.measurementSystem == "MPH" and 2.236936 or 3.6)
   cb({})

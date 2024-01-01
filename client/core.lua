@@ -3,9 +3,9 @@ Script = {
   standalone = {},
   framework = {},
   state = {
-    isSeatbeltOn = false
+    isSeatbeltOn = false,
+    threadSleep = 1000,
   },
-  threadSleep = 1000,
   fuelFunction = nil,
   visible = true,
   measurementSystem = 2.236936
@@ -59,7 +59,7 @@ Script.init = function()
         UIMessage("nui:state:isinveh", false)
       end
 
-      Wait(Script.threadSleep)
+      Wait(Script.state.threadSleep)
     end
   end)
 end
@@ -91,8 +91,8 @@ Script.sendData = function()
     local storedHudSettings = json.decode(hudSettings)
 
     local threadSleep = (tostring(storedHudSettings.resourceUsage) == "1" and 100 or 1000)
-    Script.threadSleep = threadSleep
-    Debug("(Script.sendData) Thread sleep: ", Script.threadSleep)
+    Script.state.threadSleep = threadSleep
+    Debug("(Script.sendData) Thread sleep: ", Script.state.threadSleep)
 
     Script.settings = storedHudSettings
 
