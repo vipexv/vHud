@@ -32,6 +32,12 @@ const CarHud: React.FC<props> = ({ userSettings, scriptConfig }) => {
     isSeatbeltOn: false,
   });
 
+  const framework = scriptConfig.Framework.toLowerCase();
+
+  const isSeatbeltEnabled =
+    framework === "esx" ||
+    (framework === "qb" && scriptConfig["Framework Options"].Seatbelt);
+
   useNuiEvent<VehData>("nui:state:vehdata", (data) => {
     const mphContainer = document.getElementById(
       "vehSpeed"
@@ -67,12 +73,12 @@ const CarHud: React.FC<props> = ({ userSettings, scriptConfig }) => {
             : "100%",
         }}
       >
-        {scriptConfig["Framework Options"].Seatbelt && (
-          <div
-            className={`flex justify-center items-center h-[40px] font-bold ${
-              userSettings.hudMode.toString() === "2" ? "skew-x-6" : ""
-            }`}
-          >
+        <div
+          className={`flex justify-center items-center h-[40px] font-bold ${
+            userSettings.hudMode.toString() === "2" ? "skew-x-6" : ""
+          }`}
+        >
+          {scriptConfig["Framework Options"].Seatbelt && (
             <>
               <Transition
                 mounted={!vehicleData.isSeatbeltOn}
@@ -90,12 +96,12 @@ const CarHud: React.FC<props> = ({ userSettings, scriptConfig }) => {
                 )}
               </Transition>
             </>
-          </div>
-        )}
+          )}
+        </div>
         <div
           className={`flex flex-row bg-black opacity-80 rounded-[2px] p-2 px-1 font-bold justify-between scale-90 ${
             userSettings.hudMode.toString() == "2" ? "skew-x-6" : ""
-          }`}
+          } ${!isSeatbeltEnabled ? "mt-3" : ""}`}
         >
           <div className="flex p-1 gap-2 justify-center items-center">
             <motion.p
