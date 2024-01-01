@@ -67,8 +67,12 @@ const CarHud: React.FC<props> = ({ userSettings, scriptConfig }) => {
             : "100%",
         }}
       >
-        <div className="flex justify-center items-center h-[40px]">
-          {scriptConfig["Framework Options"].Seatbelt && (
+        {scriptConfig["Framework Options"].Seatbelt && (
+          <div
+            className={`flex justify-center items-center h-[40px] font-bold ${
+              userSettings.hudMode.toString() === "2" ? "skew-x-6" : ""
+            }`}
+          >
             <>
               <Transition
                 mounted={!vehicleData.isSeatbeltOn}
@@ -79,17 +83,15 @@ const CarHud: React.FC<props> = ({ userSettings, scriptConfig }) => {
                 {(styles) => (
                   <div
                     style={styles}
-                    className={`bg-black opacity-80 rounded-[2px] font-bold py-3 px-5 ${
-                      userSettings.hudMode.toString() === "2" ? "skew-x-6" : ""
-                    }`}
+                    className="bg-black bg-opacity-80 py-3 px-5  rounded-[2px]"
                   >
                     <FaUserAltSlash className="text-red-600 animate-pulse" />
                   </div>
                 )}
               </Transition>
             </>
-          )}
-        </div>
+          </div>
+        )}
         <div
           className={`flex flex-row bg-black opacity-80 rounded-[2px] p-2 px-1 font-bold justify-between scale-90 ${
             userSettings.hudMode.toString() == "2" ? "skew-x-6" : ""
