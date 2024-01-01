@@ -17,6 +17,11 @@ Script.init = function()
       Wait(500)
     end
 
+    local playerState = LocalPlayer.state
+    local proximityState = playerState.proximity
+
+    Debug("Proximity State: ", json.encode(proximityStatec))
+
     Debug("Script.settings", json.encode(Script.settings))
 
     UIMessage("nui:data:cfg", Config)
