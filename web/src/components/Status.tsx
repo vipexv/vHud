@@ -80,10 +80,6 @@ const Status: React.FC<props> = ({ userSettings, scriptConfig }) => {
                     strokeWidth={2.5}
                     className="text-white animate-pulse"
                   />
-
-                  {/* <p className="text-xs" id="mic">
-                    100%
-                  </p> */}
                 </p>
               </div>
             )}
