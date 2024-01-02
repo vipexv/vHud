@@ -171,7 +171,7 @@ const Settings: React.FC<Props> = ({
                   />
                 </div>
                 <div className="flex flex-col justify-center items-center font-bold gap-2 bg-[#2a2a2a] p-2 rounded">
-                  <p className="text-lg">HUD Resource Usage</p>
+                  <p className="text-lg">Resource Usage</p>
                   <SegmentedControl
                     value={
                       settings.resourceUsage
@@ -254,8 +254,11 @@ const Settings: React.FC<Props> = ({
                 </div>
                 <div className="bg-[#2a2a2a] rounded min-w-[312px] min-h-[90px]">
                   <div className="m-5">
-                    <Text size="md" className="font-bold mb-1 font-inter">
-                      Opacity
+                    <Text
+                      size="md"
+                      className="font-bold flex justify-center text-lg mb-2 font-inter"
+                    >
+                      HUD Opacity
                     </Text>
                     <Slider
                       value={settings.transparency}
