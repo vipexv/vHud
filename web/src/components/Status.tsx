@@ -2,12 +2,22 @@ import React, { useState, useEffect } from "react";
 import { fetchNui } from "../utils/fetchNui";
 import { useNuiEvent } from "../hooks/useNuiEvent";
 import "../App.css";
-import { Mic, ShieldPlus, Heart, Droplet, Soup, Divide } from "lucide-react";
+import {
+  Mic,
+  ShieldPlus,
+  Heart,
+  Droplet,
+  Soup,
+  Divide,
+  Brain,
+} from "lucide-react";
 import { animateNumber } from "../utils/animateNumber";
 import { ConfigInterface } from "@/App";
 import { SettingsInterface } from "@/App";
 import { motion } from "framer-motion";
 import { Transition } from "@mantine/core";
+import { TbHexagonLetterH } from "react-icons/tb";
+import { cn } from "@/lib/utils";
 
 interface playerStats {
   health: number | string;
@@ -18,46 +28,108 @@ interface playerStats {
 interface props {
   userSettings?: SettingsInterface;
   scriptConfig: ConfigInterface;
+  isInVeh: boolean;
 }
 
-const Status: React.FC<props> = ({ userSettings, scriptConfig }) => {
+interface frameworkStatus {
+  hunger: number | string;
+  thirst: number | string;
+  stress?: number | string;
+  harnessDurability?: number | string;
+}
+
+const Status: React.FC<props> = ({ userSettings, scriptConfig, isInVeh }) => {
   const [pstats, setStats] = useState<playerStats>({
-    health: 10,
-    armor: 10,
+    health: 0,
+    armor: 0,
     mic: false,
   });
 
   const [frameworkStatus, setFrameworkStatus] = useState({
     hunger: 0,
     thirst: 0,
+    stress: 0,
+    harnessDurability: 0,
   });
 
-  const [micActive, setMicActive] = useState(false);
+  const [micActive, setMicActive] = useState("0");
 
   useNuiEvent("nui:data:frameworkStatus", setFrameworkStatus);
 
   useNuiEvent("nui:data:playerstats", (stats) => {
     setStats(stats);
 
-    if (userSettings?.hudMode.toString() !== "2") return;
-
-    const health = document.getElementById("health") as HTMLParagraphElement;
-    // const hunger = document.getElementById("hunger") as HTMLParagraphElement;
-    // const thirst = document.getElementById("thirst") as HTMLParagraphElement;
-    const armor = document.getElementById("armor") as HTMLParagraphElement;
-
-    animateNumber(health, stats.health, "", userSettings);
-    animateNumber(armor, stats.armor, "", userSettings);
-
-    setMicActive(stats.mic);
+    setMicActive(stats.mic ? "100" : "0");
   });
+
+  interface Stat {
+    name: string;
+    icon: any;
+    className: any;
+    renderCondition: boolean;
+    value: any;
+    hideInHudMode?: string;
+  }
+
+  const stats: Stat[] = [
+    {
+      name: "health",
+      icon: Heart,
+      className: "bg-green-500",
+      renderCondition: true,
+      value: pstats.health,
+    },
+    {
+      name: "hunger",
+      icon: Soup,
+      className: "bg-yellow-500",
+      renderCondition: scriptConfig["Framework Options"]["Status"],
+      value: frameworkStatus["hunger"],
+    },
+    {
+      name: "harnessDurability",
+      icon: TbHexagonLetterH,
+      className: "bg-purple-500",
+      renderCondition: scriptConfig["Framework Options"]["Harness"] && isInVeh,
+      value: frameworkStatus["harnessDurability"],
+    },
+    {
+      name: "mic",
+      icon: Mic,
+      className: "bg-white bg-opacity-50",
+      hideInHudMode: "2",
+      renderCondition: true,
+      value: micActive,
+    },
+    {
+      name: "stress",
+      icon: Brain,
+      className: "bg-white bg-opacity-50",
+      renderCondition: scriptConfig["Framework Options"].Stress,
+      value: frameworkStatus["stress"],
+    },
+    {
+      name: "thirst",
+      icon: Droplet,
+      className: "bg-cyan-500",
+      renderCondition: scriptConfig["Framework Options"].Status,
+      value: frameworkStatus["thirst"],
+    },
+    {
+      name: "armor",
+      icon: ShieldPlus,
+      className: "bg-blue-500",
+      renderCondition: true,
+      value: pstats.armor,
+    },
+  ];
 
   return (
     <>
       {userSettings?.hudMode.toString() === "2" && (
         <>
           <Transition
-            mounted={micActive}
+            mounted={micActive === "100" ? true : false}
             transition="slide-up"
             duration={400}
             timingFunction="ease"
@@ -103,335 +175,123 @@ const Status: React.FC<props> = ({ userSettings, scriptConfig }) => {
           {userSettings?.hudMode == 1 ? (
             <>
               <div className="bg-black bg-opacity-80 flex items-center justify-center rounded-[2px]">
-                <p
-                  className="p-2"
-                  style={{
-                    // borderTopLeftRadius: "50%",
-                    borderBottomLeftRadius: "4px",
-                    borderTopLeftRadius: "4px",
-                    transition: "width 0.3s",
-                  }}
-                >
-                  <Heart size={18} className="text-white" />
-                  {/* <Heart strokeWidth={3} /> */}
-                  <div
-                    className="max-w-full bg-green-500 rounded mt-1"
-                    style={{
-                      height: "2.5px",
-                      transition: "width 0.3s",
-
-                      width: `${pstats.health}%`,
-                    }}
-                  ></div>
-                </p>
-                {scriptConfig["Framework Options"]["Status"] && (
-                  <>
-                    <p
-                      className="p-2"
-                      style={{
-                        borderTopLeftRadius: "",
-                      }}
-                    >
-                      <Soup size={18} className="text-white" />
-                      <div
-                        className="max-w-full bg-yellow-500 rounded mt-1"
-                        style={{
-                          height: "2.5px",
-                          transition: "width 0.3s",
-                          width: `${frameworkStatus.hunger}%`,
-                        }}
-                      ></div>
-                      {/* <p>100%</p> */}
-                    </p>
-                  </>
-                )}
-                <p
-                  className="p-2"
-                  style={{
-                    borderTopLeftRadius: "",
-                  }}
-                >
-                  <Mic size={18} className="text-white" />
-                  <div
-                    className="max-w-full bg-white rounded mt-1"
-                    style={{
-                      height: "2.5px",
-                      transition: "width 0.3s",
-
-                      width: pstats.mic ? "100%" : "0%",
-                    }}
-                  ></div>
-                  {/* <p>100%</p> */}
-                </p>
-                {scriptConfig["Framework Options"]["Status"] && (
-                  <>
-                    <p
-                      className="p-2"
-                      style={{
-                        borderTopLeftRadius: "",
-                      }}
-                    >
-                      <Droplet size={18} className="text-white" />
-                      <div
-                        className="max-w-full bg-cyan-500 rounded mt-1"
-                        style={{
-                          height: "2.5px",
-                          transition: "width 0.3s",
-                          width: `${frameworkStatus.thirst}%`,
-                        }}
-                      ></div>
-                      {/* <p>100%</p> */}
-                    </p>
-                  </>
-                )}
-                <p
-                  className="p-2"
-                  style={{
-                    // borderTopRightRadius: "50%",
-                    borderBottomRightRadius: "4px",
-                    borderTopRightRadius: "4px",
-                  }}
-                >
-                  <ShieldPlus size={18} className="text-white rounded" />
-                  <div
-                    className="max-w-full bg-blue-500 rounded mt-1"
-                    style={{
-                      height: "2.5px",
-                      transition: "width 0.3s",
-                      width: `${pstats.armor}%`,
-                    }}
-                  ></div>
-                </p>
+                {stats.map((stat, index) => {
+                  return (
+                    <>
+                      {stat.renderCondition &&
+                        stat.hideInHudMode !==
+                          userSettings.hudMode.toString() && (
+                          <>
+                            <p
+                              className="p-2"
+                              style={{
+                                borderTopLeftRadius: "",
+                              }}
+                            >
+                              <stat.icon size={18} className="text-white" />
+                              <div
+                                className={cn(
+                                  "max-w-full rounded mt-1",
+                                  stat.className
+                                )}
+                                style={{
+                                  height: "2.5px",
+                                  transition: "width 0.3s",
+                                  width: `${stat.value}%`,
+                                }}
+                              ></div>
+                              {/* <p>100%</p> */}
+                            </p>
+                          </>
+                        )}
+                    </>
+                  );
+                })}
               </div>
             </>
           ) : userSettings?.hudMode == 2 ? (
             <>
               <div className="flex flex-row bg-black bg-opacity-80 rounded-[2px] skew-x-6">
-                <p
-                  className="p-2 flex justify-center items-center flex-col font-horizon text-white"
-                  style={{
-                    // borderTopLeftRadius: "50%",
-                    borderBottomLeftRadius: "4px",
-                    borderTopLeftRadius: "4px",
-                    width: "55px",
-                    // fontSize: "11px",
-                  }}
-                >
-                  <Heart
-                    size={18}
-                    strokeWidth={2.5}
-                    className="text-green-500"
-                  />
-                  <p
-                    className="text-xs"
-                    style={{
-                      fontSize: "10px",
-                    }}
-                    id="health"
-                  >
-                    100
-                  </p>
-                </p>
-                {scriptConfig["Framework Options"]["Status"] && (
-                  <>
-                    <p
-                      className="p-2 flex justify-center items-center flex-col font-horizon text-white"
-                      style={{
-                        // borderTopLeftRadius: "50%",
-                        borderBottomLeftRadius: "4px",
-                        borderTopLeftRadius: "4px",
-                        width: "55px",
-                        // fontSize: "11px",
-                      }}
-                    >
-                      <Soup
-                        size={18}
-                        strokeWidth={2.5}
-                        className="text-yellow-500"
-                      />
-                      <p
-                        className="text-xs"
-                        style={{
-                          fontSize: "10px",
-                        }}
-                        id="hunger"
-                      >
-                        {frameworkStatus.hunger}
-                      </p>
-                    </p>
-                    <p
-                      className="p-2 flex justify-center items-center flex-col font-horizon text-white"
-                      style={{
-                        // borderTopLeftRadius: "50%",
-                        borderBottomLeftRadius: "4px",
-                        borderTopLeftRadius: "4px",
-                        width: "55px",
-                        // fontSize: "11px",
-                      }}
-                    >
-                      <Droplet
-                        size={18}
-                        strokeWidth={2.5}
-                        className="text-cyan-500"
-                      />
-                      <p
-                        className="text-xs"
-                        style={{
-                          fontSize: "10px",
-                        }}
-                        id="thirst"
-                      >
-                        {frameworkStatus.thirst}
-                      </p>
-                    </p>
-                  </>
-                )}
-                <p
-                  className="p-2 flex justify-center items-center flex-col font-horizon text-white"
-                  style={{
-                    // borderTopRightRadius: "50%",
-                    borderBottomRightRadius: "4px",
-                    borderTopRightRadius: "4px",
-                    width: "55px",
-                  }}
-                >
-                  <ShieldPlus
-                    size={18}
-                    strokeWidth={2.5}
-                    className="rounded text-blue-500"
-                  />
-                  <p
-                    className="text-xs"
-                    id="armor"
-                    style={{
-                      fontSize: "10px",
-                    }}
-                  >
-                    50
-                  </p>
-                </p>
+                {stats.map((stat, index) => {
+                  return (
+                    <>
+                      {stat.renderCondition &&
+                        stat.hideInHudMode !==
+                          userSettings.hudMode.toString() && (
+                          <>
+                            <p
+                              className="p-2 flex justify-center items-center flex-col font-horizon text-white"
+                              style={{
+                                // borderTopLeftRadius: "50%",
+                                borderBottomLeftRadius: "4px",
+                                borderTopLeftRadius: "4px",
+                                width: "55px",
+                                // fontSize: "11px",
+                              }}
+                            >
+                              <stat.icon
+                                size={20}
+                                strokeWidth={2.5}
+                                className={cn(
+                                  "rounded-[2px] px-1",
+                                  stat.className
+                                )}
+                              />
+                              <p
+                                className="text-xs mt-[1px]"
+                                style={{
+                                  fontSize: "10px",
+                                }}
+                              >
+                                {stat.value}
+                              </p>
+                            </p>
+                          </>
+                        )}
+                    </>
+                  );
+                })}
               </div>
             </>
           ) : (
             <>
               <div className="scale-90 flex justify-center gap-2 items-center">
-                <div
-                  className="bg-black bg-opacity-80 font-inter text-white font-bold rounded p-2 h-80 flex flex-col items-center justify-center"
-                  style={{
-                    maxHeight: "50px",
-                    transition: "height 0.3s",
-                  }}
-                >
-                  <Heart
-                    size={18}
-                    strokeWidth={2.5}
-                    className="text-white absolute"
-                  />
-                  <div
-                    className="w-8 h-3/3 bg-red-600 rounded bg-opacity-80 flex items-center justify-center"
-                    style={{
-                      transition: "height 0.3s",
-                      height: `${pstats.health}%`,
-                    }}
-                  ></div>
-                  {/* <p className="text-xs">Health: {pstats.health}%</p> */}
-                </div>
-                {scriptConfig["Framework Options"]["Status"] && (
-                  <>
-                    <div
-                      className="bg-black bg-opacity-80 font-inter text-white font-bold rounded p-2 h-80 flex flex-col items-center justify-center"
-                      style={{
-                        maxHeight: "50px",
-                        transition: "height 0.3s",
-                      }}
-                    >
-                      <Soup
-                        size={18}
-                        strokeWidth={2.5}
-                        className="text-white absolute"
-                      />
-                      <div
-                        className="w-8 h-3/3 bg-yellow-500 rounded bg-opacity-80 flex items-center justify-center"
-                        style={{
-                          transition: "height 0.3s",
-                          height: `${frameworkStatus.hunger}%`,
-                        }}
-                      ></div>
-                      {/* <p className="text-xs">Health: {pstats.health}%</p> */}
-                    </div>
-                  </>
-                )}
-                <div
-                  className="bg-black bg-opacity-80 font-inter text-white font-bold rounded p-2 h-80 flex flex-col items-center justify-center"
-                  style={{
-                    maxHeight: "50px",
-                    transition: "height 0.3s",
-                  }}
-                >
-                  <Mic
-                    size={18}
-                    strokeWidth={2}
-                    className={`rounded ${
-                      pstats.mic ? "text-black" : "text-white"
-                    } absolute`}
-                  />
-                  <div
-                    className="w-8 h-3/3 bg-white rounded flex items-center justify-center"
-                    style={{
-                      transition: "height 0.3s",
-                      height: pstats.mic ? "100%" : "0%",
-                    }}
-                  ></div>
-                  {/* <p className="text-xs">Health: {pstats.health}%</p> */}
-                </div>
-
-                {scriptConfig["Framework Options"]["Status"] && (
-                  <>
-                    <div
-                      className="bg-black bg-opacity-80 font-inter text-white font-bold rounded p-2 h-80 flex flex-col items-center justify-center"
-                      style={{
-                        maxHeight: "50px",
-                        transition: "height 0.3s",
-                      }}
-                    >
-                      <Droplet
-                        size={18}
-                        strokeWidth={2.5}
-                        className="text-white absolute"
-                      />
-                      <div
-                        className="w-8 h-3/3 bg-cyan-500 rounded bg-opacity-80 flex items-center justify-center"
-                        style={{
-                          transition: "height 0.3s",
-                          height: `${frameworkStatus.thirst}%`,
-                        }}
-                      ></div>
-                      {/* <p className="text-xs">Health: {pstats.health}%</p> */}
-                    </div>
-                  </>
-                )}
-
-                <div
-                  className="bg-black bg-opacity-80 font-inter text-white font-bold rounded p-2 h-80 flex flex-col items-center justify-center"
-                  style={{
-                    maxHeight: "50px",
-                    transition: "height 0.3s",
-                  }}
-                >
-                  <ShieldPlus
-                    size={18}
-                    strokeWidth={2.5}
-                    className="rounded text-white absolute"
-                  />
-                  <div
-                    className="w-8 h-3/3 bg-blue-600 rounded bg-opacity-80 flex items-center justify-center"
-                    style={{
-                      transition: "height 0.3s",
-                      height: `${pstats.armor}%`,
-                    }}
-                  ></div>
-                  {/* <p className="text-xs">Health: {pstats.health}%</p> */}
-                </div>
+                {stats.map((stat, index) => {
+                  return (
+                    <>
+                      {stat.renderCondition &&
+                        stat.hideInHudMode !==
+                          userSettings?.hudMode.toString() && (
+                          <>
+                            <div
+                              className="bg-black bg-opacity-80 font-inter text-white font-bold rounded p-2 h-80 flex flex-col items-center justify-center"
+                              style={{
+                                maxHeight: "50px",
+                                transition: "height 0.3s",
+                              }}
+                            >
+                              <stat.icon
+                                size={18}
+                                strokeWidth={2.5}
+                                className="text-white absolute"
+                              />
+                              <div
+                                className={cn(
+                                  "w-8 h-3/3 rounded bg-opacity-80 flex items-center justify-center",
+                                  stat.className
+                                )}
+                                style={{
+                                  transition: "height 0.3s",
+                                  height: `${stat.value}%`,
+                                }}
+                              ></div>
+                              {/* <p className="text-xs">Health: {pstats.health}%</p> */}
+                            </div>
+                          </>
+                        )}
+                    </>
+                  );
+                })}
               </div>
             </>
           )}

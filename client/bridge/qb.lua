@@ -3,6 +3,9 @@ if not (string.lower(Config["Framework"]) == "qb") then
 end
 
 local frameworkOptions = Config["Framework Options"]
+QBState = {
+  harnessHealth = 0
+}
 Script.framework.object = exports['qb-core']:GetCoreObject()
 local QBCore = exports['qb-core']:GetCoreObject()
 
@@ -27,7 +30,7 @@ if frameworkOptions["Seatbelt"] then
   Debug("(QB) SeatbeltState updated: ", Script.state.isSeatbeltOn)
 end
 
-if frameworkOptions["Status"] then
+if frameworkOptions["Status"] or frameworkOptions["Harness"] then
   Debug("(QB) Status is enabled, continuing logic.")
   Script.framework.init = function()
     CreateThread(function()
@@ -38,13 +41,23 @@ if frameworkOptions["Status"] then
           return Debug("(QB) Error occured while attempting to get the playerData, debug: ", json.encode(playerData))
         end
 
+        if frameworkOptions["Harness"] then
+          HasHarness = exports['qb-smallresources']:HasHarness()
+          Debug("(QB) Harness State: ", HasHarness)
+        end
+
+        local metadata = playerData.metadata
+
+
         local status = {
-          hunger = math.floor(playerData.metadata['hunger']),
-          thirst = math.floor(playerData.metadata['thirst'])
+          hunger = math.floor(metadata["hunger"]),
+          thirst = math.floor(metadata['thirst']),
+          stress = math.floor(metadata["stress"]),
+          harnessDurability = HasHarness and 100 or 0
         }
 
         UIMessage("nui:data:frameworkStatus", status)
-        Wait(1000)
+        Wait(3000)
       end
     end)
   end

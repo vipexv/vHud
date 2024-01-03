@@ -34,6 +34,8 @@ export interface ConfigInterface {
     ["Status"]: boolean;
     ["Multi Character"]: boolean;
     ["Seatbelt"]: boolean;
+    ["Stress"]: boolean;
+    ["Harness"]: boolean;
   };
   ["Player Slots"]: string | number;
   ["Default Settings"]: SettingsInterface;
@@ -45,12 +47,14 @@ const App: React.FC = () => {
   const [config, setConfig] = useState<ConfigInterface>({
     ["Debug"]: true,
     ["Server Name"]: "SERVER NAME",
-    ["Footer"]: "DISCORD.GG/SERVER_LINK",
+    ["Footer"]: "",
     ["Framework"]: "standalone",
     ["Framework Options"]: {
       ["Status"]: false,
       ["Multi Character"]: false,
       ["Seatbelt"]: false,
+      ["Stress"]: false,
+      ["Harness"]: false,
     },
     ["Player Slots"]: 200,
     ["Default Settings"]: {
@@ -63,7 +67,7 @@ const App: React.FC = () => {
   });
   const [visible, setVisible] = useState(true);
   const [globalSettings, setGlobalSettings] = useState<SettingsInterface>({
-    hudMode: 3,
+    hudMode: 2,
     statusBarMode: 1,
     transparency: 100,
     resourceUsage: 2,
@@ -90,9 +94,7 @@ const App: React.FC = () => {
     setSettingsVisibility(!settingsVisiblity);
   });
 
-  useNuiEvent("nui:state:isinveh", (isinveh) => {
-    setIsInVehicle(isinveh);
-  });
+  useNuiEvent("nui:state:isinveh", setIsInVehicle);
 
   useNuiEvent<ConfigInterface>("nui:state:scriptConfig", (cfg) => {
     if (
@@ -147,7 +149,11 @@ const App: React.FC = () => {
         <>
           <div>
             <TopRight userSettings={globalSettings} scriptConfig={config} />
-            <Status userSettings={globalSettings} scriptConfig={config} />
+            <Status
+              userSettings={globalSettings}
+              scriptConfig={config}
+              isInVeh={isInVehicle}
+            />
             {!!isInVehicle && (
               <CarHud userSettings={globalSettings} scriptConfig={config} />
             )}
