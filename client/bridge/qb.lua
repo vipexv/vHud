@@ -12,7 +12,6 @@ local QBCore = exports['qb-core']:GetCoreObject()
 if frameworkOptions["Multi Character"] then
   Debug("(QB) Multi Character is enabled, initiating logic.")
   RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-    Wait(2000)
     ToggleNuiFrame(true)
     Debug("(QB) Player Loaded and HUD is being displayed.")
   end)

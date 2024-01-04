@@ -252,35 +252,6 @@ const Settings: React.FC<Props> = ({
                     ]}
                   />
                 </div>
-                <div className="bg-[#2a2a2a] rounded min-w-[312px] min-h-[90px]">
-                  <div className="m-5">
-                    <Text
-                      size="md"
-                      className="font-bold flex justify-center text-lg mb-2 font-inter"
-                    >
-                      HUD Opacity
-                    </Text>
-                    <Slider
-                      value={settings.transparency}
-                      onChange={(value) => {
-                        const updatedSettings: SettingsInterface = {
-                          ...settings,
-                          transparency: value,
-                        };
-
-                        setSettings(updatedSettings);
-
-                        fetchNui("hud:cb:settings", updatedSettings);
-                      }}
-                      className="bg-[#1a1a1a] rounded px-6 py-4 flex items-center justify-center"
-                      labelTransitionProps={{
-                        transition: "skew-down",
-                        duration: 150,
-                        timingFunction: "linear",
-                      }}
-                    />
-                  </div>
-                </div>
               </div>
             </div>
           </div>

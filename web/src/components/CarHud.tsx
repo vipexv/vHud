@@ -67,11 +67,6 @@ const CarHud: React.FC<props> = ({ userSettings, scriptConfig }) => {
       )}
       <div
         className="absolute top-[90vh]  left-2/4 -translate-x-2/4 -translate-y-2/4 font-inter text-white"
-        style={{
-          opacity: userSettings.transparency
-            ? `${userSettings.transparency}%`
-            : "100%",
-        }}
       >
         <div
           className={`flex justify-center items-center mb-1 h-[40px] font-bold ${

@@ -35,7 +35,6 @@ const TopRight: React.FC<props> = ({ userSettings, scriptConfig }) => {
 
   const statusBarMode = userSettings.statusBarMode.toString();
   const hudMode = userSettings.hudMode.toString();
-  const transparency = userSettings.transparency;
   return (
     <>
       {userSettings.statusBarMode.toString() !== "3" && (
@@ -48,9 +47,6 @@ const TopRight: React.FC<props> = ({ userSettings, scriptConfig }) => {
                 ? "bottom-1 right-2"
                 : ""
             } font-inter`}
-            style={{
-              opacity: transparency ? `${transparency}%` : "100%",
-            }}
           >
             <div className="flex justify-center gap-10 items-center">
               <p className="inline-flex justify-center items-center text-xs bg-black p-2 rounded bg-opacity-80 font-bold skew-x-6">

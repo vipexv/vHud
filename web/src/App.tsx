@@ -20,7 +20,6 @@ debugData([
 export interface SettingsInterface {
   hudMode: number | string;
   statusBarMode: number | string;
-  transparency: any;
   resourceUsage: number | string;
   measurementSystem: string;
 }
@@ -60,7 +59,6 @@ const App: React.FC = () => {
     ["Default Settings"]: {
       hudMode: 1,
       statusBarMode: 1,
-      transparency: 100,
       resourceUsage: 2,
       measurementSystem: "MPH",
     },
@@ -69,7 +67,6 @@ const App: React.FC = () => {
   const [globalSettings, setGlobalSettings] = useState<SettingsInterface>({
     hudMode: 2,
     statusBarMode: 1,
-    transparency: 100,
     resourceUsage: 2,
     measurementSystem: "MPH",
   });

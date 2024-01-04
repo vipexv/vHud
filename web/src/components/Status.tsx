@@ -141,9 +141,6 @@ const Status: React.FC<props> = ({ userSettings, scriptConfig, isInVeh }) => {
                   style={{
                     minWidth: "40px",
                     minHeight: "40px",
-                    opacity: userSettings?.transparency
-                      ? `${userSettings?.transparency}%`
-                      : "100%",
                     ...styles,
                   }}
                 >
@@ -164,14 +161,7 @@ const Status: React.FC<props> = ({ userSettings, scriptConfig, isInVeh }) => {
           top: "98dvh",
         }}
       >
-        <div
-          className="flex justify-center items-center mb-3"
-          style={{
-            opacity: userSettings?.transparency
-              ? `${userSettings?.transparency}%`
-              : "100%",
-          }}
-        >
+        <div className="flex justify-center items-center mb-3">
           {userSettings?.hudMode == 1 ? (
             <>
               <div className="bg-black bg-opacity-80 flex items-center justify-center rounded-[2px]">
