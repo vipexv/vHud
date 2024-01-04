@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 // import { fetchNui } from "../utils/fetchNui";
-import { useNuiEvent } from "../hooks/useNuiEvent";
-import "../App.css";
-import { User, Users } from "lucide-react";
-import { ConfigInterface } from "@/App";
 import { SettingsInterface } from "@/App";
+import { User, Users } from "lucide-react";
+import "../App.css";
+import { useNuiEvent } from "../hooks/useNuiEvent";
 
 interface props {
   userSettings: SettingsInterface;

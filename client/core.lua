@@ -33,7 +33,7 @@ Script.init = function()
     while Script.visible do
       local ped = PlayerPedId()
       local pid = PlayerId()
-      -- Status
+
       local pedHealth = GetEntityHealth(ped)
       local pedMaxHealth = GetEntityMaxHealth(ped)
 
@@ -46,12 +46,12 @@ Script.init = function()
       -- local playerState = LocalPlayer.state
       -- local proximityState = playerState.proximity
 
-
       UIMessage("nui:data:playerstats", playerStats)
 
       -- Speedometer
       local isInVeh = IsPedInAnyVehicle(ped, false)
       Script.playerState.isInVeh = isInVeh
+
       if isInVeh then
         UIMessage("nui:state:isinveh", true)
         local currVeh = GetVehiclePedIsIn(ped, false)

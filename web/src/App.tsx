@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
+import { Button } from "@mantine/core";
+import React, { useEffect, useState } from "react";
 import "./App.css";
-import { debugData } from "./utils/debugData";
-import { fetchNui } from "./utils/fetchNui";
-import { useNuiEvent } from "./hooks/useNuiEvent";
-import { isEnvBrowser } from "./utils/misc";
-import TopRight from "./components/TopRight";
-import Status from "./components/Status";
 import CarHud from "./components/CarHud";
 import Settings from "./components/Settings";
-import { Button } from "@mantine/core";
+import Status from "./components/Status";
+import TopRight from "./components/TopRight";
+import { useNuiEvent } from "./hooks/useNuiEvent";
+import { debugData } from "./utils/debugData";
+import { fetchNui } from "./utils/fetchNui";
+import { isEnvBrowser } from "./utils/misc";
 
 debugData([
   {

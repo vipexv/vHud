@@ -1,31 +1,27 @@
+import React, { useEffect, useState } from "react";
 import "../App.css";
-import React, { useState, useEffect } from "react";
 
-import { fetchNui } from "../utils/fetchNui";
 import { Transition } from "@mantine/core";
+import { fetchNui } from "../utils/fetchNui";
 
 import {
-  EyeOff,
-  Package,
-  Binary,
-  ChevronsUpDown,
-  Gauge,
-  Cog,
-  ChevronsUp,
-  ArrowBigUpDash,
   ArrowBigDownDash,
-  RectangleHorizontal,
-  StretchHorizontal,
+  ArrowBigUpDash,
+  Binary,
   Check,
+  ChevronsUp,
+  ChevronsUpDown,
+  Cog,
+  EyeOff,
+  Gauge,
+  Package,
   X,
 } from "lucide-react";
 
 import { SegmentedControl, Switch } from "@mantine/core";
 
-import { motion } from "framer-motion";
+import { ConfigInterface, SettingsInterface } from "@/App";
 import { useNuiEvent } from "@/hooks/useNuiEvent";
-import { ConfigInterface } from "@/App";
-import { SettingsInterface } from "@/App";
 
 interface Props {
   userSettings: SettingsInterface;

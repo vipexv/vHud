@@ -1,23 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { fetchNui } from "../utils/fetchNui";
-import { useNuiEvent } from "../hooks/useNuiEvent";
-import "../App.css";
-import {
-  Mic,
-  ShieldPlus,
-  Heart,
-  Droplet,
-  Soup,
-  Divide,
-  Brain,
-} from "lucide-react";
-import { animateNumber } from "../utils/animateNumber";
-import { ConfigInterface } from "@/App";
-import { SettingsInterface } from "@/App";
-import { motion } from "framer-motion";
-import { Transition } from "@mantine/core";
-import { TbHexagonLetterH } from "react-icons/tb";
+import { ConfigInterface, SettingsInterface } from "@/App";
 import { cn } from "@/lib/utils";
+import { Transition } from "@mantine/core";
+import { Brain, Droplet, Heart, Mic, ShieldPlus, Soup } from "lucide-react";
+import React, { useState } from "react";
+import { TbHexagonLetterH } from "react-icons/tb";
+import "../App.css";
+import { useNuiEvent } from "../hooks/useNuiEvent";
 
 interface playerStats {
   health: number | string;

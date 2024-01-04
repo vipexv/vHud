@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 // import { fetchNui } from "../utils/fetchNui";
-import { motion } from "framer-motion";
-import { useNuiEvent } from "../hooks/useNuiEvent";
-import "../App.css";
-import { Cog, Fuel, Gauge } from "lucide-react";
-import { animateNumber } from "../utils/animateNumber";
-import { ConfigInterface } from "@/App";
+import { ConfigInterface, SettingsInterface } from "@/App";
 import { Button, Transition } from "@mantine/core";
+import { motion } from "framer-motion";
+import { Cog, Fuel } from "lucide-react";
 import { FaUserAltSlash } from "react-icons/fa";
-import { SettingsInterface } from "@/App";
+import "../App.css";
+import { useNuiEvent } from "../hooks/useNuiEvent";
+import { animateNumber } from "../utils/animateNumber";
 
 interface props {
   userSettings: SettingsInterface;
@@ -65,9 +64,7 @@ const CarHud: React.FC<props> = ({ userSettings, scriptConfig }) => {
           </div>
         </>
       )}
-      <div
-        className="absolute top-[90vh]  left-2/4 -translate-x-2/4 -translate-y-2/4 font-inter text-white"
-      >
+      <div className="absolute top-[90vh]  left-2/4 -translate-x-2/4 -translate-y-2/4 font-inter text-white">
         <div
           className={`flex justify-center items-center mb-1 h-[40px] font-bold ${
             userSettings.hudMode.toString() === "2" ? "skew-x-6" : ""
