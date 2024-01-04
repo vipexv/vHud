@@ -65,6 +65,10 @@ const App: React.FC = () => {
     },
   });
   const [visible, setVisible] = useState(true);
+  const [playerState, setPlayerState] = useState({
+    id: 0,
+    isInVeh: false,
+  });
   const [globalSettings, setGlobalSettings] = useState<SettingsInterface>({
     hudMode: 2,
     statusBarMode: 1,
@@ -72,6 +76,8 @@ const App: React.FC = () => {
     measurementSystem: "MPH",
     cinematicMode: false,
   });
+
+  useNuiEvent("nui:state:playerstate", setPlayerState);
 
   useNuiEvent<boolean>("setVisible", setVisible);
 
@@ -153,13 +159,17 @@ const App: React.FC = () => {
       {visible && !globalSettings.cinematicMode && (
         <>
           <div>
-            <TopRight userSettings={globalSettings} scriptConfig={config} />
+            <TopRight
+              userSettings={globalSettings}
+              scriptConfig={config}
+              playerState={playerState}
+            />
             <Status
               userSettings={globalSettings}
               scriptConfig={config}
-              isInVeh={isInVehicle}
+              playerState={playerState}
             />
-            {!!isInVehicle && (
+            {!!playerState.isInVeh && (
               <CarHud userSettings={globalSettings} scriptConfig={config} />
             )}
           </div>

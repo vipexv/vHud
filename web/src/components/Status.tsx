@@ -28,7 +28,7 @@ interface playerStats {
 interface props {
   userSettings?: SettingsInterface;
   scriptConfig: ConfigInterface;
-  isInVeh: boolean;
+  playerState: any;
 }
 
 interface frameworkStatus {
@@ -38,7 +38,11 @@ interface frameworkStatus {
   harnessDurability?: number | string;
 }
 
-const Status: React.FC<props> = ({ userSettings, scriptConfig, isInVeh }) => {
+const Status: React.FC<props> = ({
+  userSettings,
+  scriptConfig,
+  playerState,
+}) => {
   const [pstats, setStats] = useState<playerStats>({
     health: 0,
     armor: 0,
@@ -90,7 +94,8 @@ const Status: React.FC<props> = ({ userSettings, scriptConfig, isInVeh }) => {
       name: "harnessDurability",
       icon: TbHexagonLetterH,
       className: "bg-purple-500",
-      renderCondition: scriptConfig["Framework Options"]["Harness"] && isInVeh,
+      renderCondition:
+        scriptConfig["Framework Options"]["Harness"] && playerState.isInVeh,
       value: frameworkStatus["harnessDurability"],
     },
     {

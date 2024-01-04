@@ -9,6 +9,7 @@ import { SettingsInterface } from "@/App";
 interface props {
   userSettings: SettingsInterface;
   scriptConfig: Config;
+  playerState: any;
 }
 
 interface Config {
@@ -21,14 +22,13 @@ interface Config {
   ["Default Settings"]: SettingsInterface;
 }
 
-const TopRight: React.FC<props> = ({ userSettings, scriptConfig }) => {
-  const [pid, setPid] = useState<number>();
+const TopRight: React.FC<props> = ({
+  userSettings,
+  scriptConfig,
+  playerState,
+}) => {
   const [onlinePlayers, setOnlinePlayers] = useState(0);
   const [maxClients, setMaxClients] = useState(0);
-
-  useNuiEvent("nui:state:pid", (id) => {
-    setPid(id);
-  });
 
   useNuiEvent("nui:state:onlineplayers", setOnlinePlayers);
   useNuiEvent("nui:state:maxclients", setMaxClients);
@@ -57,7 +57,7 @@ const TopRight: React.FC<props> = ({ userSettings, scriptConfig }) => {
               </p>
 
               <p className="inline-flex min-w-[65px] items-center text-xs bg-black p-2 rounded bg-opacity-80 font-bold skew-x-6">
-                <User size={16} className="mr-1" /> ID: {pid}
+                <User size={16} className="mr-1" /> ID: {playerState.id}
               </p>
               <div className="flex flex-col justify-center items-center">
                 <p className="font-horizon bg-black rounded p-2 bg-opacity-80 text-xs skew-x-6">

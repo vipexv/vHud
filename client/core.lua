@@ -7,6 +7,10 @@ Script = {
     threadSleep = 1000
   },
   fuelFunction = nil,
+  playerState = {
+    id = 0,
+    isinVeh = false
+  },
   visible = true,
   measurementSystem = 2.236936
 }
@@ -47,9 +51,11 @@ Script.init = function()
 
       -- Speedometer
       local isInVeh = IsPedInAnyVehicle(ped, false)
+      Script.playerState.isInVeh = isInVeh
       if isInVeh then
         UIMessage("nui:state:isinveh", true)
         local currVeh = GetVehiclePedIsIn(ped, false)
+        Script.playerState.isInVeh = true
 
         local vehData = {
           speed = math.floor(GetEntitySpeed(currVeh) * Script.measurementSystem),
@@ -60,10 +66,9 @@ Script.init = function()
         }
 
         UIMessage("nui:state:vehdata", vehData)
-      else
-        UIMessage("nui:state:isinveh", false)
       end
 
+      UIMessage("nui:state:playerstate", Script.playerState)
       Wait(Script.state.threadSleep)
     end
   end)
@@ -75,14 +80,21 @@ Script.sendData = function()
   end
 
   SetTimeout(2000, function()
-    local playerId = GetPlayerServerId(PlayerId())
     UIMessage("nui:state:scriptConfig", Config)
-
-    UIMessage("nui:state:pid", playerId)
 
     TriggerServerEvent("vhud:cb")
 
     local hudSettings = GetResourceKvpString("vHud:state:settings")
+
+    local playerState = {
+      id = GetPlayerServerId(PlayerId()),
+      isInVeh = IsPedInAnyVehicle(PlayerPedId(), false),
+    }
+
+
+    Script.playerState = playerState
+
+    UIMessage("nui:state:playerstate", playerState)
 
     if not hudSettings then
       UIMessage("nui:state:globalsettings", Config["Default Settings"])
