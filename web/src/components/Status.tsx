@@ -150,6 +150,7 @@ const Status: React.FC<props> = ({ userSettings, scriptConfig, isInVeh }) => {
                     className="text-white animate-pulse"
                   />
                 </p>
+                <a href="" target="_blank"></a>
               </div>
             )}
           </Transition>

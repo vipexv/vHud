@@ -14,9 +14,13 @@ import {
   ChevronsUp,
   ArrowBigUpDash,
   ArrowBigDownDash,
+  RectangleHorizontal,
+  StretchHorizontal,
+  Check,
+  X,
 } from "lucide-react";
 
-import { SegmentedControl, Slider, Text } from "@mantine/core";
+import { SegmentedControl, Switch } from "@mantine/core";
 
 import { motion } from "framer-motion";
 import { useNuiEvent } from "@/hooks/useNuiEvent";
@@ -250,6 +254,28 @@ const Settings: React.FC<Props> = ({
                         value: "KMH",
                       },
                     ]}
+                  />
+                </div>
+                <div className="flex flex-row justify-center items-center font-bold gap-2 bg-[#2a2a2a] p-2 rounded min-w-[312px] min-h-[90px]">
+                  <Switch
+                    checked={
+                      settings.cinematicMode ? settings.cinematicMode : false
+                    }
+                    onChange={(event) => {
+                      const updatedSettings: SettingsInterface = {
+                        ...settings,
+                        cinematicMode: event.currentTarget.checked,
+                      };
+
+                      setSettings(updatedSettings);
+
+                      fetchNui("hud:cb:settings", updatedSettings);
+                    }}
+                    size="md"
+                    labelPosition="left"
+                    label="Cinematic Mode"
+                    offLabel={<X size={16} strokeWidth={2.25} />}
+                    onLabel={<Check size={16} strokeWidth={2.25} />}
                   />
                 </div>
               </div>

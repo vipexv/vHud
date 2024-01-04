@@ -22,6 +22,7 @@ export interface SettingsInterface {
   statusBarMode: number | string;
   resourceUsage: number | string;
   measurementSystem: string;
+  cinematicMode?: boolean;
 }
 
 export interface ConfigInterface {
@@ -69,6 +70,7 @@ const App: React.FC = () => {
     statusBarMode: 1,
     resourceUsage: 2,
     measurementSystem: "MPH",
+    cinematicMode: false,
   });
 
   useNuiEvent<boolean>("setVisible", setVisible);
@@ -142,7 +144,13 @@ const App: React.FC = () => {
           </div>
         </>
       )}
-      {visible && (
+      {globalSettings.cinematicMode && (
+        <>
+          <div className="absolute top-0 w-[100dvw] h-[8dvh] bg-black"></div>
+          <div className="absolute bottom-0 w-[100dvw] h-[8dvh] bg-black"></div>
+        </>
+      )}
+      {visible && !globalSettings.cinematicMode && (
         <>
           <div>
             <TopRight userSettings={globalSettings} scriptConfig={config} />

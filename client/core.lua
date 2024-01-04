@@ -100,6 +100,9 @@ Script.sendData = function()
     Debug("(Script.sendData) Thread sleep: ", Script.state.threadSleep)
 
     Script.settings = storedHudSettings
+    local cinematicMode = storedHudSettings.cinematicMode
+
+    DisplayRadar(not cinematicMode or not cinematicMode)
 
     UIMessage("nui:state:globalsettings", storedHudSettings)
     UIMessage("nui:state:settings", storedHudSettings)

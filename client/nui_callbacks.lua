@@ -28,5 +28,10 @@ RegisterNuiCallback("hud:cb:settings", function(newSettings, cb)
   Script.state.threadSleep = threadSleep
   Script.settings = newSettings
   Script.measurementSystem = (newSettings.measurementSystem == "MPH" and 2.236936 or 3.6)
+
+  local cinematicMode = newSettings.cinematicMode
+
+  DisplayRadar(not cinematicMode or not cinematicMode)
+
   cb({})
 end)
