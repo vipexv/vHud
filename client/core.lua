@@ -43,9 +43,6 @@ Script.init = function()
         mic = NetworkIsPlayerTalking(pid),
       }
 
-      -- local playerState = LocalPlayer.state
-      -- local proximityState = playerState.proximity
-
       UIMessage("nui:data:playerstats", playerStats)
 
       -- Speedometer
