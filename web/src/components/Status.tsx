@@ -128,7 +128,7 @@ const Status: React.FC<props> = ({
             timingFunction="ease"
           >
             {(styles) => (
-              <div className="absolute top-[98vh] left-[50dvh] -translate-x-2/4 -translate-y-2/4 skew-x-6">
+              <div className="absolute top-[97.5vh] left-[50dvh] -translate-x-2/4 -translate-y-2/4 skew-x-6">
                 <p
                   className="bg-black bg-opacity-80 mb-2 flex justify-center items-center flex-col font-inter text-white font-bold rounded-[2px]"
                   style={{
@@ -149,16 +149,11 @@ const Status: React.FC<props> = ({
           </Transition>
         </>
       )}
-      <div
-        className="absolute left-2/4 -translate-x-2/4 -translate-y-2/4"
-        style={{
-          top: "98dvh",
-        }}
-      >
+      <div className="absolute left-2/4 top-[97.5dvh] -translate-x-2/4 -translate-y-2/4">
         <div className="flex justify-center items-center mb-3">
           {userSettings?.hudMode == 1 ? (
             <>
-              <div className="bg-black bg-opacity-80 flex items-center justify-center rounded-[2px]">
+              <div className="bg-black bg-opacity-80 flex items-center justify-center border rounded-[2px]">
                 {stats.map((stat, index) => {
                   return (
                     <>
@@ -195,7 +190,7 @@ const Status: React.FC<props> = ({
             </>
           ) : userSettings?.hudMode == 2 ? (
             <>
-              <div className="flex flex-row bg-black bg-opacity-80 rounded-[2px] skew-x-6">
+              <div className="flex flex-row bg-black bg-opacity-80 rounded-[2px] border skew-x-6">
                 {stats.map((stat, index) => {
                   return (
                     <>
@@ -248,7 +243,7 @@ const Status: React.FC<props> = ({
                           userSettings?.hudMode.toString() && (
                           <>
                             <div
-                              className="bg-black bg-opacity-80 font-inter text-white font-bold rounded p-2 h-80 flex flex-col items-center justify-center"
+                              className="bg-black border bg-opacity-80 font-inter text-white font-bold rounded p-2 h-80 flex flex-col items-center justify-center"
                               style={{
                                 maxHeight: "50px",
                                 transition: "height 0.3s",

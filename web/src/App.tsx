@@ -27,8 +27,7 @@ export interface SettingsInterface {
 
 export interface ConfigInterface {
   ["Debug"]: boolean;
-  ["Server Name"]: string;
-  ["Footer"]: string;
+  ["Header"]: string;
   ["Framework"]: string;
   ["Framework Options"]: {
     ["Status"]: boolean;
@@ -46,8 +45,7 @@ const App: React.FC = () => {
   const [settingsVisiblity, setSettingsVisibility] = useState(false);
   const [config, setConfig] = useState<ConfigInterface>({
     ["Debug"]: true,
-    ["Server Name"]: "SERVER NAME",
-    ["Footer"]: "",
+    ["Header"]: "SERVER NAME",
     ["Framework"]: "standalone",
     ["Framework Options"]: {
       ["Status"]: false,
