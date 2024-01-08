@@ -122,7 +122,7 @@ const CarHud: React.FC<props> = ({ userSettings, scriptConfig }) => {
             <Fuel size={16} strokeWidth={2.25} className="place-self-center" />
             <div className="bg-primary rounded-[2px] border p-[2px] h-[35px] flex">
               <div
-                className={`w-[5px] rounded-[2px] max-h-full bg-blue-600 transition-all place-self-end`}
+                className={`w-[5px] max-h-full bg-blue-600 transition-all place-self-end`}
                 style={{
                   height: `${vehicleData.fuel}%`,
                 }}
