@@ -3,24 +3,11 @@
 
 .font-main {
   font-family: "Rajdhani", sans-serif;
-  text-shadow: 0 0 10px rgba(0, 89, 255, 1), 0 0 20px rgba(0, 89, 255, 1),
-    0 0 30px rgba(0, 89, 255, 1);
 }
 
-/* body {
-  background: url("https://cdn.discordapp.com/attachments/839129248265666589/1056075383272914944/image.png?ex=654f0bd8&is=653c96d8&hm=b64b20087b19d2c35974ed449802d1868a8639058dc5598d166f174dd6ef7fbc&");
-  background-repeat: no-repeat;
-  background-size: cover;
-} */
-
-/* .glow-text {
-  font-size: 5rem;
-  font-weight: bold;
-  color: #00ff00;
-  text-transform: uppercase;
-  position: relative;
-  animation: glow 2s ease-in-out infinite;
-} */
+.font-poppins {
+  font-family: "Poppins";
+}
 
 .coolstuff {
   border-radius: 4px;
@@ -97,12 +84,6 @@ a:hover {
 
 .font-horizon-2 {
   font-family: Horizon_2 !important;
-}
-
-.font-main {
-  font-family: "Rajdhani", sans-serif;
-  text-shadow: 0 0 10px rgba(0, 89, 255, 1), 0 0 20px rgba(0, 89, 255, 1),
-    0 0 30px rgba(0, 89, 255, 1);
 }
 
 @font-face {

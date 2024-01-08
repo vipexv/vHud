@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-// import { fetchNui } from "../utils/fetchNui";
 import { SettingsInterface } from "@/App";
-import { User, Users } from "lucide-react";
+import { FaUserAlt, FaUsers } from "react-icons/fa";
 import "../App.css";
 import { useNuiEvent } from "../hooks/useNuiEvent";
 
@@ -39,39 +38,29 @@ const TopRight: React.FC<props> = ({
       {userSettings.statusBarMode.toString() !== "3" && (
         <>
           <div
-            className={`rounded p-2 bg-opacity-80 text-white transition-all absolute scale-90 ${
+            className={`rounded p-2 bg-opacity-80 text-white absolute ${
               statusBarMode === "1"
-                ? "top-1 right-2"
+                ? "top-[1px] right-1"
                 : statusBarMode === "2"
-                ? "bottom-1 right-2"
+                ? "bottom-[1px] right-1"
                 : ""
             } font-inter`}
           >
-            <div className="flex justify-center gap-10 items-center">
-              <p className="inline-flex justify-center items-center text-xs bg-black p-2 rounded bg-opacity-80 font-bold skew-x-6">
-                <Users size={16} />:{" "}
-                <span id="onlinePlayers" className="ml-1">
+            <div
+              className={`bg-black bg-opacity-[0.8] border border-[#1a1a1a] rounded-[2px] boxshadow p-2 ${
+                userSettings.hudMode.toString() === "2" ? "skew-x-6" : ""
+              }`}
+            >
+              <div className="flex gap-3 justify-around items-center font-inter font-bold font-poppins">
+                <div className="px-2 py-1 bg-[#424242] text-xs bg-opacity-50 border flex justify-center items-center gap-1 border-[#424242] rounded-[2px]">
+                  {playerState.id}
+                </div>
+                <div className="font-horizon text-xs uppercase">
+                  {scriptConfig["Server Name"]}
+                </div>
+                <div className="px-2 py-1 bg-[#424242] text-xs bg-opacity-50 border flex justify-center items-center gap-1 border-[#424242] rounded-[2px]">
                   {onlinePlayers}/{maxClients}
-                </span>
-              </p>
-
-              <p className="inline-flex min-w-[65px] items-center text-xs bg-black p-2 rounded bg-opacity-80 font-bold skew-x-6">
-                <User size={16} className="mr-1" /> ID: {playerState.id}
-              </p>
-              <div className="flex flex-col justify-center items-center">
-                <p className="font-horizon bg-black rounded p-2 bg-opacity-80 text-xs skew-x-6">
-                  <div className="flex flex-col justify-center items-center">
-                    <p>{scriptConfig["Server Name"]}</p>
-                    <span
-                      className=" opacity-50"
-                      style={{
-                        fontSize: "11px",
-                      }}
-                    >
-                      {scriptConfig["Footer"]}
-                    </span>
-                  </div>
-                </p>
+                </div>
               </div>
             </div>
           </div>

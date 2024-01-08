@@ -88,7 +88,6 @@ Script.sendData = function()
       isInVeh = IsPedInAnyVehicle(PlayerPedId(), false),
     }
 
-
     Script.playerState = playerState
 
     UIMessage("nui:state:playerstate", playerState)
@@ -100,7 +99,6 @@ Script.sendData = function()
       Script.settings = Config["Default Settings"]
       return
     end
-
 
     local storedHudSettings = json.decode(hudSettings)
 
