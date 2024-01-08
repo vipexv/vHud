@@ -81,7 +81,7 @@ const CarHud: React.FC<props> = ({ userSettings, scriptConfig }) => {
                 {(styles) => (
                   <div
                     style={styles}
-                    className="bg-black bg-opacity-80 border py-3 px-5 rounded-[2px]"
+                    className="bg-black bg-opacity-80 border py-[8px] px-5 rounded-[2px]"
                   >
                     <FaUserAltSlash className="text-red-600 animate-pulse" />
                   </div>
@@ -91,12 +91,13 @@ const CarHud: React.FC<props> = ({ userSettings, scriptConfig }) => {
           )}
         </div>
         <div
-          className={`flex flex-row bg-black border opacity-80 rounded-[2px] p-2 px-1 font-bold justify-between scale-90 ${
+          className={`flex flex-row bg-black border opacity-80 rounded-[2px] px-2 py-[4px] font-bold justify-between scale-90 ${
             userSettings.hudMode.toString() == "2" ? "skew-x-6" : ""
           } ${!isSeatbeltEnabled ? "mt-2" : ""}`}
         >
           <div className="flex p-1 gap-2 justify-center items-center">
             <motion.p
+              className="text-[13.5px]"
               initial={{
                 y: 20,
               }}
@@ -107,24 +108,26 @@ const CarHud: React.FC<props> = ({ userSettings, scriptConfig }) => {
             >
               {vehicleData.gear}
             </motion.p>
-            <Cog size={16} />
+            <Cog size={16} strokeWidth={2.25} />
           </div>
           <div className="flex justify-center items-center flex-col mr-5 ml-5">
             <p className="" id="vehSpeed">
               0
             </p>
-            <p className="text-xs opacity-50">
+            <p className="text-[9.5px] opacity-50">
               {userSettings.measurementSystem === "MPH" ? "MP/H" : "KM/H"}
             </p>
           </div>
           <div className="flex p-1 gap-2 justify-center transition-all">
-            <Fuel size={16} strokeWidth={2} className="place-self-center" />
-            <div
-              className={`w-[7px] rounded-[2px] max-h-full bg-blue-600 transition-all place-self-end`}
-              style={{
-                height: `${vehicleData.fuel}%`,
-              }}
-            ></div>
+            <Fuel size={16} strokeWidth={2.25} className="place-self-center" />
+            <div className="bg-primary rounded-[2px] border p-[2px] h-[35px] flex">
+              <div
+                className={`w-[5px] rounded-[2px] max-h-full bg-blue-600 transition-all place-self-end`}
+                style={{
+                  height: `${vehicleData.fuel}%`,
+                }}
+              ></div>
+            </div>
           </div>
         </div>
       </div>

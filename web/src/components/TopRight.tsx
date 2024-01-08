@@ -40,14 +40,14 @@ const TopRight: React.FC<props> = ({
                 userSettings.hudMode.toString() === "2" ? "skew-x-6" : ""
               }`}
             >
-              <div className="flex gap-3 justify-around items-center font-inter font-bold font-poppins">
-                <div className="px-2 py-1 bg-primary text-xs bg-opacity-50 border flex justify-center items-center gap-1 rounded-[2px]">
+              <div className="flex gap-3 justify-evenly items-center font-inter font-bold font-poppins">
+                <div className="px-2 py-1 bg-primary text-[10.5px] bg-opacity-50 border flex justify-center items-center gap-1 rounded-[2px]">
                   {playerState.id}
                 </div>
-                <div className="font-horizon text-xs uppercase">
+                <div className="font-horizon text-[10.5px] uppercase mt-[2px]">
                   {scriptConfig["Header"]}
                 </div>
-                <div className="px-2 py-1 bg-primary text-xs bg-opacity-50 border flex justify-center items-center gap-1 rounded-[2px]">
+                <div className="px-2 py-1 bg-primary text-[10.5px] bg-opacity-50 border flex justify-center items-center gap-1 rounded-[2px]">
                   {onlinePlayers}/{maxClients}
                 </div>
               </div>

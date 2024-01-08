@@ -140,7 +140,10 @@ const App: React.FC = () => {
             <Button
               className="bg-[#1a1a1a] mt-2 font-inter p-2"
               onClick={() => {
-                setIsInVehicle(!isInVehicle);
+                setPlayerState((prevState) => ({
+                  ...prevState,
+                  isInVeh: !prevState.isInVeh,
+                }));
               }}
             >
               Toggle Veh Hud

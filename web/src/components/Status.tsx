@@ -61,6 +61,9 @@ const Status: React.FC<props> = ({
     renderCondition: boolean;
     value: any;
     hideInHudMode?: string;
+    classNameInHudMode1?: string;
+    classNameInHudMode2?: string;
+    classNameInHudMode3?: string;
   }
 
   const stats: Stat[] = [
@@ -68,6 +71,7 @@ const Status: React.FC<props> = ({
       name: "health",
       icon: Heart,
       className: "bg-green-500",
+      classNameInHudMode2: "text-green-500",
       renderCondition: true,
       value: pstats.health,
     },
@@ -75,6 +79,8 @@ const Status: React.FC<props> = ({
       name: "hunger",
       icon: Soup,
       className: "bg-yellow-500",
+      classNameInHudMode2: "text-yellow-500",
+
       renderCondition: scriptConfig["Framework Options"]["Status"],
       value: frameworkStatus["hunger"],
     },
@@ -82,6 +88,8 @@ const Status: React.FC<props> = ({
       name: "harnessDurability",
       icon: TbHexagonLetterH,
       className: "bg-purple-500",
+      classNameInHudMode2: "text-purple-500",
+
       renderCondition:
         scriptConfig["Framework Options"]["Harness"] && playerState.isInVeh,
       value: frameworkStatus["harnessDurability"],
@@ -90,6 +98,7 @@ const Status: React.FC<props> = ({
       name: "mic",
       icon: Mic,
       className: "bg-white bg-opacity-50",
+      classNameInHudMode2: "text-white opacity-50",
       hideInHudMode: "2",
       renderCondition: true,
       value: micActive,
@@ -98,6 +107,7 @@ const Status: React.FC<props> = ({
       name: "stress",
       icon: Brain,
       className: "bg-white bg-opacity-50",
+      classNameInHudMode2: "text-white opacity-50",
       renderCondition: scriptConfig["Framework Options"].Stress,
       value: frameworkStatus["stress"],
     },
@@ -105,6 +115,7 @@ const Status: React.FC<props> = ({
       name: "thirst",
       icon: Droplet,
       className: "bg-cyan-500",
+      classNameInHudMode2: "text-cyan-500",
       renderCondition: scriptConfig["Framework Options"].Status,
       value: frameworkStatus["thirst"],
     },
@@ -112,6 +123,7 @@ const Status: React.FC<props> = ({
       name: "armor",
       icon: ShieldPlus,
       className: "bg-blue-500",
+      classNameInHudMode2: "text-blue-500",
       renderCondition: true,
       value: pstats.armor,
     },
@@ -130,7 +142,7 @@ const Status: React.FC<props> = ({
             {(styles) => (
               <div className="absolute top-[97.5vh] left-[50dvh] -translate-x-2/4 -translate-y-2/4 skew-x-6">
                 <p
-                  className="bg-black bg-opacity-80 mb-2 flex justify-center items-center flex-col font-inter text-white font-bold rounded-[2px]"
+                  className="bg-black border bg-opacity-80 mb-2 flex justify-center items-center flex-col font-inter text-white font-bold rounded-[2px]"
                   style={{
                     minWidth: "40px",
                     minHeight: "40px",
@@ -199,7 +211,7 @@ const Status: React.FC<props> = ({
                           userSettings.hudMode.toString() && (
                           <>
                             <p
-                              className="p-2 flex justify-center items-center flex-col font-horizon text-white"
+                              className="py-[7px] px-[4px] flex justify-center items-center flex-col gap-1 font-horizon text-white"
                               style={{
                                 // borderTopLeftRadius: "50%",
                                 borderBottomLeftRadius: "4px",
@@ -209,21 +221,16 @@ const Status: React.FC<props> = ({
                               }}
                             >
                               <stat.icon
-                                size={20}
+                                size={16}
                                 strokeWidth={2.5}
                                 className={cn(
-                                  "rounded-[2px] px-1",
-                                  stat.className
+                                  "rounded-[2px]",
+                                  stat.classNameInHudMode2
+                                    ? stat.classNameInHudMode2
+                                    : stat.className
                                 )}
                               />
-                              <p
-                                className="text-xs mt-[1px]"
-                                style={{
-                                  fontSize: "10px",
-                                }}
-                              >
-                                {stat.value}
-                              </p>
+                              <p className="text-[9.5px]">{stat.value}</p>
                             </p>
                           </>
                         )}
