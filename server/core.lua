@@ -20,7 +20,7 @@ RegisterNetEvent("vhud:cb", function()
     -- end
 
     -- RateLimit[tostring(source)].lastCalled = gameTimer
-    local maxClients = GetConvar("sv_maxclients", "N/A")
+    local maxClients = GetConvar("sv_maxclients", "48")
 
     local data = {
         players = GetPlayers(),
