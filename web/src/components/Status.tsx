@@ -44,15 +44,9 @@ const Status: React.FC<props> = ({
     harnessDurability: 0,
   });
 
-  const [micActive, setMicActive] = useState("0");
-
   useNuiEvent("nui:data:frameworkStatus", setFrameworkStatus);
 
-  useNuiEvent("nui:data:playerstats", (stats) => {
-    setStats(stats);
-
-    setMicActive(stats.mic ? "100" : "0");
-  });
+  useNuiEvent("nui:data:playerstats", setStats);
 
   interface Stat {
     name: string;
@@ -99,15 +93,13 @@ const Status: React.FC<props> = ({
       icon: Mic,
       className: "bg-white bg-opacity-50",
       classNameInHudMode2: "text-white opacity-50",
-      hideInHudMode: "2",
       renderCondition: true,
-      value: micActive,
+      value: pstats.mic,
     },
     {
       name: "stress",
       icon: Brain,
       className: "bg-white bg-opacity-50",
-      classNameInHudMode2: "text-white opacity-50",
       renderCondition: scriptConfig["Framework Options"].Stress,
       value: frameworkStatus["stress"],
     },
@@ -131,36 +123,6 @@ const Status: React.FC<props> = ({
 
   return (
     <>
-      {userSettings?.hudMode.toString() === "2" && (
-        <>
-          <Transition
-            mounted={micActive === "100" ? true : false}
-            transition="slide-up"
-            duration={400}
-            timingFunction="ease"
-          >
-            {(styles) => (
-              <div className="absolute top-[97.5vh] left-[50dvh] -translate-x-2/4 -translate-y-2/4 skew-x-6">
-                <p
-                  className="bg-black border bg-opacity-80 mb-2 flex justify-center items-center flex-col font-inter text-white font-bold rounded-[2px]"
-                  style={{
-                    minWidth: "40px",
-                    minHeight: "40px",
-                    ...styles,
-                  }}
-                >
-                  <Mic
-                    size={18}
-                    strokeWidth={2.5}
-                    className="text-white animate-pulse"
-                  />
-                </p>
-                <a href="" target="_blank"></a>
-              </div>
-            )}
-          </Transition>
-        </>
-      )}
       <div className="flex justify-center items-center mb-3">
         {userSettings?.hudMode == 1 ? (
           <>
@@ -219,17 +181,33 @@ const Status: React.FC<props> = ({
                               // fontSize: "11px",
                             }}
                           >
-                            <stat.icon
-                              size={16}
-                              strokeWidth={2.5}
-                              className={cn(
-                                "rounded-[2px]",
-                                stat.classNameInHudMode2
-                                  ? stat.classNameInHudMode2
-                                  : stat.className
-                              )}
-                            />
-                            <p className="text-[9.5px]">{stat.value}</p>
+                            {stat.name === "mic" ? (
+                              <>
+                                <Mic
+                                  size={16}
+                                  strokeWidth={2.5}
+                                  className={`text-white transition-all ${
+                                    !pstats.mic ? "opacity-50" : "opacity-100"
+                                  }`}
+                                />
+                              </>
+                            ) : (
+                              <>
+                                <stat.icon
+                                  size={16}
+                                  strokeWidth={2.5}
+                                  className={cn(
+                                    `rounded-[2px]`,
+                                    stat.classNameInHudMode2
+                                  )}
+                                />
+                              </>
+                            )}
+                            {stat.name !== "mic" && (
+                              <>
+                                <p className="text-[9.5px]">{stat.value}</p>
+                              </>
+                            )}
                           </p>
                         </>
                       )}
