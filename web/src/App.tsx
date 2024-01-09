@@ -46,11 +46,11 @@ const App: React.FC = () => {
   const [config, setConfig] = useState<ConfigInterface>({
     ["Debug"]: true,
     ["Header"]: "SERVER NAME",
-    ["Framework"]: "standalone",
+    ["Framework"]: "qb",
     ["Framework Options"]: {
       ["Status"]: false,
       ["Multi Character"]: false,
-      ["Seatbelt"]: false,
+      ["Seatbelt"]: true,
       ["Stress"]: false,
       ["Harness"]: false,
     },
@@ -159,20 +159,26 @@ const App: React.FC = () => {
       )}
       {visible && !globalSettings.cinematicMode && (
         <>
-          <div>
-            <TopRight
-              userSettings={globalSettings}
-              scriptConfig={config}
-              playerState={playerState}
-            />
-            <Status
-              userSettings={globalSettings}
-              scriptConfig={config}
-              playerState={playerState}
-            />
-            {!!playerState.isInVeh && (
-              <CarHud userSettings={globalSettings} scriptConfig={config} />
-            )}
+          <TopRight
+            userSettings={globalSettings}
+            scriptConfig={config}
+            playerState={playerState}
+          />
+          <div
+            className={`flex h-[100dvh] w-full justify-center items-end -mt-[94px]`}
+          >
+            <div className="flex flex-col justify-center items-center gap-1">
+              <CarHud
+                userSettings={globalSettings}
+                scriptConfig={config}
+                playerState={playerState}
+              />
+              <Status
+                userSettings={globalSettings}
+                scriptConfig={config}
+                playerState={playerState}
+              />
+            </div>
           </div>
         </>
       )}

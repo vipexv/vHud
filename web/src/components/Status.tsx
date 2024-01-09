@@ -161,127 +161,125 @@ const Status: React.FC<props> = ({
           </Transition>
         </>
       )}
-      <div className="absolute left-2/4 top-[97.5dvh] -translate-x-2/4 -translate-y-2/4">
-        <div className="flex justify-center items-center mb-3">
-          {userSettings?.hudMode == 1 ? (
-            <>
-              <div className="bg-black bg-opacity-80 flex items-center justify-center border rounded-[2px]">
-                {stats.map((stat, index) => {
-                  return (
-                    <>
-                      {stat.renderCondition &&
-                        stat.hideInHudMode !==
-                          userSettings.hudMode.toString() && (
-                          <>
-                            <p
-                              className="p-2"
-                              style={{
-                                borderTopLeftRadius: "",
-                              }}
-                            >
-                              <stat.icon size={18} className="text-white" />
-                              <div
-                                className={cn(
-                                  "max-w-full rounded mt-1",
-                                  stat.className
-                                )}
-                                style={{
-                                  height: "2.5px",
-                                  transition: "width 0.3s",
-                                  width: `${stat.value}%`,
-                                }}
-                              ></div>
-                              {/* <p>100%</p> */}
-                            </p>
-                          </>
-                        )}
-                    </>
-                  );
-                })}
-              </div>
-            </>
-          ) : userSettings?.hudMode == 2 ? (
-            <>
-              <div className="flex flex-row bg-black bg-opacity-80 rounded-[2px] border skew-x-6">
-                {stats.map((stat, index) => {
-                  return (
-                    <>
-                      {stat.renderCondition &&
-                        stat.hideInHudMode !==
-                          userSettings.hudMode.toString() && (
-                          <>
-                            <p
-                              className="py-[7px] px-[4px] flex justify-center items-center flex-col gap-1 font-horizon text-white"
-                              style={{
-                                // borderTopLeftRadius: "50%",
-                                borderBottomLeftRadius: "4px",
-                                borderTopLeftRadius: "4px",
-                                width: "55px",
-                                // fontSize: "11px",
-                              }}
-                            >
-                              <stat.icon
-                                size={16}
-                                strokeWidth={2.5}
-                                className={cn(
-                                  "rounded-[2px]",
-                                  stat.classNameInHudMode2
-                                    ? stat.classNameInHudMode2
-                                    : stat.className
-                                )}
-                              />
-                              <p className="text-[9.5px]">{stat.value}</p>
-                            </p>
-                          </>
-                        )}
-                    </>
-                  );
-                })}
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="scale-90 flex justify-center gap-2 items-center">
-                {stats.map((stat, index) => {
-                  return (
-                    <>
-                      {stat.renderCondition &&
-                        stat.hideInHudMode !==
-                          userSettings?.hudMode.toString() && (
-                          <>
+      <div className="flex justify-center items-center mb-3">
+        {userSettings?.hudMode == 1 ? (
+          <>
+            <div className="bg-black bg-opacity-80 flex items-center justify-center border rounded-[2px]">
+              {stats.map((stat, index) => {
+                return (
+                  <>
+                    {stat.renderCondition &&
+                      stat.hideInHudMode !==
+                        userSettings.hudMode.toString() && (
+                        <>
+                          <p
+                            className="p-2"
+                            style={{
+                              borderTopLeftRadius: "",
+                            }}
+                          >
+                            <stat.icon size={18} className="text-white" />
                             <div
-                              className="bg-black border bg-opacity-80 font-inter text-white font-bold rounded p-2 h-80 flex flex-col items-center justify-center"
+                              className={cn(
+                                "max-w-full rounded mt-1",
+                                stat.className
+                              )}
                               style={{
-                                maxHeight: "50px",
-                                transition: "height 0.3s",
+                                height: "2.5px",
+                                transition: "width 0.3s",
+                                width: `${stat.value}%`,
                               }}
-                            >
-                              <stat.icon
-                                size={18}
-                                strokeWidth={2.5}
-                                className="text-white absolute"
-                              />
-                              <div
-                                className={cn(
-                                  "w-8 h-3/3 rounded bg-opacity-80 flex items-center justify-center",
-                                  stat.className
-                                )}
-                                style={{
-                                  transition: "height 0.3s",
-                                  height: `${stat.value}%`,
-                                }}
-                              ></div>
-                              {/* <p className="text-xs">Health: {pstats.health}%</p> */}
-                            </div>
-                          </>
-                        )}
-                    </>
-                  );
-                })}
-              </div>
-            </>
-          )}
-        </div>
+                            ></div>
+                            {/* <p>100%</p> */}
+                          </p>
+                        </>
+                      )}
+                  </>
+                );
+              })}
+            </div>
+          </>
+        ) : userSettings?.hudMode == 2 ? (
+          <>
+            <div className="flex flex-row bg-black bg-opacity-80 rounded-[2px] border skew-x-6">
+              {stats.map((stat, index) => {
+                return (
+                  <>
+                    {stat.renderCondition &&
+                      stat.hideInHudMode !==
+                        userSettings.hudMode.toString() && (
+                        <>
+                          <p
+                            className="py-[7px] px-[4px] flex justify-center items-center flex-col gap-1 font-horizon text-white"
+                            style={{
+                              // borderTopLeftRadius: "50%",
+                              borderBottomLeftRadius: "4px",
+                              borderTopLeftRadius: "4px",
+                              width: "55px",
+                              // fontSize: "11px",
+                            }}
+                          >
+                            <stat.icon
+                              size={16}
+                              strokeWidth={2.5}
+                              className={cn(
+                                "rounded-[2px]",
+                                stat.classNameInHudMode2
+                                  ? stat.classNameInHudMode2
+                                  : stat.className
+                              )}
+                            />
+                            <p className="text-[9.5px]">{stat.value}</p>
+                          </p>
+                        </>
+                      )}
+                  </>
+                );
+              })}
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="scale-90 flex justify-center gap-2 items-center">
+              {stats.map((stat, index) => {
+                return (
+                  <>
+                    {stat.renderCondition &&
+                      stat.hideInHudMode !==
+                        userSettings?.hudMode.toString() && (
+                        <>
+                          <div
+                            className="bg-black border bg-opacity-80 font-inter text-white font-bold rounded p-2 h-80 flex flex-col items-center justify-center"
+                            style={{
+                              maxHeight: "50px",
+                              transition: "height 0.3s",
+                            }}
+                          >
+                            <stat.icon
+                              size={18}
+                              strokeWidth={2.5}
+                              className="text-white absolute"
+                            />
+                            <div
+                              className={cn(
+                                "w-8 h-3/3 rounded bg-opacity-80 flex items-center justify-center",
+                                stat.className
+                              )}
+                              style={{
+                                transition: "height 0.3s",
+                                height: `${stat.value}%`,
+                              }}
+                            ></div>
+                            {/* <p className="text-xs">Health: {pstats.health}%</p> */}
+                          </div>
+                        </>
+                      )}
+                  </>
+                );
+              })}
+            </div>
+          </>
+        )}
       </div>
     </>
   );
