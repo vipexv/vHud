@@ -144,7 +144,7 @@ const App: React.FC = () => {
       : hudMode === "1"
       ? 75
       : hudMode === "2"
-      ? 50
+      ? 65
       : 25;
 
   return (
