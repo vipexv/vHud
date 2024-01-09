@@ -138,15 +138,7 @@ const App: React.FC = () => {
   const hudMode = globalSettings.hudMode.toString();
 
   const topCalc = hudPositionSetting === "2" ? -50 : -150;
-  const leftCalc =
-    hudPositionSetting === "2"
-      ? 320
-      : hudMode === "1"
-      ? 75
-      : hudMode === "2"
-      ? 65
-      : 25;
-
+  const leftCalc = hudPositionSetting === "2" ? 320 : hudMode === "1" ? 75 : 65;
   return (
     <>
       {process.env.NODE_ENV === "development" && (

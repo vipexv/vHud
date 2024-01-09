@@ -157,16 +157,6 @@ const Settings: React.FC<Props> = ({
                         ),
                         value: "2",
                       },
-                      {
-                        label: (
-                          <>
-                            <p className="flex justify-center gap-1 items-center">
-                              <ChevronsUp size={16} /> Top of Minimap
-                            </p>
-                          </>
-                        ),
-                        value: "3",
-                      },
                     ]}
                   />
                 </div>
