@@ -44,9 +44,15 @@ const Status: React.FC<props> = ({
     harnessDurability: 0,
   });
 
+  const [micValue, setMicValue] = useState("0");
+
   useNuiEvent("nui:data:frameworkStatus", setFrameworkStatus);
 
-  useNuiEvent("nui:data:playerstats", setStats);
+  useNuiEvent("nui:data:playerstats", (stats) => {
+    setStats(stats);
+
+    setMicValue(stats.mic ? "100" : "0");
+  });
 
   interface Stat {
     name: string;
@@ -94,7 +100,7 @@ const Status: React.FC<props> = ({
       className: "bg-white bg-opacity-50",
       classNameInHudMode2: "text-white opacity-50",
       renderCondition: true,
-      value: pstats.mic,
+      value: micValue,
     },
     {
       name: "stress",
