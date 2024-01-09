@@ -164,9 +164,7 @@ const App: React.FC = () => {
             scriptConfig={config}
             playerState={playerState}
           />
-          <div
-            className={`flex h-[100dvh] w-full justify-center items-end -mt-[94px]`}
-          >
+          <div className={`flex h-[100dvh] w-full justify-center items-end`}>
             <div className="flex flex-col justify-center items-center gap-1">
               <CarHud
                 userSettings={globalSettings}

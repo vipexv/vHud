@@ -52,7 +52,7 @@ const CarHud: React.FC<props> = ({
   return (
     <>
       <Transition
-        mounted={!playerState.isInVeh}
+        mounted={playerState.isInVeh}
         transition={"pop"}
         duration={400}
         timingFunction="ease"
@@ -65,9 +65,11 @@ const CarHud: React.FC<props> = ({
                   userSettings.hudMode.toString() === "2" ? "skew-x-6" : ""
                 }`}
               >
-                {isSeatbeltEnabled && (
+                {isSeatbeltEnabled && !vehicleData.isSeatbeltOn && (
                   <>
-                    <div className="bg-black bg-opacity-80 border py-[8px] px-5 rounded-[2px]">
+                    <div
+                      className={`bg-black bg-opacity-80 border py-[8px] px-5 rounded-[2px]`}
+                    >
                       <FaUserAltSlash className="text-red-600 animate-pulse" />
                     </div>
                   </>
