@@ -46,11 +46,11 @@ const App: React.FC = () => {
   const [config, setConfig] = useState<ConfigInterface>({
     ["Debug"]: true,
     ["Header"]: "SERVER NAME",
-    ["Framework"]: "qb",
+    ["Framework"]: "standalone",
     ["Framework Options"]: {
       ["Status"]: false,
       ["Multi Character"]: false,
-      ["Seatbelt"]: true,
+      ["Seatbelt"]: false,
       ["Stress"]: false,
       ["Harness"]: false,
     },
