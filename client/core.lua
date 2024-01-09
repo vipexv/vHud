@@ -81,7 +81,7 @@ Script.sendData = function()
 
     TriggerServerEvent("vhud:cb")
 
-    local hudSettings = GetResourceKvpString("vHud:state:settings")
+    local hudSettings = GetResourceKvpString("vHud:settings")
 
     local playerState = {
       id = GetPlayerServerId(PlayerId()),
@@ -113,6 +113,7 @@ Script.sendData = function()
 
     UIMessage("nui:state:globalsettings", storedHudSettings)
     UIMessage("nui:state:settings", storedHudSettings)
+    UpdateMapPosition()
 
     Debug("[nui:state:globalsettings] was called, with the data storedHudSettings: ", json.encode(storedHudSettings))
   end)

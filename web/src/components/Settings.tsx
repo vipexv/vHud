@@ -122,6 +122,55 @@ const Settings: React.FC<Props> = ({
                   />
                 </div>
                 <div className="flex flex-col justify-center items-center font-bold gap-2 bg-[#2a2a2a] p-2 rounded">
+                  <p className="text-lg">HUD Position</p>
+                  <SegmentedControl
+                    value={settings.hudPosition.toString()}
+                    onChange={(value) => {
+                      const updatedSettings = {
+                        ...settings,
+                        hudPosition: value,
+                      };
+
+                      setSettings(updatedSettings);
+
+                      fetchNui("hud:cb:settings", updatedSettings);
+                    }}
+                    data={[
+                      {
+                        label: (
+                          <>
+                            <p className="flex justify-center gap-1 items-center">
+                              <Package size={16} /> Bottom Center
+                            </p>
+                          </>
+                        ),
+                        value: "1",
+                      },
+                      {
+                        label: (
+                          <>
+                            <p className="flex justify-center gap-1 items-center">
+                              <Binary size={16} />
+                              Right Of Minimap
+                            </p>
+                          </>
+                        ),
+                        value: "2",
+                      },
+                      {
+                        label: (
+                          <>
+                            <p className="flex justify-center gap-1 items-center">
+                              <ChevronsUp size={16} /> Top of Minimap
+                            </p>
+                          </>
+                        ),
+                        value: "3",
+                      },
+                    ]}
+                  />
+                </div>
+                <div className="flex flex-col justify-center items-center font-bold gap-2 bg-[#2a2a2a] p-2 rounded">
                   <p className="text-lg">Status Bar Location</p>
                   <SegmentedControl
                     value={settings.statusBarMode.toString()}

@@ -96,7 +96,10 @@ const CarHud: React.FC<props> = ({
                   <Cog size={16} strokeWidth={2.25} />
                 </div>
                 <div className="flex justify-center items-center flex-col mr-5 ml-5">
-                  <p className="" id="vehSpeed">
+                  <p
+                    className="opacity-100 text-opacity-100 text-white"
+                    id="vehSpeed"
+                  >
                     0
                   </p>
                   <p className="text-[9.5px] opacity-50">

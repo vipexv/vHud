@@ -19,6 +19,7 @@ debugData([
 
 export interface SettingsInterface {
   hudMode: number | string;
+  hudPosition: number | string;
   statusBarMode: number | string;
   resourceUsage: number | string;
   measurementSystem: string;
@@ -57,6 +58,7 @@ const App: React.FC = () => {
     ["Player Slots"]: 200,
     ["Default Settings"]: {
       hudMode: 1,
+      hudPosition: 1,
       statusBarMode: 1,
       resourceUsage: 2,
       measurementSystem: "MPH",
@@ -69,6 +71,7 @@ const App: React.FC = () => {
   });
   const [globalSettings, setGlobalSettings] = useState<SettingsInterface>({
     hudMode: 2,
+    hudPosition: 3,
     statusBarMode: 1,
     resourceUsage: 2,
     measurementSystem: "MPH",
@@ -78,6 +81,11 @@ const App: React.FC = () => {
   useNuiEvent("nui:state:playerstate", setPlayerState);
 
   useNuiEvent<boolean>("setVisible", setVisible);
+
+  const [minimapPos, setMinimapPos] = useState({
+    x: 0,
+    y: 0,
+  });
 
   useNuiEvent<SettingsInterface>("nui:state:globalsettings", (data) => {
     if (!data) {
@@ -98,6 +106,8 @@ const App: React.FC = () => {
   });
 
   useNuiEvent("nui:state:isinveh", setIsInVehicle);
+
+  useNuiEvent("nui:state:minimapPos", setMinimapPos);
 
   useNuiEvent<ConfigInterface>("nui:state:scriptConfig", (cfg) => {
     if (
@@ -123,6 +133,19 @@ const App: React.FC = () => {
 
     return () => window.removeEventListener("keydown", keyHandler);
   }, [visible]);
+
+  const hudPositionSetting = globalSettings.hudPosition.toString();
+  const hudMode = globalSettings.hudMode.toString();
+
+  const topCalc = hudPositionSetting === "2" ? -50 : -150;
+  const leftCalc =
+    hudPositionSetting === "2"
+      ? 320
+      : hudMode === "1"
+      ? 75
+      : hudMode === "2"
+      ? 50
+      : 25;
 
   return (
     <>
@@ -164,7 +187,19 @@ const App: React.FC = () => {
             scriptConfig={config}
             playerState={playerState}
           />
-          <div className={`flex h-[100dvh] w-full justify-center items-end`}>
+          <div
+            className={`${
+              hudPositionSetting === "1"
+                ? "flex h-[100dvh] w-full justify-center items-end"
+                : "absolute"
+            }`}
+            style={{
+              top:
+                minimapPos.y +
+                (hudPositionSetting === "2" ? -topCalc : topCalc),
+              left: leftCalc,
+            }}
+          >
             <div className="flex flex-col justify-center items-center gap-1">
               <CarHud
                 userSettings={globalSettings}

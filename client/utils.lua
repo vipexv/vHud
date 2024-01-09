@@ -65,3 +65,20 @@ checkFuelScripts = function()
 
   print("(Error) Please setup your custom fuel function at `vHud > client > utils.lua`")
 end
+
+UpdateMapPosition = function()
+  SetScriptGfxAlign(string.byte('L'), string.byte('B'))
+  local minimapTopX, minimapTopY = GetScriptGfxPosition(-0.0045, 0.002 + (-0.188888))
+  ResetScriptGfxAlign()
+
+  local w, h = GetActiveScreenResolution()
+
+  local mapPos = {
+    x = w * minimapTopX,
+    y = h * minimapTopY
+  }
+
+  UIMessage("nui:state:minimapPos", mapPos)
+
+  Debug("[func:UpdateMapPosition] map pos updated: ", json.encode(mapPos))
+end

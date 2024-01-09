@@ -19,7 +19,7 @@ end)
 RegisterNuiCallback("hud:cb:settings", function(newSettings, cb)
   Debug("hud:cb:settings was called.")
 
-  SetResourceKvp("vHud:state:settings", json.encode(newSettings))
+  SetResourceKvp("vHud:settings", json.encode(newSettings))
 
   UIMessage("nui:state:globalsettings", newSettings)
 
@@ -32,6 +32,7 @@ RegisterNuiCallback("hud:cb:settings", function(newSettings, cb)
   local cinematicMode = newSettings.cinematicMode
 
   DisplayRadar(not cinematicMode or not cinematicMode)
+  UpdateMapPosition()
 
   cb({})
 end)
