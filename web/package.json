@@ -22,6 +22,7 @@
     "clsx": "^2.0.0",
     "framer-motion": "^10.16.4",
     "lucide-react": "^0.290.0",
+    "million": "^2.6.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.12.0",
