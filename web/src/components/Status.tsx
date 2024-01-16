@@ -1,6 +1,5 @@
 import { ConfigInterface, SettingsInterface } from "@/App";
 import { cn } from "@/lib/utils";
-import { Transition } from "@mantine/core";
 import { Brain, Droplet, Heart, Mic, ShieldPlus, Soup } from "lucide-react";
 import React, { useState } from "react";
 import { TbHexagonLetterH } from "react-icons/tb";
@@ -26,6 +25,18 @@ interface frameworkStatus {
   harnessDurability?: number | string;
 }
 
+interface Stat {
+  name: string;
+  icon: any;
+  className: any;
+  renderCondition: boolean;
+  value: any;
+  hideInHudMode?: string;
+  classNameInHudMode1?: string;
+  classNameInHudMode2?: string;
+  classNameInHudMode3?: string;
+}
+
 const Status: React.FC<props> = ({
   userSettings,
   scriptConfig,
@@ -37,7 +48,7 @@ const Status: React.FC<props> = ({
     mic: false,
   });
 
-  const [frameworkStatus, setFrameworkStatus] = useState({
+  const [frameworkStatus, setFrameworkStatus] = useState<frameworkStatus>({
     hunger: 0,
     thirst: 0,
     stress: 0,
@@ -53,18 +64,6 @@ const Status: React.FC<props> = ({
 
     setMicValue(stats.mic ? "100" : "0");
   });
-
-  interface Stat {
-    name: string;
-    icon: any;
-    className: any;
-    renderCondition: boolean;
-    value: any;
-    hideInHudMode?: string;
-    classNameInHudMode1?: string;
-    classNameInHudMode2?: string;
-    classNameInHudMode3?: string;
-  }
 
   const stats: Stat[] = [
     {

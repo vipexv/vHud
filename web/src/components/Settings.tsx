@@ -27,12 +27,14 @@ interface Props {
   userSettings: SettingsInterface;
   scriptConfig: ConfigInterface;
   isVisible: boolean;
+  dragMode: boolean;
 }
 
 const Settings: React.FC<Props> = ({
   isVisible,
   userSettings,
   scriptConfig,
+  dragMode,
 }) => {
   const [settings, setSettings] = useState<SettingsInterface>(userSettings);
 
@@ -66,7 +68,9 @@ const Settings: React.FC<Props> = ({
           <div className="absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4">
             <div
               style={styles}
-              className="bg-[#1a1a1a] w-[40vw] h-fit p-10 rounded"
+              className={`bg-[#1a1a1a] w-[40vw] h-fit p-10 rounded ${
+                dragMode ? "invisible" : "visible"
+              }`}
             >
               <div className="flex flex-col justify-center items-center gap-10">
                 <p className="flex justify-center items-center gap-2 font-horizon text-xl">
@@ -117,45 +121,6 @@ const Settings: React.FC<Props> = ({
                           </>
                         ),
                         value: "3",
-                      },
-                    ]}
-                  />
-                </div>
-                <div className="flex flex-col justify-center items-center font-bold gap-2 bg-[#2a2a2a] p-2 rounded">
-                  <p className="text-lg">HUD Position</p>
-                  <SegmentedControl
-                    value={settings.hudPosition.toString()}
-                    onChange={(value) => {
-                      const updatedSettings = {
-                        ...settings,
-                        hudPosition: value,
-                      };
-
-                      setSettings(updatedSettings);
-
-                      fetchNui("hud:cb:settings", updatedSettings);
-                    }}
-                    data={[
-                      {
-                        label: (
-                          <>
-                            <p className="flex justify-center gap-1 items-center">
-                              <Package size={16} /> Bottom Center
-                            </p>
-                          </>
-                        ),
-                        value: "1",
-                      },
-                      {
-                        label: (
-                          <>
-                            <p className="flex justify-center gap-1 items-center">
-                              <Binary size={16} />
-                              Right Of Minimap
-                            </p>
-                          </>
-                        ),
-                        value: "2",
                       },
                     ]}
                   />

@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-// import { fetchNui } from "../utils/fetchNui";
 import { ConfigInterface, SettingsInterface } from "@/App";
-import { Transition } from "@mantine/core";
 import { motion } from "framer-motion";
 import { Cog, Fuel } from "lucide-react";
 import { FaUserAltSlash } from "react-icons/fa";
@@ -13,6 +11,7 @@ interface props {
   userSettings: SettingsInterface;
   scriptConfig: ConfigInterface;
   playerState: any;
+  settingsVisible: boolean;
 }
 
 interface VehData {
@@ -27,6 +26,7 @@ const CarHud: React.FC<props> = ({
   userSettings,
   scriptConfig,
   playerState,
+  settingsVisible,
 }) => {
   const [vehicleData, setVehicleData] = useState<VehData>({
     speed: 0,
@@ -51,21 +51,26 @@ const CarHud: React.FC<props> = ({
   });
   return (
     <>
-      <div className={`${playerState.isInVeh ? "visible" : "invisible"}`}>
+      <div
+        className={`${
+          playerState.isInVeh || settingsVisible ? "visible" : "invisible"
+        }`}
+      >
         <div
           className={`flex justify-center items-center h-[40px] font-bold ${
             userSettings.hudMode.toString() === "2" ? "skew-x-6" : ""
           }`}
         >
-          {isSeatbeltEnabled && !vehicleData.isSeatbeltOn && (
-            <>
-              <div
-                className={`bg-black bg-opacity-80 border py-[8px] px-5 rounded-[2px]`}
-              >
-                <FaUserAltSlash className="text-red-600 animate-pulse" />
-              </div>
-            </>
-          )}
+          {(isSeatbeltEnabled && !vehicleData.isSeatbeltOn) ||
+            (settingsVisible && (
+              <>
+                <div
+                  className={`bg-black bg-opacity-80 border py-[8px] px-5 rounded-[2px]`}
+                >
+                  <FaUserAltSlash className="text-red-600 animate-pulse" />
+                </div>
+              </>
+            ))}
         </div>
         <div
           className={`flex flex-row bg-black border opacity-80 rounded-[2px] px-2 py-[4px] font-bold justify-between scale-90 ${

@@ -11,7 +11,6 @@ Config = {
   },
   ["Default Settings"] = {       -- The default hud settings for the player once they load in for the first time.
     hudMode = 3,                 -- The Hud Mode: 1 = Default, 2 = Percentage, 3 = Modern.
-    hudPosition = 1,             -- Hud Position for the Status/Car Hud, 1 = Bottom Center, 2 = Right of the minimap
     statusBarMode = 1,           -- Status Bar is the top right location: 1 = Top Right, 2 = Bottom Right, 3 = Off
     resourceUsage = 2,           -- 1 = 0.01 - 0.02 Resmon, 2 = 0.00 Resmon | The first mode feels allot better but uses slightly more resources.
     measurementSystem = "MPH"    -- MPH or KMH

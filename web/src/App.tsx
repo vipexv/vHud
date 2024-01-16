@@ -1,4 +1,4 @@
-import { Button } from "@mantine/core";
+import { Button, Kbd } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import CarHud from "./components/CarHud";
@@ -9,6 +9,7 @@ import { useNuiEvent } from "./hooks/useNuiEvent";
 import { debugData } from "./utils/debugData";
 import { fetchNui } from "./utils/fetchNui";
 import { isEnvBrowser } from "./utils/misc";
+import { MousePointerClick } from "lucide-react";
 
 debugData([
   {
@@ -19,7 +20,7 @@ debugData([
 
 export interface SettingsInterface {
   hudMode: number | string;
-  hudPosition: number | string;
+  hudPosition?: { x: number; y: number };
   statusBarMode: number | string;
   resourceUsage: number | string;
   measurementSystem: string;
@@ -44,6 +45,7 @@ export interface ConfigInterface {
 const App: React.FC = () => {
   const [isInVehicle, setIsInVehicle] = useState(true);
   const [settingsVisiblity, setSettingsVisibility] = useState(false);
+  const [dragMode, setDragMode] = useState(false);
   const [config, setConfig] = useState<ConfigInterface>({
     ["Debug"]: true,
     ["Header"]: "SERVER NAME",
@@ -58,7 +60,6 @@ const App: React.FC = () => {
     ["Player Slots"]: 200,
     ["Default Settings"]: {
       hudMode: 1,
-      hudPosition: 1,
       statusBarMode: 1,
       resourceUsage: 2,
       measurementSystem: "MPH",
@@ -71,21 +72,24 @@ const App: React.FC = () => {
   });
   const [globalSettings, setGlobalSettings] = useState<SettingsInterface>({
     hudMode: 2,
-    hudPosition: 3,
+    hudPosition: {
+      x: 0,
+      y: 0,
+    },
     statusBarMode: 1,
     resourceUsage: 2,
     measurementSystem: "MPH",
     cinematicMode: false,
   });
 
-  useNuiEvent("nui:state:playerstate", setPlayerState);
-
-  useNuiEvent<boolean>("setVisible", setVisible);
-
-  const [minimapPos, setMinimapPos] = useState({
+  const [hudPosition, setHudPosition] = useState({
     x: 0,
     y: 0,
   });
+
+  useNuiEvent("nui:state:playerstate", setPlayerState);
+
+  useNuiEvent<boolean>("setVisible", setVisible);
 
   useNuiEvent<SettingsInterface>("nui:state:globalsettings", (data) => {
     if (!data) {
@@ -106,8 +110,6 @@ const App: React.FC = () => {
   });
 
   useNuiEvent("nui:state:isinveh", setIsInVehicle);
-
-  useNuiEvent("nui:state:minimapPos", setMinimapPos);
 
   useNuiEvent<ConfigInterface>("nui:state:scriptConfig", (cfg) => {
     if (
@@ -134,11 +136,47 @@ const App: React.FC = () => {
     return () => window.removeEventListener("keydown", keyHandler);
   }, [visible]);
 
-  const hudPositionSetting = globalSettings.hudPosition.toString();
-  const hudMode = globalSettings.hudMode.toString();
+  useEffect(() => {
+    const handleMouseMove = (event: MouseEvent) => {
+      if (dragMode) {
+        const hudPos = {
+          x: event.clientX,
+          y: event.clientY,
+        };
 
-  const topCalc = hudPositionSetting === "2" ? -50 : -150;
-  const leftCalc = hudPositionSetting === "2" ? 320 : hudMode === "1" ? 75 : 65;
+        const updatedSettings: SettingsInterface = {
+          ...globalSettings,
+          hudPosition: hudPos,
+        };
+
+        setGlobalSettings(updatedSettings);
+
+        fetchNui("hud:cb:settings", updatedSettings);
+      }
+    };
+
+    document.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, [dragMode]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (settingsVisiblity && event.key.toLowerCase() === "e") {
+        setDragMode((prevDragMode) => !prevDragMode);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [settingsVisiblity]); // Include 'settingsVisiblity' in the dependency array if it's used inside the effect
+
+  const hudMode = globalSettings.hudMode.toString();
   return (
     <>
       {process.env.NODE_ENV === "development" && (
@@ -181,15 +219,13 @@ const App: React.FC = () => {
           />
           <div
             className={`${
-              hudPositionSetting === "1"
-                ? "flex h-[100dvh] w-full justify-center items-end"
-                : "absolute"
+              globalSettings.hudPosition?.x && globalSettings.hudPosition?.y
+                ? `absolute`
+                : "flex h-[100dvh] w-full justify-center items-end"
             }`}
             style={{
-              top:
-                minimapPos.y +
-                (hudPositionSetting === "2" ? -topCalc : topCalc),
-              left: leftCalc,
+              top: globalSettings.hudPosition?.y,
+              left: globalSettings.hudPosition?.x,
             }}
           >
             <div className="flex flex-col justify-center items-center gap-1">
@@ -197,6 +233,7 @@ const App: React.FC = () => {
                 userSettings={globalSettings}
                 scriptConfig={config}
                 playerState={playerState}
+                settingsVisible={settingsVisiblity}
               />
               <Status
                 userSettings={globalSettings}
@@ -211,7 +248,22 @@ const App: React.FC = () => {
         isVisible={settingsVisiblity}
         userSettings={globalSettings}
         scriptConfig={config}
+        dragMode={dragMode}
       />
+      {settingsVisiblity && (
+        <>
+          <div className="absolute top-[85dvh] right-[1dvw]">
+            <div
+              style={{
+                backgroundColor: dragMode ? "black" : "#353542",
+              }}
+              className="flex font-main gap-2 bg-opacity-80 justify-center items-center border-[#454854] border-[2px] py-1 px-2 rounded-[2px]"
+            >
+              <Kbd className="px-2 py-1">E</Kbd> | Drag Mode
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 };
